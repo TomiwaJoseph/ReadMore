@@ -1,0 +1,35 @@
+:root {
+  --main-color: #ff9a5e;
+  --accent: #44b89d;
+  --big-text-color: #222;
+  --body-bg: #f3f2ec;
+  --main-bg: #063547;
+  --body-text-color: #757575;
+  --light-text-color: #afafaf;
+  --dark-text-color: #2f2f2f;
+  --body-font: "Raleway", sans-serif;
+  --heading-font: "Prata", Georgia, serif;
+  /* --secondary-font: "Playfair Display", Georgia, serif; */
+  /* --: 'Mulish', sans-serif; */
+}
+
+body {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  background: #fbfbfb;
+  font-family: var(--body-font);
+  overflow-x: hidden;
+  color: var(--dark-text-color);
+}
+
+.form-control:focus {
+  box-shadow: none;
+}
+
+/* h2 {
+  font-family: var(--heading-font);
+  line-height: 1.2;
+  color: var(--dark-color);
+} */

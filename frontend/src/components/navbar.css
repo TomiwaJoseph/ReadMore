@@ -1,0 +1,222 @@
+nav {
+  background: var(--main-bg);
+  height: 10%;
+  width: 100%;
+  display: flex;
+  position: absolute;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem calc((100vw - 900px) / 2);
+  z-index: 99999;
+  transition: all 0.5s ease-in-out 0.5s;
+}
+nav h2 {
+  margin-top: 0.5rem;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 26px;
+  font-weight: 700;
+}
+nav h2 em {
+  font-style: normal;
+  color: var(--main-color);
+}
+nav .mobile-icons {
+  display: flex;
+  align-items: center;
+}
+nav .nav-menu {
+  display: flex;
+  align-items: center;
+}
+nav .nav-link {
+  color: #cbcbcb;
+  cursor: pointer;
+  font-size: 18px;
+  border-bottom: none;
+}
+nav .nav-link:hover {
+  color: #fff;
+  border-bottom: 2px solid var(--main-color);
+}
+nav .mobile-icons {
+  display: none;
+}
+nav .mobile-links {
+  display: none;
+}
+
+/* =========================================
+=========== Fixed Navbar Styles ============
+========================================= */
+
+nav.fix-navbar {
+  width: 100%;
+  position: fixed;
+  -webkit-transition: 0.3s all ease-out;
+  -o-transition: 0.3s all ease-out;
+  background: #fff;
+  transition: 0.3s all ease-out;
+  -webkit-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+}
+nav.fix-navbar h2 {
+  color: #454545;
+}
+
+.the-navbar.fix-navbar .nav-link {
+  color: #6f6f6f;
+}
+.the-navbar.fix-navbar .nav-link:hover {
+  color: var(--main-color);
+  border-bottom: 2px solid var(--main-color);
+}
+
+.the-navbar.fix-navbar .nav-link.active,
+.nav-link.active {
+  color: var(--main-color);
+  font-weight: 600;
+}
+/* =========================================
+========== Responsiveness Styles ===========
+========================================= */
+
+@media only screen and (max-width: 950px) and (min-width: 768px) {
+  nav h2 {
+    margin-left: 45px;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .mobile-links {
+    display: none;
+  }
+  .desktop-links {
+    display: flex;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  nav.nav-clicked {
+    background: #454545;
+    position: fixed;
+    top: 0;
+    z-index: 99999;
+  }
+  .nav-menu.active {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    top: 10%;
+    height: 90vh;
+    position: fixed;
+    background: #373737 !important;
+    z-index: 99999;
+  }
+  nav .nav-menu {
+    display: none;
+  }
+  .nav-menu.active .mobile-links {
+    display: block;
+  }
+  nav .mobile-icons {
+    display: flex;
+    margin-right: 30px;
+  }
+
+  nav .mobile-icons .fa {
+    display: block;
+    font-size: 1.3rem;
+    cursor: pointer;
+    color: #fff;
+    margin-left: 20px;
+  }
+
+  nav .mobile-icons .fa-times {
+    animation: close-icon-spin 0.5s linear;
+    font-size: 1.7rem;
+  }
+
+  @keyframes close-icon-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(180deg);
+    }
+  }
+
+  nav .mobile-icons a:hover {
+    text-decoration: none;
+  }
+
+  nav .nav-right {
+    display: none;
+  }
+
+  nav h2 {
+    margin-left: 30px;
+  }
+
+  .nav-menu.active .nav-link {
+    margin: 0;
+    text-align: center;
+    margin: 20% 0;
+    color: #fff;
+    font-size: 1.2rem;
+  }
+
+  .desktop-links {
+    flex-direction: column;
+  }
+
+  .nav-menu.active .nav-link.active {
+    color: var(--main-color);
+  }
+
+  nav.fix-navbar .fa {
+    color: #454545;
+  }
+}
+
+@media only screen and (max-width: 768px) and (min-width: 480px) {
+  nav .mobile-icons .fa {
+    margin-left: 30px;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  nav .mobile-icons {
+    margin-right: 25px;
+  }
+}
+
+.search_form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin: 0;
+  position: relative;
+}
+
+.search_form .form-control {
+  border-radius: 45px;
+  height: 40px;
+  min-width: unset;
+  border: none;
+}
+
+.search_form button {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 35px;
+  height: 35px;
+  padding: 0;
+  border: none;
+  outline: none;
+  color: #ffffff;
+  background-color: var(--accent);
+  border-radius: 100%;
+}

@@ -1,0 +1,80 @@
+.features-container {
+  padding: 50px 0;
+}
+
+.section-header {
+  text-align: center;
+}
+
+.section-header p {
+  font-family: var(--body-font);
+  text-transform: uppercase;
+  font-size: 14px;
+  color: var(--light-text-color);
+}
+
+.section-header h2 {
+  font-family: var(--heading-font);
+  font-size: 3rem;
+  margin-bottom: 30px;
+}
+
+.product-style {
+  position: relative;
+  margin: 0 15px 25px;
+}
+.product-style figcaption p {
+  margin-bottom: 20px;
+}
+.products-grid .product-style {
+  width: 25%;
+}
+.products-grid.col-5 .product-style {
+  width: 20%;
+}
+.products-grid.col-4 .product-style {
+  width: 25%;
+}
+.products-grid.col-3 .product-style {
+  width: 33.33%;
+}
+.product-style img.product-item {
+  background: #efeee8;
+  border: 1px solid #eae8df;
+  padding: 15%;
+  cursor: pointer;
+  width: 100%;
+}
+.product-style button.add-to-cart {
+  background: #000;
+  color: #fff;
+  width: 70%;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 3;
+  position: absolute;
+  bottom: 300px;
+  left: 40px;
+  z-index: 9;
+  opacity: 0;
+  transition: 0.5s ease-out;
+}
+.product-style:hover button.add-to-cart {
+  bottom: 380px;
+  opacity: 1;
+}
+.product-style figcaption {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+.product-style figcaption > h3 {
+  font-size: 1.4em;
+  font-weight: 500;
+  color: #74642f;
+  margin: 0;
+}
+.product-style .item-price {
+  color: #74642f;
+  font-size: 1.3em;
+}
