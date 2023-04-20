@@ -46,9 +46,48 @@ nav .mobile-links {
   display: none;
 }
 
+nav .nav-right {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+nav .nav-right .fa-search {
+  color: #fff;
+  font-size: 18px;
+}
+
+.cartIcon {
+  margin-right: 5px;
+}
+nav .cart__wrapper {
+  position: relative;
+}
+nav .cart__wrapper span {
+  position: absolute;
+  top: -10px;
+  right: -18px;
+  font-size: 14px;
+  background: var(--main-color);
+  color: #fff;
+  border-radius: 50%;
+  padding-left: 9px;
+  padding-right: 9px;
+}
+nav .cart__wrapper i {
+  text-align: center;
+  font-size: 18px;
+  color: #fff;
+}
+
 /* =========================================
 =========== Fixed Navbar Styles ============
 ========================================= */
+
+nav.fix-navbar .nav-right .fa-search,
+nav.fix-navbar .cart__wrapper i {
+  color: var(--dark-grey) !important;
+}
 
 nav.fix-navbar {
   width: 100%;
@@ -77,6 +116,11 @@ nav.fix-navbar h2 {
   color: var(--main-color);
   font-weight: 600;
 }
+
+.the-navbar.fix-navbar form input {
+  background: #e8f0fe;
+}
+
 /* =========================================
 ========== Responsiveness Styles ===========
 ========================================= */
@@ -143,7 +187,7 @@ nav.fix-navbar h2 {
       transform: rotate(0deg);
     }
     to {
-      transform: rotate(180deg);
+      transform: rotate(360deg);
     }
   }
 
@@ -176,7 +220,8 @@ nav.fix-navbar h2 {
   }
 
   nav.fix-navbar .fa {
-    color: #454545;
+    animation: close-icon-spin 0.5s linear;
+    color: var(--dark-grey);
   }
 }
 

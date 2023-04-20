@@ -1,80 +1,92 @@
+.offers-container,
 .features-container {
-  padding: 50px 0;
+  padding: 90px 0;
 }
 
-.section-header {
-  text-align: center;
+.offers-container .container,
+.features-container .container {
+  margin-top: 4rem !important;
 }
 
-.section-header p {
-  font-family: var(--body-font);
-  text-transform: uppercase;
-  font-size: 14px;
-  color: var(--light-text-color);
-}
-
-.section-header h2 {
-  font-family: var(--heading-font);
-  font-size: 3rem;
-  margin-bottom: 30px;
-}
-
-.product-style {
+.offers-container .product-image,
+.features-container .product-image {
   position: relative;
-  margin: 0 15px 25px;
+  overflow: hidden;
 }
-.product-style figcaption p {
-  margin-bottom: 20px;
+
+.offers-container .product-image .hidden-cta,
+.features-container .product-image .hidden-cta {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  bottom: -100%;
+  width: 100%;
+  height: 100%;
+  transition: 1s;
+  background: #000000d0;
 }
-.products-grid .product-style {
-  width: 25%;
+
+.offers-container .product-image .hidden-cta .fas,
+.features-container .product-image .hidden-cta .fas {
+  background: #fff;
+  border-radius: 50%;
+  padding: 10px;
+  font-size: 18px;
+  margin: 0 10px;
+  cursor: pointer;
 }
-.products-grid.col-5 .product-style {
-  width: 20%;
+
+.offers-container .product-image .hidden-cta .fas:hover,
+.features-container .product-image .hidden-cta .fas:hover {
+  background: var(--main-color);
+  color: #fff;
 }
-.products-grid.col-4 .product-style {
-  width: 25%;
+
+.offers-container .product-image:hover .hidden-cta,
+.features-container .product-image:hover .hidden-cta {
+  transition: 1s;
+  bottom: 0;
 }
-.products-grid.col-3 .product-style {
-  width: 33.33%;
-}
-.product-style img.product-item {
+
+.offers-container .product-image img,
+.features-container .product-image img {
+  padding: 15px;
   background: #efeee8;
   border: 1px solid #eae8df;
-  padding: 15%;
   cursor: pointer;
-  width: 100%;
 }
-.product-style button.add-to-cart {
-  background: #000;
-  color: #fff;
-  width: 70%;
-  text-transform: uppercase;
-  text-align: center;
-  line-height: 3;
-  position: absolute;
-  bottom: 300px;
-  left: 40px;
-  z-index: 9;
-  opacity: 0;
-  transition: 0.5s ease-out;
+
+.offers-container .book-details .item-price,
+.features-container .book-details .item-price {
+  color: #74642f;
+  font-size: 1.3em;
+  margin-top: 10px;
+  color: var(--main-color);
 }
-.product-style:hover button.add-to-cart {
-  bottom: 380px;
-  opacity: 1;
-}
-.product-style figcaption {
+
+.offers-container .book-details,
+.features-container .book-details {
   margin-top: 30px;
   margin-bottom: 30px;
   text-align: center;
 }
-.product-style figcaption > h3 {
+
+.offers-container .book-details h3,
+.features-container .book-details h3 {
   font-size: 1.4em;
   font-weight: 500;
-  color: #74642f;
-  margin: 0;
 }
-.product-style .item-price {
-  color: #74642f;
-  font-size: 1.3em;
+
+.offers-container .book-details p,
+.features-container .book-details p {
+  color: var(--body-text-color);
+  margin-block-end: 0;
+}
+
+.single-book-link {
+  color: var(--body-text-color);
+}
+.single-book-link:hover {
+  color: var(--main-bg);
 }

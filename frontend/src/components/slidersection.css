@@ -10,7 +10,7 @@
   -ms-flex-align: center;
   align-items: center;
   padding: 75px 0;
-  background-color: #f5f6f9;
+  background-color: #edebe4;
   position: relative;
   height: 90vh;
 }
@@ -48,14 +48,14 @@
 }
 
 .slider_section .img-box {
-  height: 300px;
+  height: 50vh;
   display: flex;
   justify-content: center;
   overflow: hidden;
 }
 
 .slider_section .img-box img {
-  height: 300px;
+  height: 50vh;
 }
 
 .slider_section .carousel_btn_box {

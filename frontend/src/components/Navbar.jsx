@@ -18,7 +18,7 @@ const Navbar = () => {
     document.body.style["overflow"] = "auto";
   };
   const storeContext = useSelector((state) => state.store);
-  const { isAuthenticated } = storeContext;
+  const { isAuthenticated, cartCount } = storeContext;
 
   useEffect(() => {
     const onScroll = () => {
@@ -57,8 +57,11 @@ const Navbar = () => {
           </NavLink>
         </div>
         <div className="mobile-icons">
-          <NavLink to="/apartments">
-            <i onClick={closeMobileMenu} className="fa fa-home"></i>
+          <NavLink to="/cart" className="cartIcon">
+            <div className="cart__wrapper">
+              <i className="fas fa-shopping-bag"></i>
+              <span>{cartCount}</span>
+            </div>
           </NavLink>
           <i
             onClick={handleClick}
@@ -118,17 +121,15 @@ const Navbar = () => {
           </div>
         </div>
         <div className="nav-right">
-          <form className="search_form" onSubmit={handleSearch}>
-            <input
-              type="text"
-              name="searchValue"
-              className="form-control"
-              placeholder="Search here..."
-            />
-            <button type="submit">
-              <i className="fa fa-search" aria-hidden="true"></i>
-            </button>
-          </form>
+          <NavLink to="/cart" className="cartIcon">
+            <div className="cart__wrapper">
+              <i className="fas fa-shopping-bag"></i>
+              <span>{cartCount}</span>
+            </div>
+          </NavLink>
+          <NavLink to="/search">
+            <i className="fas fa-search"></i>
+          </NavLink>
         </div>
       </nav>
     </>

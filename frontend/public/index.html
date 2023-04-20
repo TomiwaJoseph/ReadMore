@@ -7,6 +7,7 @@
     <meta name="theme-color" content="#000000" />
     <meta name="description" content="Web bookstore to purchase books" />
     <link rel="stylesheet" href="./assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="./assets/css/aos.css" />
     <link rel="stylesheet" href="./assets/font-awesome/css/all.min.css" />
     <title>React App</title>
   </head>
@@ -14,6 +15,12 @@
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <script src="./assets/js/my_jQuery.js"></script>
+    <script src="./assets/js/aos.js"></script>
     <script src="./assets/js/bootstrap.min.js"></script>
+    <script>
+      window.addEventListener("load", function () {
+        AOS.init();
+      });
+    </script>
   </body>
 </html>

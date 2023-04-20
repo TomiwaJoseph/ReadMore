@@ -1,7 +1,8 @@
 import { ActionTypes } from "../actions/action-types";
 
 const globalState = {
-  isAuthenticated: true,
+  isAuthenticated: false,
+  cartCount: 2,
   backendUrl: "http://localhost:8000",
 };
 

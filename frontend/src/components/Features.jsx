@@ -1,7 +1,15 @@
 import "./features.css";
-import img1 from "../static/products/product-item1.jpg";
+import { featuredProducts } from "../data";
+import { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
 
 const Features = () => {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    setData(featuredProducts);
+  }, []);
+
   return (
     <div className="features-container">
       <div className="section-header">
@@ -10,8 +18,35 @@ const Features = () => {
       </div>
       <div className="container">
         <div className="row">
-          <div class="col-md-3">
-            <figure class="product-style">
+          {data.map((book, index) => (
+            <div key={index} className="col-md-3">
+              <div className="product-image">
+                <img src={book.image} className="img-fluid" alt={book.name} />
+                <div className="hidden-cta">
+                  <i
+                    //   onClick={() => addToCart(dress.id, 1)}
+                    className="fas fa-shopping-bag"
+                  ></i>
+                  <i
+                    //   onClick={() => handleWishlistClick(dress.id)}
+                    className="fas fa-heart"
+                  ></i>
+                </div>
+              </div>
+              <div className="book-details">
+                <NavLink
+                  to={`/shop/book/${book.slug}`}
+                  className="single-book-link"
+                >
+                  <h3>{book.name}</h3>
+                </NavLink>
+                <p>{book.author}</p>
+                <div className="item-price">$ {book.price}</div>
+              </div>
+            </div>
+          ))}
+          {/* <div class="col-md-3"> */}
+          {/* <figure class="product-style">
               <img src={img1} alt="Books" class="product-item" />
               <button
                 type="button"
@@ -25,8 +60,16 @@ const Features = () => {
                 <p>Armor Ramsey</p>
                 <div class="item-price">$ 40.00</div>
               </figcaption>
-            </figure>
-          </div>
+            </figure> */}
+          {/* <div className="wrapper">
+              <p>Text</p>
+              <div id="slide">
+                <a href="/">
+                  <button>Add To Cart</button>
+                </a>
+              </div>
+            </div> */}
+          {/* </div> */}
         </div>
       </div>
     </div>
