@@ -1,0 +1,51 @@
+#quotation {
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: var(--dark-body-color);
+  text-align: center;
+}
+
+#quotation .section-title.divider,
+#quotation .section-title.divider:after {
+  margin: 0 auto;
+}
+
+.section-title {
+  font-size: 3em;
+  font-weight: 500;
+  line-height: 1;
+  position: relative;
+  margin-bottom: 75px;
+  font-family: var(--heading-font);
+}
+.section-title.divider {
+  width: 100%;
+}
+.section-title.divider:after {
+  content: "";
+  border-bottom: 3px solid var(--main-color);
+  position: absolute;
+  right: 0;
+  bottom: -16px;
+  left: 0;
+  width: 50px;
+}
+#quotation blockquote {
+  width: 40%;
+  margin-top: 40px;
+}
+#quotation q {
+  display: block;
+  font-size: 1.6em;
+  padding: 20px 0;
+  color: var(--body-text-color);
+}
+#quotation .author-name {
+  font-family: var(--heading-font);
+  font-size: 1.4em;
+  margin-top: 10px;
+  color: var(--dark-text-color);
+}

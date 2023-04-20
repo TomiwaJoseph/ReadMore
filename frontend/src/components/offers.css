@@ -1,0 +1,21 @@
+.owl-carousel .owl-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.owl-carousel .owl-dots button {
+  background: var(--accent) !important;
+  border-radius: 50%;
+  height: 10px;
+  width: 10px;
+}
+
+.owl-carousel .owl-dots button.owl-dot.active {
+  background: var(--main-color) !important;
+}
+
+.owl-carousel .owl-dots button:focus {
+  outline: none;
+}
