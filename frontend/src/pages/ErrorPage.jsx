@@ -1,7 +1,12 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import badUrl from "../static/badUrl.png";
 
 const ErrorPage = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className="error__div">
       <div className="error_image_wrapper">
