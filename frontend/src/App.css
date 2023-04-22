@@ -29,9 +29,21 @@ body {
   box-shadow: none;
 }
 
+.btn:focus {
+  outline: none;
+  box-shadow: none;
+}
+
 a,
 a:hover {
   text-decoration: none;
+}
+
+.single-book-link {
+  color: var(--body-text-color);
+}
+.single-book-link:hover {
+  color: var(--main-bg);
 }
 
 .section-header {
