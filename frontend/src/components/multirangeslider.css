@@ -26,15 +26,16 @@
 }
 
 .slider__range {
-  background-color: #f5116866;
+  background-color: var(--main-color);
   z-index: 2;
 }
 
 .slider__left-value,
 .slider__right-value {
-  color: #fff;
-  font-size: 16px;
-  margin-top: 20px;
+  display: none;
+  /* color: #4c4c4c;
+  font-size: 18px;
+  margin-top: 20px; */
 }
 
 .slider__left-value {
@@ -73,7 +74,7 @@
   background-color: #f1f5f7;
   border: none;
   border-radius: 50%;
-  box-shadow: 0 0 1px 1px #fff;
+  box-shadow: 0 0 1px 1px var(--main-color);
   cursor: pointer;
   height: 18px;
   width: 18px;
