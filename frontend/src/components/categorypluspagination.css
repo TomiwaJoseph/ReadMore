@@ -62,7 +62,6 @@
   position: relative;
   overflow: hidden;
   text-align: center;
-  width: auto;
 }
 .category-container .product-image .hidden-cta {
   position: absolute;

@@ -1,18 +1,37 @@
+/* ================================
+============ SHARED STYLES ==============
+================================ */
+
+.single-product-container,
+.signup-container,
+.login-container,
+.contact-container,
 .shop-container,
 .home-container {
   padding-top: 10vh;
 }
-
-/* ================================
-============ SHOP ==============
-================================ */
-
-.shop-container h1 {
+.shop-container h1,
+.contact-container h1 {
+  position: relative;
   font-size: 3em;
   font-family: var(--heading-font);
   color: var(--dark-text-color);
   margin: 40px 0;
 }
+.shop-container h1:after,
+.contact-container h1:after {
+  content: "";
+  border-bottom: 3px solid var(--main-color);
+  position: absolute;
+  right: 0;
+  bottom: -16px;
+  left: 0;
+  width: 60px;
+}
+
+/* ================================
+============ SHOP ==============
+================================ */
 
 .shop-container .shop-cta-filter {
   display: flex;
@@ -167,3 +186,334 @@
     flex: 100%;
   } */
 }
+
+/* ================================
+============ CONTACT ==============
+================================ */
+
+.contact-container .contact-info {
+  margin-bottom: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.contact-container .contact-info .about-us h3 {
+  color: var(--dark-text-color);
+}
+.contact-container .contact-info .each-info {
+  border: 1px solid var(--main-color);
+  -webkit-box-shadow: 2px 3px 5px 0 rgba(0, 0, 0, 0.705);
+  -moz-box-shadow: 2px 3px 5px 0 rgba(0, 0, 0, 0.705);
+  -ms-box-shadow: 2px 3px 5px 0 rgba(0, 0, 0, 0.705);
+  -o-box-shadow: 2px 3px 5px 0 rgba(0, 0, 0, 0.705);
+  box-shadow: 2px 3px 5px 0 rgba(0, 0, 0, 0.705);
+  border-radius: 3px;
+  width: fit-content;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+}
+.contact-container .contact-info .each-info i {
+  margin-right: 10px;
+  font-size: 20px;
+  color: var(--main-color);
+}
+.contact-container .contact-info .each-info h6 {
+  color: var(--main-bg);
+}
+.contact-container .contact-info .each-info span {
+  color: var(--body-text-color);
+}
+
+.contact-container .contact-form input {
+  border-radius: 3rem;
+  margin-bottom: 20px;
+  background: var(--dark-body-color);
+}
+.contact-container .contact-form textarea {
+  margin-bottom: 20px;
+}
+.contact-container .modalBody button:focus,
+.contact-container .contact-form button:focus,
+.contact-container .contact-form input:focus,
+.contact-container .contact-form textarea:focus {
+  box-shadow: none;
+  border: 1px solid var(--main-color);
+}
+.contact-container .contact-form button {
+  padding: 0.5rem 0;
+  cursor: pointer;
+  width: 100%;
+  border-radius: 3rem;
+  border: 1px solid var(--main-color);
+  background: var(--main-color);
+  color: #fff;
+}
+.contact-container .contact-form button:hover {
+  background: transparent;
+  color: var(--main-color);
+}
+
+/* Modal Styles */
+
+.contact-container .contactModal {
+  background: rgba(0, 0, 0, 0.7);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+  z-index: 1000000;
+}
+.contact-container .contactModal.hidden {
+  display: none;
+}
+.contact-container .contactModal .modalContainer {
+  width: 80%;
+  padding: 20px;
+}
+.contact-container .contactModal .modalContainer .modalBody {
+  display: inline-block;
+  background-color: #fff;
+  border: 1px solid none;
+  padding: 10px;
+  border-radius: 4px;
+}
+.contact-container .modalBody .fa {
+  font-size: 40px;
+  padding: 20px 0;
+}
+.contact-container .modalBody .fa-check-circle {
+  color: var(--main-color);
+}
+.contact-container .modalBody .fa-times-circle {
+  color: #f00;
+}
+.contact-container .modalBody #modalHTwo {
+  font-size: 24px;
+}
+.contact-container .modalBody #modalP {
+  color: #4c4c4c;
+  font-size: 14px;
+  padding: 0 10px;
+  text-align: center;
+}
+.contact-container .modalBody button {
+  border: 1px solid var(--main-color);
+  background-color: transparent;
+  color: #4c4c4c;
+  width: 50%;
+  margin-bottom: 20px;
+}
+
+@media only screen and (max-width: 768px) {
+  .contact-container .contact-info .each-info {
+    width: 100%;
+  }
+}
+
+/* ================================
+============ LOGIN & SIGNUP ==============
+================================ */
+
+.signup-container,
+.login-container {
+  margin-bottom: 30px;
+}
+.signup-container h1,
+.login-container h1 {
+  position: relative;
+  font-size: 3em;
+  font-family: var(--heading-font);
+  color: var(--dark-text-color);
+  margin: 40px 0;
+  text-align: center;
+}
+.signup-container h1:after,
+.login-container h1:after {
+  content: "";
+  border-bottom: 3px solid var(--main-color);
+  position: absolute;
+  right: 0;
+  bottom: -16px;
+  left: 0;
+  width: 60px;
+  margin: 0 auto;
+}
+.login-container .login-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+.login-container .login-div .product-container {
+  height: 30vh;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+}
+.login-container .login-div .product-container img {
+  height: 30vh;
+}
+.signup-container .signup-block {
+  margin: 0 auto;
+  padding: 30px 15px;
+  border-radius: 3px;
+  border: 1px solid var(--dark-body-color);
+  width: 280px;
+}
+.login-container .login-div .login-block {
+  padding: 30px 15px;
+  border-radius: 3px;
+  border: 1px solid var(--dark-body-color);
+  width: 280px;
+}
+.signup-container .signup-block form input:focus,
+.login-container .login-block form input:focus {
+  box-shadow: none;
+  border: 1px solid var(--main-color);
+}
+.signup-container .signup-block form input,
+.login-container .login-block form input {
+  margin-bottom: 10px;
+}
+.signup-container .signup-block form button,
+.login-container .login-block form button {
+  padding: 6px 0;
+  background: var(--main-color);
+  color: #fff;
+  border: 1px solid var(--main-color);
+  width: 100%;
+  border-radius: 3px;
+  margin-bottom: 10px;
+}
+.login-container .login-block .demo-btn {
+  background: var(--main-bg);
+  color: #fff;
+  border: none;
+  width: 100%;
+  border-radius: 3px;
+  padding: 5px 0;
+  margin-bottom: 10px;
+}
+.signup-container .signup-block button:focus,
+.login-container .login-block button:focus {
+  box-shadow: none;
+  outline: none;
+}
+.signup-container .sign-in-option,
+.login-container .login-block .sign-up-option {
+  color: var(--dark-text-color);
+  font-size: 14px;
+}
+.signup-container .sign-in-option a,
+.login-container .login-block .sign-up-option a {
+  color: var(--dark-text-color);
+  font-weight: 700;
+}
+
+@media only screen and (max-width: 480px) {
+  .login-container .login-div {
+    flex-direction: column;
+  }
+  .login-container .login-div .product-container {
+    display: none;
+  }
+}
+
+/* ================================
+============ LOGIN & SIGNUP ==============
+================================ */
+
+.single-product-container .single-product-row {
+  margin-top: 5rem;
+  margin-bottom: 40px;
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+}
+.single-product-container .single-product-row .product-detail-container {
+  width: 50%;
+}
+.single-product-container .single-product-row .single-product-img {
+  height: 50vh;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+}
+.single-product-container .single-product-row .single-product-img img {
+  height: 50vh;
+}
+.single-product-container .single-product-row .product-detail-container h2 {
+  color: var(--dark-text-color);
+  font-family: var(--heading-font);
+  font-size: 2.5em;
+  line-height: 1.4;
+  text-transform: capitalize;
+}
+.single-product-container
+  .single-product-row
+  .product-detail-container
+  .author
+  span {
+  color: var(--body-text-color);
+}
+.single-product-container
+  .single-product-row
+  .product-detail-container
+  .item-price {
+  font-size: 1.3em;
+  margin-top: 10px;
+  color: var(--main-color);
+}
+.single-product-container .single-product-row .product-detail-container button {
+  text-transform: uppercase;
+  border: 1px solid none;
+  padding: 15px 20px;
+  background: var(--main-color);
+  color: #fff;
+}
+/* .single-product-container .single-product-row .single-product-img {
+  height: 70vh;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+}
+.single-product-container .single-product-row .single-product-img img {
+  height: 70vh;
+}
+.single-product-container .single-product-row .product-detail-container h2 {
+  color: var(--dark-text-color);
+  font-family: var(--heading-font);
+  font-size: 2.5em;
+  line-height: 1.4;
+  text-transform: capitalize;
+}
+.single-product-container
+  .single-product-row
+  .product-detail-container
+  .author
+  span {
+  color: var(--body-text-color);
+}
+.single-product-container
+  .single-product-row
+  .product-detail-container
+  .item-price {
+  font-size: 1.3em;
+  margin-top: 10px;
+  color: var(--main-color);
+}
+.single-product-container .single-product-row .product-detail-container button {
+  text-transform: uppercase;
+  border: 1px solid none;
+  padding: 15px 20px;
+  background: var(--main-color);
+  color: #fff;
+} */

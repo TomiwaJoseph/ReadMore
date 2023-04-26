@@ -139,13 +139,13 @@ export const offerProducts = [
 ];
 
 export const allProducts = [
-  // {
-  //   name: "Once Upon A Time",
-  //   slug: "once-upon-a-time",
-  //   image: img9,
-  //   author: "Klien Marry",
-  //   price: "35.00",
-  // },
+  {
+    name: "Once Upon A Time",
+    slug: "once-upon-a-time",
+    image: img10,
+    author: "Klien Marry",
+    price: "35.00",
+  },
   {
     name: "Does To Me",
     slug: "once-upon-a-time",
@@ -202,13 +202,6 @@ export const allProducts = [
     author: "Arthur Doyle",
     price: "45.00",
   },
-  // {
-  //   name: "The Lady Beauty Scarlett",
-  //   slug: "the-lady-beauty-scarlett",
-  //   image: img10,
-  //   author: "Arthur Doyle",
-  //   price: "45.00",
-  // },
   {
     name: "Once Upon A Time",
     slug: "once-upon-a-time",
@@ -305,4 +298,20 @@ export const allCategoryList = [
     name: "Fantasy",
     image: cat6,
   },
+];
+
+export const allImages = [
+  img1,
+  img2,
+  img3,
+  img4,
+  img5,
+  img6,
+  img7,
+  img8,
+  img11,
+  img12,
+  img13,
+  img14,
+  img15,
 ];
