@@ -1,1 +1,6 @@
-export const ActionTypes = {};
+export const ActionTypes = {
+  IS_FETCHING_DATA: "IS_FETCHING_DATA",
+  SET_BAD_REQUEST: "SET_BAD_REQUEST",
+  NO_INTERNET: "NO_INTERNET",
+  SET_CURRENT_BOOKS: "SET_CURRENT_BOOKS",
+};

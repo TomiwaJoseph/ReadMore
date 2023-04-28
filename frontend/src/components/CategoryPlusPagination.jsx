@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { addToCart, addToWishlist } from "../redux/actions/fetchers";
+// import { addToCart, addToWishlist } from "../redux/actions/fetchers";
 import "./categorypluspagination.css";
+import bookPlaceholder from "../static/products/product-item1.jpg";
 
 const CategoryPlusPagination = ({ data, isAuthenticated }) => {
   const navigate = useNavigate();
@@ -10,11 +11,12 @@ const CategoryPlusPagination = ({ data, isAuthenticated }) => {
   const itemsPerPage = 9;
 
   const handleWishlistClick = (id) => {
-    if (isAuthenticated) {
-      addToWishlist(id);
-    } else {
-      navigate("/login", { state: { id: id, action: "wishlist" } });
-    }
+    // if (isAuthenticated) {
+    //   addToWishlist(id);
+    // } else {
+    //   navigate("/login", { state: { id: id, action: "wishlist" } });
+    // }
+    return;
   };
 
   useEffect(() => {
@@ -79,7 +81,15 @@ const CategoryPlusPagination = ({ data, isAuthenticated }) => {
             currentItems.map((book, index) => (
               <div key={index} className="col-md-4 col-lg-4 col-xl-3">
                 <div className="product-image">
-                  <img src={book.image} className="img-fluid" alt={book.name} />
+                  <img
+                    src={
+                      book.volumeInfo.imageLinks
+                        ? book.volumeInfo.imageLinks.thumbnail
+                        : bookPlaceholder
+                    }
+                    className="img-fluid"
+                    alt={book.volumeInfo.title}
+                  />
                   <div className="hidden-cta">
                     <i
                       //   onClick={() => addToCart(dress.id, 1)}
@@ -96,10 +106,20 @@ const CategoryPlusPagination = ({ data, isAuthenticated }) => {
                     to={`/shop/book/${book.slug}`}
                     className="single-book-link"
                   >
-                    <h3>{book.name}</h3>
+                    <h3>{book.volumeInfo.title}</h3>
                   </NavLink>
-                  <p>{book.author}</p>
-                  <div className="item-price">$ {book.price}</div>
+
+                  {typeof book.volumeInfo.author === "object" ? (
+                    [...book.volumeInfo.author].map((author) => (
+                      <p key={author}>{author}</p>
+                    ))
+                  ) : (
+                    <p>{book.volumeInfo.author}</p>
+                  )}
+
+                  <div className="item-price">
+                    $ {Math.floor(Math.random() * (200 - 40) + 40)}
+                  </div>
                 </div>
               </div>
             ))}

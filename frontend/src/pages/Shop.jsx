@@ -3,9 +3,11 @@ import { useSelector } from "react-redux";
 import NoInternet from "./NoInternet";
 import MultiRangeSlider from "../components/MultiRangeSlider";
 import Preloader from "../components/Preloader";
+import Loader from "../components/Loader";
 import { allCategoryList, allProducts, justBooks, justHistory } from "../data";
 import allCatImg from "../static/all-cat.png";
 import CategoryPlusPagination from "../components/CategoryPlusPagination";
+import { fetchAllBooks } from "../redux/actions/fetchers";
 
 const Shop = () => {
   const [data, setData] = useState([]);
@@ -19,14 +21,106 @@ const Shop = () => {
   const storeContext = useSelector((state) => state.store);
   const {
     currentCategoryData,
-    isAuthenticated,
     highestPrice,
+    isAuthenticated,
     fetchingData,
     noInternet,
   } = storeContext;
 
+  let shuffledCategoryData = currentCategoryData
+    .map((value) => ({ value, sort: Math.random() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(({ value }) => value);
+
+  let a = {
+    kind: "books#volume",
+    id: "eFdxDwAAQBAJ",
+    etag: "WF7WDx/G5Bs",
+    selfLink: "https://www.googleapis.com/books/v1/volumes/eFdxDwAAQBAJ",
+    volumeInfo: {
+      title: "Textbooks and War",
+      subtitle: "Historical and Multinational Perspectives",
+      authors: ["Eugenia Roldán Vera", "Eckhardt Fuchs"],
+      publisher: "Springer",
+      publishedDate: "2018-10-04",
+      description:
+        "This volume reflects on the role played by textbooks in the complex relationship between war and education from a historical and multinational perspective, asking how textbook content and production can play a part in these processes. It has long been established that history textbooks play a key role in shaping the next generation’s understanding of both past events and the concept of ‘friend’ and ‘foe’. Considering both current and historical textbooks, often through a bi-national comparative approach, the editors and contributors investigate various important aspects of the relationships between textbooks and war, including the role wars play in the creation of national identities (whether the country is on the winning or losing side), the effacement of international wars to highlight a country’s exceptionalism, or the obscuring of intra-national conflict through the ways in which a civil war is portrayed. This pioneering book will be of interest and value to students and scholars of textbooks, educational media and the relationships between curricula and war.",
+      industryIdentifiers: [
+        {
+          type: "ISBN_13",
+          identifier: "9783319988030",
+        },
+        {
+          type: "ISBN_10",
+          identifier: "3319988034",
+        },
+      ],
+      readingModes: {
+        text: true,
+        image: true,
+      },
+      pageCount: 344,
+      printType: "BOOK",
+      categories: ["Education"],
+      maturityRating: "NOT_MATURE",
+      allowAnonLogging: false,
+      contentVersion: "preview-1.0.0",
+      panelizationSummary: {
+        containsEpubBubbles: false,
+        containsImageBubbles: false,
+      },
+      imageLinks: {
+        smallThumbnail:
+          "http://books.google.com/books/content?id=eFdxDwAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+        thumbnail:
+          "http://books.google.com/books/content?id=eFdxDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+      },
+      language: "en",
+      previewLink:
+        "http://books.google.com/books?id=eFdxDwAAQBAJ&printsec=frontcover&dq=Textbooks&hl=&cd=1&source=gbs_api",
+      infoLink:
+        "http://books.google.com/books?id=eFdxDwAAQBAJ&dq=Textbooks&hl=&source=gbs_api",
+      canonicalVolumeLink:
+        "https://books.google.com/books/about/Textbooks_and_War.html?hl=&id=eFdxDwAAQBAJ",
+    },
+    saleInfo: {
+      country: "NG",
+      saleability: "NOT_FOR_SALE",
+      isEbook: false,
+    },
+    accessInfo: {
+      country: "NG",
+      viewability: "PARTIAL",
+      embeddable: true,
+      publicDomain: false,
+      textToSpeechPermission: "ALLOWED",
+      epub: {
+        isAvailable: true,
+        acsTokenLink:
+          "http://books.google.com/books/download/Textbooks_and_War-sample-epub.acsm?id=eFdxDwAAQBAJ&format=epub&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api",
+      },
+      pdf: {
+        isAvailable: true,
+        acsTokenLink:
+          "http://books.google.com/books/download/Textbooks_and_War-sample-pdf.acsm?id=eFdxDwAAQBAJ&format=pdf&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api",
+      },
+      webReaderLink:
+        "http://play.google.com/books/reader?id=eFdxDwAAQBAJ&hl=&source=gbs_api",
+      accessViewStatus: "SAMPLE",
+      quoteSharingAllowed: false,
+    },
+    searchInfo: {
+      textSnippet:
+        "This volume reflects on the role played by textbooks in the complex relationship between war and education from a historical and multinational perspective, asking how textbook content and production can play a part in these processes.",
+    },
+  };
+
+  // console.log(shuffledCategoryData);
+  // console.log(a.volumeInfo.title);
+
   useEffect(() => {
     setCategoryList(allCategoryList);
+    fetchAllBooks();
   }, []);
 
   useEffect(() => {
@@ -57,7 +151,11 @@ const Shop = () => {
       );
     } else {
       return (
-        <CategoryPlusPagination data={data} isAuthenticated={isAuthenticated} />
+        <CategoryPlusPagination
+          // data={data}
+          data={shuffledCategoryData}
+          isAuthenticated={isAuthenticated}
+        />
       );
     }
   };
