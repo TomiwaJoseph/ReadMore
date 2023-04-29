@@ -5,12 +5,32 @@ const globalState = {
   cartCount: 2,
   fetchingData: false,
   noInternet: false,
-  highestPrice: 120,
+  highestPrice: 200,
+  userInfo: {},
+  dashboard_info: {},
   currentCategoryData: [],
+  singleBookData: [],
+  featuredBooksData: [],
+  bestOfferBooks: [],
 };
 
 export const bookReducer = (state = globalState, { type, payload }) => {
   switch (type) {
+    case ActionTypes.SET_USER_INFO:
+      return {
+        ...state,
+        userInfo: payload,
+      };
+    case ActionTypes.REMOVE_USER_INFO:
+      return {
+        ...state,
+        userInfo: {},
+      };
+    case ActionTypes.SET_DASHBOARD_INFO:
+      return {
+        ...state,
+        dashboard_info: payload,
+      };
     case ActionTypes.IS_FETCHING_DATA:
       return {
         ...state,
@@ -26,7 +46,7 @@ export const bookReducer = (state = globalState, { type, payload }) => {
         ...state,
         noInternet: payload,
       };
-    case ActionTypes.USER_IS_AUTHENTICATED:
+    case ActionTypes.SET_USER_IS_AUTHENTICATED:
       return {
         ...state,
         isAuthenticated: payload,
@@ -35,6 +55,21 @@ export const bookReducer = (state = globalState, { type, payload }) => {
       return {
         ...state,
         currentCategoryData: payload,
+      };
+    case ActionTypes.SET_SINGLE_BOOK:
+      return {
+        ...state,
+        singleBookData: payload,
+      };
+    case ActionTypes.SET_FEATURED_BOOKS:
+      return {
+        ...state,
+        featuredBooksData: payload,
+      };
+    case ActionTypes.SET_BEST_OFFER_BOOKS:
+      return {
+        ...state,
+        bestOfferBooks: payload,
       };
     default:
       return state;
