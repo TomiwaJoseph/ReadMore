@@ -24,3 +24,44 @@ export const setCurrentBooks = (value) => {
     payload: value,
   };
 };
+export const setSingleBook = (value) => {
+  return {
+    type: ActionTypes.SET_SINGLE_BOOK,
+    payload: value,
+  };
+};
+export const setFeaturedBooks = (value) => {
+  return {
+    type: ActionTypes.SET_FEATURED_BOOKS,
+    payload: value,
+  };
+};
+export const setBestOfferBooks = (value) => {
+  return {
+    type: ActionTypes.SET_BEST_OFFER_BOOKS,
+    payload: value,
+  };
+};
+export const setUserIsAuthenticated = (value) => {
+  return {
+    type: ActionTypes.SET_USER_IS_AUTHENTICATED,
+    payload: value,
+  };
+};
+export const setUserInfo = (value) => {
+  return {
+    type: ActionTypes.SET_USER_INFO,
+    payload: value,
+  };
+};
+export const setDashboardInfo = (value) => {
+  return {
+    type: ActionTypes.SET_DASHBOARD_INFO,
+    payload: value,
+  };
+};
+export const removeUserInfo = () => {
+  return {
+    type: ActionTypes.REMOVE_USER_INFO,
+  };
+};
