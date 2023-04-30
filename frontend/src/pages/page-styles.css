@@ -2,6 +2,8 @@
 ============ SHARED STYLES ==============
 ================================ */
 
+.search-container,
+.dashboard-container,
 .single-product-container,
 .signup-container,
 .login-container,
@@ -10,6 +12,7 @@
 .home-container {
   padding-top: 10vh;
 }
+.search-container h1,
 .shop-container h1,
 .contact-container h1 {
   position: relative;
@@ -229,7 +232,7 @@
 .contact-container .contact-form input {
   border-radius: 3rem;
   margin-bottom: 20px;
-  background: var(--dark-body-color);
+  background: var(--light-body-color);
 }
 .contact-container .contact-form textarea {
   margin-bottom: 20px;
@@ -324,7 +327,8 @@
 
 .signup-container,
 .login-container {
-  margin-bottom: 30px;
+  padding-bottom: 30px;
+  background: var(--body-bg);
 }
 .signup-container h1,
 .login-container h1 {
@@ -365,13 +369,13 @@
   margin: 0 auto;
   padding: 30px 15px;
   border-radius: 3px;
-  border: 1px solid var(--dark-body-color);
+  border: 1px solid #dbdbdb;
   width: 280px;
 }
 .login-container .login-div .login-block {
   padding: 30px 15px;
   border-radius: 3px;
-  border: 1px solid var(--dark-body-color);
+  border: 1px solid #dbdbdb;
   width: 280px;
 }
 .signup-container .signup-block form input:focus,
@@ -479,41 +483,29 @@
   background: var(--main-color);
   color: #fff;
 }
-/* .single-product-container .single-product-row .single-product-img {
-  height: 70vh;
-  display: flex;
-  justify-content: center;
-  overflow: hidden;
+
+/* ================================
+============ SEARCH ==============
+================================ */
+
+.search-container form {
+  margin-bottom: 40px;
 }
-.single-product-container .single-product-row .single-product-img img {
-  height: 70vh;
+.search-container input {
+  font-size: 18px;
+  width: 50%;
 }
-.single-product-container .single-product-row .product-detail-container h2 {
+.search-container input:focus {
+  box-shadow: none;
+  border: 1px solid var(--main-color);
+}
+.search-container .no-books {
   color: var(--dark-text-color);
-  font-family: var(--heading-font);
-  font-size: 2.5em;
-  line-height: 1.4;
-  text-transform: capitalize;
+  font-size: 24px;
 }
-.single-product-container
-  .single-product-row
-  .product-detail-container
-  .author
-  span {
-  color: var(--body-text-color);
+
+@media only screen and (max-width: 480px) {
+  .search-container input {
+    width: 100%;
+  }
 }
-.single-product-container
-  .single-product-row
-  .product-detail-container
-  .item-price {
-  font-size: 1.3em;
-  margin-top: 10px;
-  color: var(--main-color);
-}
-.single-product-container .single-product-row .product-detail-container button {
-  text-transform: uppercase;
-  border: 1px solid none;
-  padding: 15px 20px;
-  background: var(--main-color);
-  color: #fff;
-} */

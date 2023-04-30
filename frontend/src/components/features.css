@@ -66,6 +66,14 @@
   color: var(--main-color);
 }
 
+.offers-container .book-details .item-price span {
+  font-size: 0.8em;
+  margin-top: 10px;
+  margin-right: 10px;
+  text-decoration: line-through;
+  color: var(--light-text-color);
+}
+
 .offers-container .book-details,
 .features-container .book-details {
   margin-top: 30px;

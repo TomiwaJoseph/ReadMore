@@ -7,7 +7,7 @@
   --body-text-color: #757575;
   --light-text-color: #afafaf;
   --dark-text-color: #2f2f2f;
-  --dark-body-color: #edebe4;
+  --light-body-color: #edebe4;
   --media-link-color: #edebe4;
   --dark-grey: #454545;
   --body-font: "Raleway", sans-serif;
@@ -23,6 +23,13 @@ body {
   font-family: var(--body-font);
   overflow-x: hidden;
   color: var(--dark-text-color);
+}
+
+.Toastify__toast-container {
+  margin-top: 10vh;
+}
+.Toastify__toast-body {
+  font-family: var(--body-font);
 }
 
 .form-control:focus {
@@ -88,6 +95,10 @@ a:hover {
 .error__div p {
   color: #5c5c5c;
   font-size: 18px;
+}
+
+.error__div .single__page-error:focus {
+  outline: none;
 }
 
 .error__div .single__page-error {
