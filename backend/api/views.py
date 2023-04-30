@@ -2,6 +2,7 @@ from django.contrib.auth import authenticate, get_user_model
 from django.conf import settings
 import math
 import stripe
+from users.models import Book, Wishlist
 from .serializers import RegisterSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -12,6 +13,36 @@ from rest_framework.authtoken.models import Token
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 User = get_user_model()
+
+
+@api_view(['POST'])
+def add_to_wishlist(request):
+    book_id = request.data.get('bookId')
+    token = request.data.get('token')
+
+    try:
+        user = Token.objects.get(key=token).user
+    except Token.DoesNotExist:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+    book = Book.objects.filter(book_identifier=book_id).first()
+    if not book:
+        book = Book.objects.create(
+            book_identifier=book_id
+        )
+
+    check_wishlist_exist = Wishlist.objects.filter(user=user).first()
+    if check_wishlist_exist:
+        check_product_exist = book in [
+            i.book_identifier for i in check_wishlist_exist.folder.all()]
+        if not check_product_exist:
+            check_wishlist_exist.folder.add(book)
+    else:
+        create_new = Wishlist.objects.create(user=user)
+        create_new
+        create_new.folder.add(book)
+
+    return Response({"status": "Success"})
 
 
 class RegisterView(generics.GenericAPIView):

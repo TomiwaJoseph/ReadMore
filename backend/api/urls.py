@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    path('add-to-wishlist/', views.add_to_wishlist),
     path('dashboard-info/', views.get_dashboard_info),
     # AUTHENTICATION URLS
     path('auth/login/', views.LoginView.as_view(), name='login'),
