@@ -58,10 +58,11 @@ class CustomUser(AbstractUser):
 
 
 class Book(models.Model):
-    book_identifier = models.CharField(max_length=100)
+    name = models.CharField(max_length=100)
+    author = models.CharField(max_length=100)
 
     def __str__(self):
-        return "{}".format(self.book_identifier)
+        return "{}".format(self.name)
 
 
 class Wishlist(models.Model):

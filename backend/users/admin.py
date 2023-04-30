@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils import timezone
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from .models import CustomUser, Wishlist
+from .models import CustomUser, Wishlist, Book
 
 
 class UserAdmin(BaseUserAdmin):
@@ -29,5 +29,11 @@ class WishlistAdmin(admin.ModelAdmin):
     list_filter = ['user']
 
 
+class BookAdmin(admin.ModelAdmin):
+    list_display = ['name', 'author']
+    list_filter = ['name', 'author']
+
+
 admin.site.register(CustomUser, UserAdmin)
 admin.site.register(Wishlist)
+admin.site.register(Book, BookAdmin)
