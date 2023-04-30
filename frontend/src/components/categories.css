@@ -1,0 +1,27 @@
+.search-categories-container {
+  background: var(--body-bg);
+}
+
+.search-categories-container .each-category {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: wrap;
+  cursor: pointer;
+}
+
+.search-categories-container .each-category .category-img-box {
+  width: 90px;
+  height: 90px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fff;
+  border-radius: 100%;
+  margin-bottom: 20px;
+}
+
+.search-categories-container .each-category .category-img-box img {
+  width: 40px;
+}
