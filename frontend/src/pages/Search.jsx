@@ -1,31 +1,39 @@
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import Categories from "../components/Categories";
-// import CategoryPlusPagination from "../components/CategoryPlusPagination";
 import Preloader from "../components/Preloader";
 import SearchResultPlusPagination from "../components/SearchResultPlusPagination";
+import {
+  removeSearchResults,
+  setDoneLoading,
+} from "../redux/actions/bookActions";
 import { searchBookByName } from "../redux/actions/fetchers";
-// import ErrorPage from "./ErrorPage";
 import NoInternet from "./NoInternet";
 
 const Search = () => {
-  const [doneLoading, setDoneLoading] = useState(false);
+  const dispatch = useDispatch();
+  const { state } = useLocation();
   const storeContext = useSelector((state) => state.store);
-  const { fetchingData, noInternet, searchResults, isAuthenticated } =
-    storeContext;
+  const {
+    fetchingData,
+    doneLoading,
+    noInternet,
+    searchResults,
+    isAuthenticated,
+  } = storeContext;
 
   const handleSubmitForm = (e) => {
     e.preventDefault();
     let query = e.target.name.value.replaceAll(" ", "-");
     searchBookByName(query);
-    setDoneLoading(true);
     document.getElementById("search-input").blur();
   };
 
   const renderSearchData = () => {
-    if (!searchResults.length && doneLoading) {
+    if (searchResults.length === 0 && doneLoading) {
       return <p className="no-books">Book not found!</p>;
-    } else if (searchResults.length && doneLoading) {
+    } else {
       return (
         <>
           <SearchResultPlusPagination
@@ -39,6 +47,15 @@ const Search = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    if (state) {
+      searchBookByName(state.searchValue);
+      document.getElementById("search-input").value =
+        state.searchValue.replaceAll("-", " ");
+    }
+    return () => {
+      dispatch(removeSearchResults(false));
+      dispatch(setDoneLoading(false));
+    };
   }, []);
 
   if (fetchingData) {

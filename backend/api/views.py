@@ -17,24 +17,34 @@ User = get_user_model()
 
 @api_view(['POST'])
 def add_to_wishlist(request):
-    book_id = request.data.get('bookId')
+    book_id = request.data.get('nameAuthor')
     token = request.data.get('token')
+    name, author = book_id[0], book_id[1]
+
+    # ['molecular-biology-of-the-cell', 'bruce-alberts']
+
+    # print(book_id)
+    # print()
 
     try:
         user = Token.objects.get(key=token).user
     except Token.DoesNotExist:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
 
-    book = Book.objects.filter(book_identifier=book_id).first()
+    book = Book.objects.filter(
+        name=name,
+        author=author
+    ).first()
     if not book:
         book = Book.objects.create(
-            book_identifier=book_id
+            name=name,
+            author=author
         )
 
     check_wishlist_exist = Wishlist.objects.filter(user=user).first()
     if check_wishlist_exist:
         check_product_exist = book in [
-            i.book_identifier for i in check_wishlist_exist.folder.all()]
+            books for books in check_wishlist_exist.folder.all()]
         if not check_product_exist:
             check_wishlist_exist.folder.add(book)
     else:

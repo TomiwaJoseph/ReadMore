@@ -2,8 +2,10 @@ import { ActionTypes } from "../actions/action-types";
 
 const globalState = {
   isAuthenticated: false,
+  noSearchResults: false,
   cartCount: 2,
   fetchingData: false,
+  doneLoading: false,
   noInternet: false,
   highestPrice: 200,
   userInfo: {},
@@ -12,10 +14,26 @@ const globalState = {
   singleBookData: [],
   featuredBooksData: [],
   bestOfferBooks: [],
+  searchResults: [],
 };
 
 export const bookReducer = (state = globalState, { type, payload }) => {
   switch (type) {
+    case ActionTypes.SET_DONE_LOADING:
+      return {
+        ...state,
+        doneLoading: payload,
+      };
+    case ActionTypes.REMOVE_SEARCH_RESULTS:
+      return {
+        ...state,
+        searchResults: [],
+      };
+    case ActionTypes.SET_SEARCH_RESULTS:
+      return {
+        ...state,
+        searchResults: payload,
+      };
     case ActionTypes.SET_USER_INFO:
       return {
         ...state,

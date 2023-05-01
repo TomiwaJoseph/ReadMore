@@ -1,22 +1,29 @@
 import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-// import { addToCart, addToWishlist } from "../redux/actions/fetchers";
+import { addToWishlist } from "../redux/actions/fetchers";
 import "./categorypluspagination.css";
-import bookPlaceholder from "../static/products/product-item1.jpg";
+import noThumbnail from "../static/no-thumbnail.jpg";
 
 const CategoryPlusPagination = ({ data, isAuthenticated }) => {
   const navigate = useNavigate();
   const dataToRender = data;
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 9;
+  let itemsPerPage = 0;
 
-  const handleWishlistClick = (id) => {
-    // if (isAuthenticated) {
-    //   addToWishlist(id);
-    // } else {
-    //   navigate("/login", { state: { id: id, action: "wishlist" } });
-    // }
-    return;
+  if (window.innerWidth > 1024) {
+    itemsPerPage = 12;
+  } else {
+    itemsPerPage = 9;
+  }
+
+  const handleWishlistClick = (nameAuthor) => {
+    if (isAuthenticated) {
+      addToWishlist(nameAuthor);
+    } else {
+      navigate("/login", {
+        state: { nameAuthor: nameAuthor, action: "wishlist" },
+      });
+    }
   };
 
   useEffect(() => {
@@ -73,6 +80,18 @@ const CategoryPlusPagination = ({ data, isAuthenticated }) => {
     }
   };
 
+  const getAuthor = (authors) => {
+    let bookAuthor = "";
+    if (authors.length === 1) {
+      bookAuthor = authors[0]["name"];
+    } else if (authors.length === 2) {
+      bookAuthor = authors[0]["name"] + " & " + authors[1]["name"];
+    } else {
+      bookAuthor = authors[0]["name"] + " et. al.";
+    }
+    return <p>{bookAuthor}</p>;
+  };
+
   return (
     <>
       <div className="container">
@@ -83,12 +102,14 @@ const CategoryPlusPagination = ({ data, isAuthenticated }) => {
                 <div className="product-image">
                   <img
                     src={
-                      book.volumeInfo.imageLinks
-                        ? book.volumeInfo.imageLinks.thumbnail
-                        : bookPlaceholder
+                      book.cover_id
+                        ? "https://covers.openlibrary.org/b/id/" +
+                          book.cover_id +
+                          "-M.jpg"
+                        : noThumbnail
                     }
                     className="img-fluid"
-                    alt={book.volumeInfo.title}
+                    alt={book.title}
                   />
                   <div className="hidden-cta">
                     <i
@@ -96,26 +117,29 @@ const CategoryPlusPagination = ({ data, isAuthenticated }) => {
                       className="fas fa-shopping-bag"
                     ></i>
                     <i
-                      //   onClick={() => handleWishlistClick(dress.id)}
+                      onClick={() =>
+                        handleWishlistClick([
+                          book.title.toLowerCase().replaceAll(" ", "-"),
+                          book.authors[0]["name"]
+                            .toLowerCase()
+                            .replaceAll(" ", "-"),
+                        ])
+                      }
                       className="fas fa-heart"
                     ></i>
                   </div>
                 </div>
                 <div className="book-details">
                   <NavLink
-                    to={`/shop/book/${book.slug}`}
+                    to={`/shop/book/${book.title
+                      .toLowerCase()
+                      .replaceAll(" ", "-")}`}
                     className="single-book-link"
                   >
-                    <h3>{book.volumeInfo.title}</h3>
+                    <h3>{book.title}</h3>
                   </NavLink>
 
-                  {typeof book.volumeInfo.author === "object" ? (
-                    [...book.volumeInfo.author].map((author) => (
-                      <p key={author}>{author}</p>
-                    ))
-                  ) : (
-                    <p>{book.volumeInfo.author}</p>
-                  )}
+                  {getAuthor(book.authors)}
 
                   <div className="item-price">
                     $ {Math.floor(Math.random() * (200 - 40) + 40)}

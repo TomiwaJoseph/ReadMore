@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { addToWishlist } from "../redux/actions/fetchers";
 import "./categorypluspagination.css";
+import noThumbnail from "../static/no-thumbnail.jpg";
 
 const SearchResultPlusPagination = ({ data, isAuthenticated }) => {
   const navigate = useNavigate();
@@ -15,11 +16,13 @@ const SearchResultPlusPagination = ({ data, isAuthenticated }) => {
     itemsPerPage = 9;
   }
 
-  const handleWishlistClick = (id) => {
+  const handleWishlistClick = (nameAuthor) => {
     if (isAuthenticated) {
-      addToWishlist(id);
+      addToWishlist(nameAuthor);
     } else {
-      navigate("/login", { state: { id: id, action: "wishlist" } });
+      navigate("/login", {
+        state: { nameAuthor: nameAuthor, action: "wishlist" },
+      });
     }
   };
 
@@ -99,9 +102,11 @@ const SearchResultPlusPagination = ({ data, isAuthenticated }) => {
                 <div className="product-image">
                   <img
                     src={
-                      "https://covers.openlibrary.org/b/id/" +
-                      book.cover_i +
-                      "-M.jpg"
+                      book.cover_i
+                        ? "https://covers.openlibrary.org/b/id/" +
+                          book.cover_i +
+                          "-M.jpg"
+                        : noThumbnail
                     }
                     className="img-fluid"
                     alt={book.title}
@@ -113,9 +118,12 @@ const SearchResultPlusPagination = ({ data, isAuthenticated }) => {
                     ></i>
                     <i
                       onClick={() =>
-                        handleWishlistClick(
-                          book.title.toLowerCase().replaceAll(" ", "-")
-                        )
+                        handleWishlistClick([
+                          book.title.toLowerCase().replaceAll(" ", "-"),
+                          book.author_name[0]
+                            .toLowerCase()
+                            .replaceAll(" ", "-"),
+                        ])
                       }
                       className="fas fa-heart"
                     ></i>
@@ -123,9 +131,9 @@ const SearchResultPlusPagination = ({ data, isAuthenticated }) => {
                 </div>
                 <div className="book-details">
                   <NavLink
-                    to={`/shop/book/${book.title
+                    to={`/shop/${book.title
                       .toLowerCase()
-                      .replaceAll(" ", "-")}`}
+                      .replaceAll(" ", "-")}/${book.isbn[0]}`}
                     className="single-book-link"
                   >
                     <h3>{book.title}</h3>

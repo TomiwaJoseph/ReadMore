@@ -1,20 +1,35 @@
 import { useRef } from "react";
 import "./newsletter.css";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Newsletter = () => {
   let inputRef = useRef(null);
+  const notify = (message, errorType) =>
+    toast(message, {
+      position: "top-center",
+      autoClose: "3000",
+      pauseOnHover: true,
+      closeOnClick: true,
+      type: errorType,
+      theme: "colored",
+    });
 
   const handleNewsletterSubmit = (e) => {
     e.preventDefault();
     let email = inputRef.current.value;
     let validate = validateEmail(email);
-    console.log(validate);
-    // if (validate) {
-    //   addToNewsletter(email);
-    // } else {
-    //   addToNewsletter("badEmail");
-    // }
+    if (validate) {
+      notify(
+        "You have been successfully added to our newsletter list.",
+        "success"
+      );
+      inputRef.current.value = "";
+    } else {
+      return notify("Please enter a proper email", "info");
+    }
   };
+
   const validateEmail = (email) => {
     if (
       !/^[a-zA-Z0-9._%+-]+@(?:[a-zA-Z0-9/-]+\.)+[A-Za-z]{2,4}$/i.test(email)
@@ -23,6 +38,7 @@ const Newsletter = () => {
     }
     return true;
   };
+
   return (
     <div className="newsletter">
       <div className="container">

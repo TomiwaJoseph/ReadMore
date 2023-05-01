@@ -1,9 +1,10 @@
 import "./navbar.css";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const [click, setClick] = useState(false);
   const handleClick = () => {
     setClick(!click);
@@ -34,7 +35,6 @@ const Navbar = () => {
       }
     };
     window.addEventListener("scroll", onScroll);
-
     return () => {
       window.removeEventListener("scroll", onScroll);
     };
@@ -42,8 +42,9 @@ const Navbar = () => {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    // console.log(e.target.searchValue.value);
-    // searchBookByName(e.target.searchValue.value)
+    let inputEntry = e.target.name.value.replaceAll(" ", "-");
+    closeMobileMenu();
+    navigate("/shop/search", { state: { searchValue: inputEntry } });
   };
 
   return (
@@ -57,9 +58,16 @@ const Navbar = () => {
           </NavLink>
         </div>
         <div className="mobile-icons">
+          <NavLink
+            id="navbar-search"
+            onClick={closeMobileMenu}
+            to="/shop/search"
+          >
+            <i className="fa fa-search"></i>
+          </NavLink>
           <NavLink to="/cart" className="cartIcon">
             <div className="cart__wrapper">
-              <i className="fas fa-shopping-bag"></i>
+              <i className="fa fa-shopping-bag"></i>
               <span>{cartCount}</span>
             </div>
           </NavLink>
@@ -108,11 +116,12 @@ const Navbar = () => {
             )}
           </div>
           <div className="mobile-links">
-            <form className="search_form">
+            <form onSubmit={handleSearch} className="search_form">
               <input
                 type="text"
+                name="name"
                 className="form-control"
-                placeholder="Search here..."
+                placeholder="search for book"
               />
               <button className="" type="submit">
                 <i className="fa fa-search" aria-hidden="true"></i>
@@ -127,7 +136,7 @@ const Navbar = () => {
               <span>{cartCount}</span>
             </div>
           </NavLink>
-          <NavLink to="/search">
+          <NavLink to="/shop/search">
             <i className="fas fa-search"></i>
           </NavLink>
         </div>

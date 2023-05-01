@@ -65,3 +65,21 @@ export const removeUserInfo = () => {
     type: ActionTypes.REMOVE_USER_INFO,
   };
 };
+export const setSearchResults = (value) => {
+  return {
+    type: ActionTypes.SET_SEARCH_RESULTS,
+    payload: value,
+  };
+};
+export const removeSearchResults = (value) => {
+  return {
+    type: ActionTypes.REMOVE_SEARCH_RESULTS,
+  };
+};
+
+export const setDoneLoading = (value) => {
+  return {
+    type: ActionTypes.SET_DONE_LOADING,
+    payload: value,
+  };
+};

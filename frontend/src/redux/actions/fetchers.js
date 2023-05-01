@@ -12,14 +12,17 @@ import {
   setUserInfo,
   setUserIsAuthenticated,
   removeUserInfo,
+  setSearchResults,
+  setDoneLoading,
 } from "./bookActions";
 
-const backendUrl = "http://localhost:8000";
-const demoUserUrl = "http://localhost:8000/api/login-demo-user/";
-const userRegisterUrl = "http://localhost:8000/api/auth/register/";
-const userLoginUrl = "http://localhost:8000/api/auth/login/";
-const userLogoutUrl = "http://localhost:8000/api/auth/logout/";
-const fetchDashboardInfoUrl = "http://localhost:8000/api/dashboard-info/";
+const backendUrl = "http://localhost:8000/api/";
+const demoUserUrl = backendUrl + "login-demo-user/";
+const userRegisterUrl = backendUrl + "auth/register/";
+const userLoginUrl = backendUrl + "auth/login/";
+const userLogoutUrl = backendUrl + "auth/logout/";
+const fetchDashboardInfoUrl = backendUrl + "dashboard-info/";
+const addToWishlistUrl = backendUrl + "add-to-wishlist/";
 
 const notify = (message, errorType) =>
   toast(message, {
@@ -75,6 +78,8 @@ export const fetchSingleBook = async (slug) => {
   const singleBookUrl =
     "https://openlibrary.org/search.json?title=" + slug + "&limit=1";
 
+  console.log(singleBookUrl);
+
   switchPreloader(true);
   await axios
     .get(singleBookUrl)
@@ -112,9 +117,6 @@ export const fetchRandomFeaturedBooks = async () => {
     .sort((a, b) => a.sort - b.sort)
     .map(({ value }) => value)
     .slice(0, 4);
-
-  // console.log(shuffledCategories);
-  // console.log(randomFourIndexes);
 
   for (let i = 0; i < shuffledCategories.length; i++) {
     const randomBooksUrl =
@@ -213,6 +215,9 @@ export const signInUser = async (signInData) => {
       delete result.data.token;
       store.dispatch(setUserInfo(result.data));
       store.dispatch(setUserIsAuthenticated(true));
+      if (signInData[2]) {
+        addToWishlist(signInData[2]);
+      }
       switchPreloader(false);
     })
     .catch((err) => {
@@ -225,8 +230,27 @@ export const signInUser = async (signInData) => {
     });
 };
 
+// Know if user is authenticated
+export const authenticateUser = async (authenticateUrl, callback) => {
+  let token = localStorage.getItem("readMoreToken");
+  await axios
+    .get(authenticateUrl, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((response) => {
+      callback(response);
+    })
+    .catch((err) => {
+      if (err.message === "Network Error") {
+        store.dispatch(setInternetError(true));
+      }
+    });
+};
+
 // Login the demo user
-export const loginDemoUser = async () => {
+export const loginDemoUser = async (action) => {
   switchPreloader(true);
   await axios
     .get(demoUserUrl)
@@ -235,6 +259,9 @@ export const loginDemoUser = async () => {
       notify("Successful login! Keep learning.", "success");
       localStorage.setItem("readMoreToken", result.data.token);
       store.dispatch(setUserIsAuthenticated(true));
+      if (action !== undefined) {
+        addToWishlist(action);
+      }
       switchPreloader(false);
     })
     .catch((err) => {
@@ -297,6 +324,146 @@ export const signUpUser = async (signUpData) => {
       }
       notify("You already have an account with us! Please login.", "info");
       switchPreloader(false);
-      localStorage.removeItem("token");
+      localStorage.removeItem("readMoreToken");
     });
 };
+
+// Add book to wishlist in server
+export const addToWishlist = async (nameAuthor) => {
+  let token = localStorage.getItem("readMoreToken");
+  let body = JSON.stringify({
+    token: token,
+    nameAuthor: nameAuthor,
+  });
+  await axios
+    .post(addToWishlistUrl, body, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    .then((result) => {
+      notify("Book added to wishlist successfully!", "info");
+    })
+    .catch((err) => {
+      if (err.message === "Network Error") {
+        store.dispatch(setInternetError(true));
+      }
+      notify("Something unexpected happened!", "error");
+    });
+};
+
+// Search book by name in api
+export const searchBookByName = (name) => {
+  let apiSearchUrl =
+    "https://openlibrary.org/search.json?q=" + name + "&limit=20";
+
+  switchPreloader(true);
+  axios
+    .get(apiSearchUrl)
+    .then((response) => {
+      store.dispatch(setSearchResults(response.data["docs"]));
+      store.dispatch(setDoneLoading(true));
+      switchPreloader(false);
+    })
+    .catch((error) => {
+      if (error.message === "Network Error") {
+        store.dispatch(setInternetError(true));
+      } else {
+        store.dispatch(setBadRequest(true));
+      }
+      switchPreloader(false);
+    });
+};
+
+// Fetch all user's wishlist dresses from server
+// export const fetchWishlistDresses = async () => {
+//   let token = localStorage.getItem("dressupToken");
+//   let body = JSON.stringify({
+//     token: token,
+//   });
+//   switchPreloader(true);
+//   await axios
+//     .post(fetchWishlistDressesUrl, body, {
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//     })
+//     .then((result) => {
+//       switchPreloader(false);
+//       store.dispatch(setWishlistData(result.data));
+//     })
+//     .catch((err) => {
+//       if (err.message === "Network Error") {
+//         store.dispatch(setInternetError(true));
+//       }
+//       switchPreloader(false);
+//     });
+// };
+
+// Delete wishlist item from server
+// export const deleteWishlistDress = async (id) => {
+//   let token = localStorage.getItem("dressupToken");
+//   let body = JSON.stringify({
+//     token: token,
+//     id: id,
+//   });
+//   await axios
+//     .post(deleteWishlistDressUrl, body, {
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//     })
+//     .then((result) => {
+//       store.dispatch(setWishlistCount(result.data.wishlist_count));
+//     })
+//     .catch((err) => {
+//       if (err.message === "Network Error") {
+//         store.dispatch(setInternetError(true));
+//       }
+//       notify("Something unexpected happened!", "error");
+//     });
+// };
+
+// Search dress by name in server
+// export const searchBookByName = async (name) => {
+//   let body = JSON.stringify({
+//     name: name,
+//   });
+//   switchPreloader(true);
+//   await axios
+//     .post(searchDressByNameUrl, body, {
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//     })
+//     .then((result) => {
+//       switchPreloader(false);
+//       store.dispatch(setSearchResult(result.data.data));
+//     })
+//     .catch((err) => {
+//       if (err.message === "Network Error") {
+//         store.dispatch(setInternetError(true));
+//       }
+//       notify("Something unexpected happened!", "error");
+//       switchPreloader(false);
+//     });
+// };
+
+// Get the bookings of logged in user from api
+// export const fetchDashboardInfo = async () => {
+//   let token = localStorage.getItem("restupToken");
+//   let config = {
+//     headers: {
+//       Authorization: `Token ${token}`,
+//     },
+//   };
+//   await axios
+//     .get(fetchDashboardInfoUrl, config)
+//     .then((response) => {
+//       store.dispatch(setDashboardInfo(response.data));
+//       store.dispatch(setInternetError(false));
+//     })
+//     .catch((err) => {
+//       store.dispatch(setInternetError(true));
+//     });
+// };
