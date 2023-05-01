@@ -168,7 +168,9 @@ nav.fix-navbar h2 {
     display: flex;
     margin-right: 30px;
   }
-
+  nav .cart__wrapper {
+    margin-right: 5px;
+  }
   nav .mobile-icons .fa {
     display: block;
     font-size: 1.3rem;
@@ -234,6 +236,11 @@ nav.fix-navbar h2 {
 @media only screen and (max-width: 480px) {
   nav .mobile-icons {
     margin-right: 25px;
+  }
+}
+@media only screen and (max-width: 350px) {
+  nav #navbar-search {
+    display: none;
   }
 }
 

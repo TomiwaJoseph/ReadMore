@@ -2,6 +2,8 @@
 ============ SHARED STYLES ==============
 ================================ */
 
+.checkout-container,
+.cart-container,
 .search-container,
 .dashboard-container,
 .single-product-container,
@@ -489,7 +491,7 @@
 ================================ */
 
 .search-container form {
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 }
 .search-container input {
   font-size: 18px;
