@@ -83,3 +83,22 @@ export const setDoneLoading = (value) => {
     payload: value,
   };
 };
+
+export const setWishlistData = (value) => {
+  return {
+    type: ActionTypes.SET_WISHLIST_DATA,
+    payload: value,
+  };
+};
+export const setUserOrderHistory = (value) => {
+  return {
+    type: ActionTypes.SET_USER_ORDER_HISTORY,
+    payload: value,
+  };
+};
+export const setWishlistCount = (value) => {
+  return {
+    type: ActionTypes.SET_WISHLIST_COUNT,
+    payload: value,
+  };
+};

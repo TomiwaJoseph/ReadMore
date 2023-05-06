@@ -15,10 +15,33 @@ const globalState = {
   featuredBooksData: [],
   bestOfferBooks: [],
   searchResults: [],
+  wishlistCount: 0,
+  wishlistData: [],
+  userOrderHistory: [],
 };
 
 export const bookReducer = (state = globalState, { type, payload }) => {
   switch (type) {
+    case ActionTypes.SET_WISHLIST_COUNT:
+      return {
+        ...state,
+        wishlistCount: payload,
+      };
+    case ActionTypes.SET_USER_ORDER_HISTORY:
+      return {
+        ...state,
+        userOrderHistory: payload,
+      };
+    case ActionTypes.SET_WISHLIST_DATA:
+      return {
+        ...state,
+        wishlistData: payload,
+      };
+    case ActionTypes.SET_WISHLIST_DATA:
+      return {
+        ...state,
+        wishlistData: payload,
+      };
     case ActionTypes.SET_DONE_LOADING:
       return {
         ...state,

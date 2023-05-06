@@ -14,6 +14,10 @@ import {
   removeUserInfo,
   setSearchResults,
   setDoneLoading,
+  setWishlistData,
+  setUserOrderHistory,
+  setWishlistCount,
+  // setHomeResults,
 } from "./bookActions";
 
 const backendUrl = "http://localhost:8000/api/";
@@ -21,8 +25,10 @@ const demoUserUrl = backendUrl + "login-demo-user/";
 const userRegisterUrl = backendUrl + "auth/register/";
 const userLoginUrl = backendUrl + "auth/login/";
 const userLogoutUrl = backendUrl + "auth/logout/";
-const fetchDashboardInfoUrl = backendUrl + "dashboard-info/";
+const fetchUserOrdersUrl = backendUrl + "get-user-orders/";
 const addToWishlistUrl = backendUrl + "add-to-wishlist/";
+const deleteWishlistDressUrl = backendUrl + "delete-wishlist-dress/";
+const fetchWishlistDressesUrl = backendUrl + "fetch-wishlist-dresses/";
 
 const notify = (message, errorType) =>
   toast(message, {
@@ -41,22 +47,24 @@ export const switchPreloader = (status) => {
 
 export const fetchAllBooks = async () => {
   switchPreloader(true);
-  let allFetchedBooks = [];
+  let allBooksWithISBN = [];
+  let categoryList = [[], [], [], [], [], []];
   let allCategories = [
     "textbook",
     "programming_languages",
-    "history",
-    "biography",
+    "mystery",
+    "horror",
     "adventure",
-    "fantasy",
+    "thriller",
   ];
+
   for (let i = 0; i < allCategories.length; i++) {
     const allBooksUrl =
-      "https://openlibrary.org/subjects/" + allCategories[i] + ".json?limit=10";
+      "https://openlibrary.org/subjects/" + allCategories[i] + ".json?limit=30";
 
     try {
       let response = await axios.get(allBooksUrl);
-      allFetchedBooks.push(...response.data.works);
+      categoryList[i].push(...response.data.works);
     } catch (error) {
       if (error.message === "Network Error") {
         store.dispatch(setInternetError(true));
@@ -68,17 +76,36 @@ export const fetchAllBooks = async () => {
     }
   }
 
-  if (allFetchedBooks.length) {
-    switchPreloader(false);
-    store.dispatch(setCurrentBooks(allFetchedBooks));
+  for (let i = 0; i < categoryList.length; i++) {
+    let content = categoryList[i];
+    for (let j = 0; j < content.length; j++) {
+      if (content[j]["availability"]) {
+        if (
+          content[j]["title"] !== "Le petit prince" &&
+          content[j]["availability"].isbn
+        ) {
+          allBooksWithISBN.push(content[j]);
+        }
+      }
+    }
   }
+
+  if (allBooksWithISBN.length) {
+    switchPreloader(false);
+    // console.log(allBooksWithISBN.length);
+    let shuffledBooks = allBooksWithISBN
+      .map((value) => ({ value, sort: Math.random() }))
+      .sort((a, b) => a.sort - b.sort)
+      .map(({ value }) => value)
+      .slice(0, 60);
+    console.log(shuffledBooks.slice(0, 2));
+    store.dispatch(setCurrentBooks(shuffledBooks));
+  }
+  switchPreloader(false);
 };
 
-export const fetchSingleBook = async (slug) => {
-  const singleBookUrl =
-    "https://openlibrary.org/search.json?title=" + slug + "&limit=1";
-
-  console.log(singleBookUrl);
+export const fetchSingleBook = async (isbn) => {
+  const singleBookUrl = "https://openlibrary.org/search.json?isbn=" + isbn;
 
   switchPreloader(true);
   await axios
@@ -87,6 +114,8 @@ export const fetchSingleBook = async (slug) => {
       if (response.data["numFound"] === 0) {
         throw Error("bad url");
       } else {
+        // console.log(response.data["docs"][0]);
+        // console.log("");
         store.dispatch(setSingleBook(response.data["docs"][0]));
         switchPreloader(false);
       }
@@ -103,15 +132,19 @@ export const fetchSingleBook = async (slug) => {
 
 export const fetchRandomFeaturedBooks = async () => {
   switchPreloader(true);
-  let allFetchedBooks = [];
+  let randomFour = [];
+  let homeResults = [];
+  let haveISBN = [];
+  let categoryList = [[], [], [], []];
   let allCategories = [
     "textbook",
     "programming_languages",
-    "history",
-    // "biography",
+    "mystery",
+    "horror",
     "adventure",
-    "fantasy",
+    "thriller",
   ];
+
   let shuffledCategories = allCategories
     .map((value) => ({ value, sort: Math.random() }))
     .sort((a, b) => a.sort - b.sort)
@@ -122,11 +155,11 @@ export const fetchRandomFeaturedBooks = async () => {
     const randomBooksUrl =
       "https://openlibrary.org/subjects/" +
       shuffledCategories[i] +
-      ".json?limit=1";
+      ".json?limit=20";
 
     try {
       let response = await axios.get(randomBooksUrl);
-      allFetchedBooks.push(...response.data.works);
+      categoryList[i].push(...response.data.works);
     } catch (error) {
       if (error.message === "Network Error") {
         store.dispatch(setInternetError(true));
@@ -138,60 +171,46 @@ export const fetchRandomFeaturedBooks = async () => {
     }
   }
 
-  // console.log(allFetchedBooks);
+  // console.log(categoryList === [Array(0), Array(0), Array(0), Array(0)]);
+  // console.log(categoryList);
+  // console.log(categoryList.length);
+  // console.log(categoryList[0]);
+  // console.log(categoryList[0].length === 0);
   // console.log("");
 
-  if (allFetchedBooks.length) {
-    switchPreloader(false);
-    store.dispatch(setFeaturedBooks(allFetchedBooks));
-  }
-  switchPreloader(false);
-};
-
-export const fetchbestOfferBooks = async () => {
-  switchPreloader(true);
-  let allFetchedBooks = [];
-  let allCategories = [
-    "textbook",
-    "programming_languages",
-    "history",
-    "adventure",
-    "fantasy",
-  ];
-
-  for (let i = 0; i < allCategories.length; i++) {
-    const allBooksUrl =
-      "https://openlibrary.org/subjects/" + allCategories[i] + ".json?limit=5";
-
-    try {
-      let response = await axios.get(allBooksUrl);
-      allFetchedBooks.push(...response.data.works);
-    } catch (error) {
-      // console.log(error);
-      // console.log("");
-      if (error.message === "Network Error") {
-        store.dispatch(setInternetError(true));
-      } else {
-        store.dispatch(setBadRequest(true));
+  if (categoryList[0].length !== 0) {
+    for (let i = 0; i < categoryList.length; i++) {
+      let content = categoryList[i];
+      for (let j = 0; j < content.length; j++) {
+        if (content[j]["availability"]) {
+          if (
+            content[j]["title"] !== "Le petit prince" &&
+            content[j]["availability"].isbn
+          ) {
+            haveISBN.push(content[j]);
+          }
+        }
       }
-      switchPreloader(false);
-      break;
+      let selectedRandom = Math.floor(Math.random() * haveISBN.length);
+      randomFour.push(haveISBN[selectedRandom]);
+      homeResults.push(...haveISBN);
+      haveISBN = [];
     }
   }
 
-  let selectedBooks = allFetchedBooks
-    .map((value) => ({ value, sort: Math.random() }))
-    .sort((a, b) => a.sort - b.sort)
-    .map(({ value }) => value)
-    .slice(0, 9);
-
-  // console.log(selectedBooks);
-  // console.log(selectedBooks.length);
-  // console.log("");
-
-  if (allFetchedBooks.length) {
+  if (randomFour.length) {
+    // console.log("");
+    // console.log("random four is not empty");
+    // console.log(randomFour);
+    // console.log("");
     switchPreloader(false);
-    store.dispatch(setBestOfferBooks(selectedBooks));
+    store.dispatch(setFeaturedBooks(randomFour));
+    let shuffledBooks = homeResults
+      .map((value) => ({ value, sort: Math.random() }))
+      .sort((a, b) => a.sort - b.sort)
+      .map(({ value }) => value)
+      .slice(0, 9);
+    store.dispatch(setBestOfferBooks(shuffledBooks));
   }
   switchPreloader(false);
 };
@@ -329,11 +348,12 @@ export const signUpUser = async (signUpData) => {
 };
 
 // Add book to wishlist in server
-export const addToWishlist = async (nameAuthor) => {
+export const addToWishlist = async (nameISBN) => {
+  console.log(nameISBN);
   let token = localStorage.getItem("readMoreToken");
   let body = JSON.stringify({
     token: token,
-    nameAuthor: nameAuthor,
+    nameISBN: nameISBN,
   });
   await axios
     .post(addToWishlistUrl, body, {
@@ -362,6 +382,8 @@ export const searchBookByName = (name) => {
     .get(apiSearchUrl)
     .then((response) => {
       store.dispatch(setSearchResults(response.data["docs"]));
+      // console.log(response.data["docs"]);
+      // console.log("");
       store.dispatch(setDoneLoading(true));
       switchPreloader(false);
     })
@@ -376,69 +398,102 @@ export const searchBookByName = (name) => {
 };
 
 // Fetch all user's wishlist dresses from server
-// export const fetchWishlistDresses = async () => {
-//   let token = localStorage.getItem("dressupToken");
-//   let body = JSON.stringify({
-//     token: token,
-//   });
-//   switchPreloader(true);
-//   await axios
-//     .post(fetchWishlistDressesUrl, body, {
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//     })
-//     .then((result) => {
-//       switchPreloader(false);
-//       store.dispatch(setWishlistData(result.data));
-//     })
-//     .catch((err) => {
-//       if (err.message === "Network Error") {
-//         store.dispatch(setInternetError(true));
-//       }
-//       switchPreloader(false);
-//     });
-// };
+export const fetchWishlistDresses = async () => {
+  let token = localStorage.getItem("readMoreToken");
+  let body = JSON.stringify({
+    token: token,
+  });
+  switchPreloader(true);
+  await axios
+    .post(fetchWishlistDressesUrl, body, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    .then((result) => {
+      switchPreloader(false);
+      // console.log(result.data);
+      // console.log("");
+      store.dispatch(setWishlistData(result.data));
+    })
+    .catch((err) => {
+      if (err.message === "Network Error") {
+        store.dispatch(setInternetError(true));
+      }
+      switchPreloader(false);
+    });
+};
 
 // Delete wishlist item from server
-// export const deleteWishlistDress = async (id) => {
+export const deleteWishlistDress = async (isbn) => {
+  let token = localStorage.getItem("readMoreToken");
+  let body = JSON.stringify({
+    token: token,
+    isbn: isbn,
+  });
+  await axios
+    .post(deleteWishlistDressUrl, body, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    .then((result) => {
+      // console.log(result);
+      store.dispatch(setWishlistCount(result.data.wishlist_count));
+    })
+    .catch((err) => {
+      // console.log(err);
+      // console.log("");
+      if (err.message === "Network Error") {
+        store.dispatch(setInternetError(true));
+      }
+      notify("Something unexpected happened!", "error");
+    });
+};
+
+// Fetch all user's orders from server
+export const fetchUserOrders = async () => {
+  let token = localStorage.getItem("readMoreToken");
+  let body = JSON.stringify({
+    token: token,
+  });
+  switchPreloader(true);
+  await axios
+    .post(fetchUserOrdersUrl, body, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    .then((result) => {
+      switchPreloader(false);
+      store.dispatch(setUserOrderHistory(result.data.user_orders));
+    })
+    .catch((err) => {
+      if (err.message === "Network Error") {
+        store.dispatch(setInternetError(true));
+      }
+      switchPreloader(false);
+    });
+};
+
+// Fetch details of selected order from server
+// export const fetchOrderDetails = async (refCode) => {
 //   let token = localStorage.getItem("dressupToken");
 //   let body = JSON.stringify({
 //     token: token,
-//     id: id,
-//   });
-//   await axios
-//     .post(deleteWishlistDressUrl, body, {
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//     })
-//     .then((result) => {
-//       store.dispatch(setWishlistCount(result.data.wishlist_count));
-//     })
-//     .catch((err) => {
-//       if (err.message === "Network Error") {
-//         store.dispatch(setInternetError(true));
-//       }
-//       notify("Something unexpected happened!", "error");
-//     });
-// };
-
-// Search dress by name in server
-// export const searchBookByName = async (name) => {
-//   let body = JSON.stringify({
-//     name: name,
+//     ref_code: refCode,
 //   });
 //   switchPreloader(true);
 //   await axios
-//     .post(searchDressByNameUrl, body, {
+//     .post(fetchOrderDetailsUrl, body, {
 //       headers: {
 //         "Content-Type": "application/json",
 //       },
 //     })
 //     .then((result) => {
 //       switchPreloader(false);
-//       store.dispatch(setSearchResult(result.data.data));
+//       // store.dispatch(setUserOrderDressesData(result.data.order_item_data));
+//       // store.dispatch(setUserOrderDetails(result.data.order_details));
 //     })
 //     .catch((err) => {
 //       if (err.message === "Network Error") {
@@ -446,24 +501,5 @@ export const searchBookByName = (name) => {
 //       }
 //       notify("Something unexpected happened!", "error");
 //       switchPreloader(false);
-//     });
-// };
-
-// Get the bookings of logged in user from api
-// export const fetchDashboardInfo = async () => {
-//   let token = localStorage.getItem("restupToken");
-//   let config = {
-//     headers: {
-//       Authorization: `Token ${token}`,
-//     },
-//   };
-//   await axios
-//     .get(fetchDashboardInfoUrl, config)
-//     .then((response) => {
-//       store.dispatch(setDashboardInfo(response.data));
-//       store.dispatch(setInternetError(false));
-//     })
-//     .catch((err) => {
-//       store.dispatch(setInternetError(true));
 //     });
 // };
