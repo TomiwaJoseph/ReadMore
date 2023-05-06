@@ -1,7 +1,14 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
+from users.models import Book, Order, OrderItem
 
 User = get_user_model()
+
+
+class BookSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Book
+        fields = '__all__'
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -31,3 +38,18 @@ class RegisterSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 "User with this email already exist. Wasn't you?")
         return email
+
+
+class OrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = ["ref_code", "products"]
+
+
+# class OrderDetailsSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Order
+#         fields = ["ref_code", "start_date", "billing_address",
+#                   "alternative_billing_address",  "phone_number",
+#                   "delivery_type", "payment_method",
+#                   "being_processed", "delivered", ]

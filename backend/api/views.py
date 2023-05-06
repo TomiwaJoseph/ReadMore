@@ -1,9 +1,11 @@
+import random
+import string
 from django.contrib.auth import authenticate, get_user_model
 from django.conf import settings
 import math
 import stripe
-from users.models import Book, Wishlist
-from .serializers import RegisterSerializer
+from users.models import Book, Wishlist, Order, OrderItem
+from .serializers import BookSerializer, RegisterSerializer, OrderSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
@@ -15,16 +17,52 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 User = get_user_model()
 
 
+def create_ref_code():
+    return "".join(random.choices(string.ascii_lowercase + string.digits, k=25))
+
+
+@api_view(['POST'])
+def get_wishlist_dresses(request):
+    token = request.data.get('token')
+    try:
+        user = Token.objects.get(key=token).user
+    except Token.DoesNotExist:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+    user_wishlist = Wishlist.objects.filter(user=user).first()
+    if user_wishlist:
+        serializer = BookSerializer(
+            user_wishlist.folder.all(), many=True).data
+        return Response(serializer)
+    return Response([])
+
+
+@api_view(['POST'])
+def delete_wishlist_dress(request):
+    token = request.data.get('token')
+    isbn = request.data.get('isbn')
+
+    # wishlist_count = 2
+    # print(token)
+    # print(id)
+    # print()
+
+    try:
+        user = Token.objects.get(key=token).user
+        wishlist_object_qs = Wishlist.objects.get(user=user)
+        wishlist_object_qs.folder.remove(Book.objects.get(isbn=isbn))
+        wishlist_count = len(wishlist_object_qs.folder.all())
+    except (Token.DoesNotExist, Book.DoesNotExist):
+        return Response(status=status.HTTP_403_FORBIDDEN)
+
+    return Response({"status": "success", "wishlist_count": wishlist_count})
+
+
 @api_view(['POST'])
 def add_to_wishlist(request):
-    book_id = request.data.get('nameAuthor')
+    book_details = request.data.get('nameISBN')
     token = request.data.get('token')
-    name, author = book_id[0], book_id[1]
-
-    # ['molecular-biology-of-the-cell', 'bruce-alberts']
-
-    # print(book_id)
-    # print()
+    name, isbn, has_cover = book_details[0], book_details[1], book_details[2]
 
     try:
         user = Token.objects.get(key=token).user
@@ -33,12 +71,15 @@ def add_to_wishlist(request):
 
     book = Book.objects.filter(
         name=name,
-        author=author
+        isbn=isbn,
+        has_cover=has_cover
     ).first()
+
     if not book:
         book = Book.objects.create(
             name=name,
-            author=author
+            isbn=isbn,
+            has_cover=has_cover
         )
 
     check_wishlist_exist = Wishlist.objects.filter(user=user).first()
@@ -53,6 +94,19 @@ def add_to_wishlist(request):
         create_new.folder.add(book)
 
     return Response({"status": "Success"})
+
+
+@api_view(['POST'])
+def get_user_orders(request):
+    token = request.data.get('token')
+    try:
+        user = Token.objects.get(key=token).user
+    except Token.DoesNotExist:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+    user_orders = list(Order.objects.filter(user=user))[::-1]
+    serializer = OrderSerializer(user_orders, many=True).data
+    return Response({"status": "Success", "user_orders": serializer})
 
 
 class RegisterView(generics.GenericAPIView):
