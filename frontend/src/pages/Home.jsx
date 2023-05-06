@@ -3,10 +3,7 @@ import Features from "../components/Features";
 import Quotation from "../components/Quotation";
 import Offers from "../components/Offers";
 import Newsletter from "../components/Newsletter";
-import {
-  fetchbestOfferBooks,
-  fetchRandomFeaturedBooks,
-} from "../redux/actions/fetchers";
+import { fetchRandomFeaturedBooks } from "../redux/actions/fetchers";
 import Preloader from "../components/Preloader";
 import NoInternet from "./NoInternet";
 import { useDispatch, useSelector } from "react-redux";
@@ -27,7 +24,6 @@ const Home = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     fetchRandomFeaturedBooks();
-    fetchbestOfferBooks();
     return () => {
       dispatch(setBadRequest(false));
       dispatch(setInternetError(false));
@@ -47,7 +43,7 @@ const Home = () => {
       <SliderSection />
       <Features data={featuredBooksData} isAuthenticated={isAuthenticated} />
       <Quotation />
-      {/* <Offers data={bestOfferBooks} isAuthenticated={isAuthenticated} /> */}
+      <Offers data={bestOfferBooks} isAuthenticated={isAuthenticated} />
       <Newsletter />
     </div>
   );

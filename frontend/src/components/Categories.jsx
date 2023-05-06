@@ -1,7 +1,26 @@
 import "./categories.css";
-import { allCategoryList } from "../data";
+import { allCategoryList, badGuy } from "../data";
 
 const Categories = () => {
+  // let randomFour = [];
+  // let haveISBN = [];
+  // for (let i = 0; i < badGuy.length; i++) {
+  //   let content = badGuy[i];
+  //   for (let j = 0; j < content.length; j++) {
+  //     if (content[j]["availability"]) {
+  //       if (content[j]["availability"].isbn) {
+  //         haveISBN.push(content[j]);
+  //       }
+  //     }
+  //   }
+  //   randomFour.push(haveISBN[Math.floor(Math.random() * haveISBN.length)]);
+  //   haveISBN = [];
+  // }
+
+  // for (let i = 0; i < randomFour.length; i++) {
+  //   console.log(randomFour[i].title);
+  // }
+
   return (
     <div className="search-categories-container">
       <hr className="mb-4" />
@@ -16,27 +35,6 @@ const Categories = () => {
             </div>
           </div>
         ))}
-        {/* <div className="col-6 col-sm-6 col-md-3 col-lg-3">
-          <div className="item text-center">
-            <i className="fas fa-star"></i>
-            <h3>Low price</h3>
-            <p>guarantee</p>
-          </div>
-        </div>
-        <div className="col-6 col-sm-6 col-md-3 col-lg-3">
-          <div className="item text-center">
-            <i className="fas fa-recycle"></i>
-            <h3>Full refund</h3>
-            <p>guarantee</p>
-          </div>
-        </div>
-        <div className="col-6 col-sm-6 col-md-3 col-lg-3">
-          <div className="item text-center">
-            <i className="fas fa-phone-alt"></i>
-            <h3>24/7 free</h3>
-            <p>support</p>
-          </div>
-        </div> */}
       </div>
       <hr className="mb-4" />
     </div>

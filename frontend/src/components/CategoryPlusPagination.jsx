@@ -16,12 +16,12 @@ const CategoryPlusPagination = ({ data, isAuthenticated }) => {
     itemsPerPage = 9;
   }
 
-  const handleWishlistClick = (nameAuthor) => {
+  const handleWishlistClick = (nameISBN) => {
     if (isAuthenticated) {
-      addToWishlist(nameAuthor);
+      addToWishlist(nameISBN);
     } else {
       navigate("/login", {
-        state: { nameAuthor: nameAuthor, action: "wishlist" },
+        state: { nameISBN: nameISBN, action: "wishlist" },
       });
     }
   };
@@ -120,9 +120,8 @@ const CategoryPlusPagination = ({ data, isAuthenticated }) => {
                       onClick={() =>
                         handleWishlistClick([
                           book.title.toLowerCase().replaceAll(" ", "-"),
-                          book.authors[0]["name"]
-                            .toLowerCase()
-                            .replaceAll(" ", "-"),
+                          book.availability["isbn"],
+                          book.cover_id ? true : false,
                         ])
                       }
                       className="fas fa-heart"
@@ -131,9 +130,9 @@ const CategoryPlusPagination = ({ data, isAuthenticated }) => {
                 </div>
                 <div className="book-details">
                   <NavLink
-                    to={`/shop/book/${book.title
+                    to={`/shop/${book.title
                       .toLowerCase()
-                      .replaceAll(" ", "-")}`}
+                      .replaceAll(" ", "-")}/${book.availability["isbn"]}`}
                     className="single-book-link"
                   >
                     <h3>{book.title}</h3>

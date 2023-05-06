@@ -9,44 +9,71 @@ import { setBadRequest, setInternetError } from "../redux/actions/bookActions";
 import NoInternet from "./NoInternet";
 
 const SingleProduct = () => {
-  const { bookName, bookISBN } = useParams();
+  const { bookIsbn } = useParams();
   const storeContext = useSelector((state) => state.store);
   const { fetchingData, badRequest, noInternet, singleBookData } = storeContext;
   const { title, cover_i, author_name, subject } = singleBookData;
   const dispatch = useDispatch();
 
+  console.log("");
+  console.log(singleBookData);
+  console.log(title);
+  console.log(cover_i);
+  console.log(author_name);
+  console.log(subject);
+  console.log("");
+
   useEffect(() => {
     window.scrollTo(0, 0);
-    fetchSingleBook(bookName);
+    fetchSingleBook(bookIsbn);
     return () => {
       dispatch(setBadRequest(false));
       dispatch(setInternetError(false));
     };
-  }, [bookName]);
+  }, [bookIsbn]);
+
+  function titleCase(st) {
+    return st
+      .toLowerCase()
+      .split(" ")
+      .reduce(
+        (s, c) => s + "" + (c.charAt(0).toUpperCase() + c.slice(1) + " "),
+        ""
+      );
+  }
 
   const getAuthorAndGenre = () => {
     let bookAuthor = "";
     let bookGenre = "";
-    for (let i = 0; i < subject.length; i++) {
-      if (subject[i].toLowerCase() === "textbook") {
-        bookGenre = subject[i];
-        break;
-      } else if (subject[i].toLowerCase() === "programming languages") {
-        bookGenre = subject[i];
-        break;
-      } else if (subject[i].toLowerCase() === "history") {
-        bookGenre = subject[i];
-        break;
-      } else if (subject[i].toLowerCase() === "biography") {
-        bookGenre = subject[i];
-        break;
-      } else if (subject[i].toLowerCase() === "adventure") {
-        bookGenre = subject[i];
-        break;
-      } else if (subject[i].toLowerCase() === "fantasy") {
-        bookGenre = subject[i];
-        break;
+    if (subject) {
+      for (let i = 0; i < subject.length; i++) {
+        if (subject[i].toLowerCase() === "textbook") {
+          bookGenre = titleCase(subject[i]);
+          break;
+        } else if (subject[i].toLowerCase() === "programming languages") {
+          bookGenre = titleCase(subject[i]);
+          break;
+        } else if (subject[i].toLowerCase() === "mystery") {
+          bookGenre = titleCase(subject[i]);
+          break;
+        } else if (subject[i].toLowerCase() === "horror") {
+          bookGenre = titleCase(subject[i]);
+          break;
+        } else if (subject[i].toLowerCase() === "adventure") {
+          bookGenre = titleCase(subject[i]);
+          break;
+        } else if (subject[i].toLowerCase() === "thriller") {
+          bookGenre = titleCase(subject[i]);
+          break;
+        }
       }
+    }
+
+    console.log(bookGenre);
+    console.log("");
+
+    if (bookGenre === "") {
+      bookGenre = "Unknown";
     }
 
     if (author_name.length === 1) {

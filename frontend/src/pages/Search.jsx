@@ -53,7 +53,7 @@ const Search = () => {
         state.searchValue.replaceAll("-", " ");
     }
     return () => {
-      dispatch(removeSearchResults(false));
+      // dispatch(removeSearchResults(false));
       dispatch(setDoneLoading(false));
     };
   }, []);

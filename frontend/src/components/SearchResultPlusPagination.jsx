@@ -16,12 +16,12 @@ const SearchResultPlusPagination = ({ data, isAuthenticated }) => {
     itemsPerPage = 9;
   }
 
-  const handleWishlistClick = (nameAuthor) => {
+  const handleWishlistClick = (nameISBN) => {
     if (isAuthenticated) {
-      addToWishlist(nameAuthor);
+      addToWishlist(nameISBN);
     } else {
       navigate("/login", {
-        state: { nameAuthor: nameAuthor, action: "wishlist" },
+        state: { nameISBN: nameISBN, action: "wishlist" },
       });
     }
   };
@@ -120,9 +120,8 @@ const SearchResultPlusPagination = ({ data, isAuthenticated }) => {
                       onClick={() =>
                         handleWishlistClick([
                           book.title.toLowerCase().replaceAll(" ", "-"),
-                          book.author_name[0]
-                            .toLowerCase()
-                            .replaceAll(" ", "-"),
+                          book.isbn[0],
+                          book.cover_i ? true : false,
                         ])
                       }
                       className="fas fa-heart"

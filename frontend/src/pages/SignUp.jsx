@@ -22,7 +22,7 @@ const SignUp = () => {
   const [doneLoading, setDoneLoading] = useState(false);
   const notify = (message, errorType) =>
     toast(message, {
-      position: "top-center",
+      position: "top-right",
       autoClose: "3000",
       pauseOnHover: true,
       closeOnClick: true,

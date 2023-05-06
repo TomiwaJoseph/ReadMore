@@ -17,16 +17,18 @@ const Features = ({ data, isAuthenticated }) => {
     return <p>{bookAuthor}</p>;
   };
 
-  const handleWishlistClick = (nameAuthor) => {
-    console.log(nameAuthor);
-    console.log("");
-    // if (isAuthenticated) {
-    //   addToWishlist(nameAuthor);
-    // } else {
-    //   navigate("/login", {
-    //     state: { nameAuthor: nameAuthor, action: "wishlist" },
-    //   });
-    // }
+  // console.log("");
+  // console.log("This is the  features data:");
+  // console.log(data);
+
+  const handleWishlistClick = (nameISBN) => {
+    if (isAuthenticated) {
+      addToWishlist(nameISBN);
+    } else {
+      navigate("/login", {
+        state: { nameISBN: nameISBN, action: "wishlist" },
+      });
+    }
   };
 
   return (
@@ -36,58 +38,59 @@ const Features = ({ data, isAuthenticated }) => {
         <h2>Featured Books</h2>
       </div>
       <div className="container">
-        <div className="row">
-          {data.map((book, index) => (
-            <div key={index} className="col-md-3">
-              <div className="product-image">
-                <img
-                  src={
-                    book.cover_id
-                      ? "https://covers.openlibrary.org/b/id/" +
-                        book.cover_id +
-                        "-M.jpg"
-                      : noThumbnail
-                  }
-                  className="img-fluid"
-                  alt={book.title}
-                />
-                <div className="hidden-cta">
-                  <i
-                    //   onClick={() => addToCart(dress.id, 1)}
-                    className="fas fa-shopping-bag"
-                  ></i>
-                  <i
-                    onClick={() =>
-                      handleWishlistClick([
-                        book.title.toLowerCase().replaceAll(" ", "-"),
-                        book.authors[0]["name"]
-                          .toLowerCase()
-                          .replaceAll(" ", "-"),
-                      ])
+        {data.length && (
+          <div className="row">
+            {data.map((book, index) => (
+              <div key={index} className="col-md-3">
+                <div className="product-image">
+                  <img
+                    src={
+                      book.cover_id
+                        ? "https://covers.openlibrary.org/b/id/" +
+                          book.cover_id +
+                          "-M.jpg"
+                        : noThumbnail
                     }
-                    className="fas fa-heart"
-                  ></i>
+                    className="img-fluid"
+                    alt={book.title}
+                  />
+                  <div className="hidden-cta">
+                    <i
+                      //   onClick={() => addToCart(dress.id, 1)}
+                      className="fas fa-shopping-bag"
+                    ></i>
+                    <i
+                      onClick={() =>
+                        handleWishlistClick([
+                          book.title.toLowerCase().replaceAll(" ", "-"),
+                          book.availability["isbn"],
+                          book.cover_id ? true : false,
+                        ])
+                      }
+                      className="fas fa-heart"
+                    ></i>
+                  </div>
+                </div>
+                <div className="book-details">
+                  <NavLink
+                    to={`/shop/${book.title
+                      .toLowerCase()
+                      .replaceAll(" ", "-")}/${book.availability["isbn"]}`}
+                    className="single-book-link"
+                  >
+                    <h3>{book.title}</h3>
+                  </NavLink>
+
+                  {getAuthor(book.authors)}
+
+                  <div className="item-price">
+                    $ {Math.floor(Math.random() * (200 - 40) + 40)}
+                  </div>
                 </div>
               </div>
-              <div className="book-details">
-                <NavLink
-                  to={`/shop/${book.title.toLowerCase().replaceAll(" ", "-")}/${
-                    book.availability["openlibrary_work"]
-                  }`}
-                  className="single-book-link"
-                >
-                  <h3>{book.title}</h3>
-                </NavLink>
-
-                {getAuthor(book.authors)}
-
-                <div className="item-price">
-                  $ {Math.floor(Math.random() * (200 - 40) + 40)}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

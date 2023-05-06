@@ -7,8 +7,6 @@ import noThumbnail from "../static/no-thumbnail.jpg";
 import { addToWishlist } from "../redux/actions/fetchers";
 
 const Offers = ({ data, isAuthenticated }) => {
-  // console.log("is auth from offers");
-  // console.log(isAuthenticated);
   const navigate = useNavigate();
 
   const getAuthor = (authors) => {
@@ -34,15 +32,19 @@ const Offers = ({ data, isAuthenticated }) => {
     );
   };
 
-  const handleWishlistClick = (nameAuthor) => {
+  const handleWishlistClick = (nameISBN) => {
     if (isAuthenticated) {
-      addToWishlist(nameAuthor);
+      addToWishlist(nameISBN);
     } else {
       navigate("/login", {
-        state: { nameAuthor: nameAuthor, action: "wishlist" },
+        state: { nameISBN: nameISBN, action: "wishlist" },
       });
     }
   };
+
+  // console.log("This is the offer data:");
+  // console.log(data);
+  // console.log("");
 
   const carouselOptions = {
     margin: 50,
@@ -102,9 +104,8 @@ const Offers = ({ data, isAuthenticated }) => {
                       onClick={() =>
                         handleWishlistClick([
                           book.title.toLowerCase().replaceAll(" ", "-"),
-                          book.authors[0]["name"]
-                            .toLowerCase()
-                            .replaceAll(" ", "-"),
+                          book.availability["isbn"],
+                          book.cover_id ? true : false,
                         ])
                       }
                       className="fas fa-heart"
@@ -113,9 +114,9 @@ const Offers = ({ data, isAuthenticated }) => {
                 </div>
                 <div className="book-details">
                   <NavLink
-                    to={`/shop/book/${book.title
+                    to={`/shop/${book.title
                       .toLowerCase()
-                      .replaceAll(" ", "-")}`}
+                      .replaceAll(" ", "-")}/${book.availability["isbn"]}`}
                     className="single-book-link"
                   >
                     <h3>{book.title}</h3>
