@@ -59,10 +59,11 @@ class CustomUser(AbstractUser):
 
 class Book(models.Model):
     name = models.CharField(max_length=100)
-    author = models.CharField(max_length=100)
+    isbn = models.CharField(max_length=13)
+    has_cover = models.BooleanField(default=True)
 
     def __str__(self):
-        return "{} by {}".format(self.name, self.author)
+        return "{} - {}".format(self.name, self.isbn)
 
 
 class Wishlist(models.Model):
@@ -72,3 +73,27 @@ class Wishlist(models.Model):
 
     def __str__(self):
         return "{}'s wishlist".format(self.user)
+
+
+class OrderItem(models.Model):
+    order = models.ForeignKey("Order", on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    isbn = models.CharField(max_length=13)
+    price = models.IntegerField()
+
+    def __str__(self):
+        return f"{self.name} for {self.price}"
+
+    # def get_total_item_price(self):
+    #     return self.quantity * self.product.price
+
+    # def get_stripe_price(self):
+    #     return self.product.price * 100
+
+
+class Order(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE)
+    ref_code = models.CharField(max_length=25)
+    products = models.ManyToManyField(
+        OrderItem, blank=True, related_name='order_products')
