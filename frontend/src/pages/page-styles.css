@@ -14,6 +14,7 @@
 .home-container {
   padding-top: 10vh;
 }
+.dashboard-container h1,
 .search-container h1,
 .shop-container h1,
 .contact-container h1 {
@@ -510,4 +511,69 @@
   .search-container input {
     width: 100%;
   }
+}
+
+/* ================================
+============ DASHBOARD ==============
+================================ */
+
+.dashboard-container .list-group {
+  margin-bottom: 20px;
+}
+.dashboard-container .list-group-item.active {
+  background: var(--main-color) !important;
+  border: 1px solid #9e9e9e !important;
+}
+.dashboard-container .list-group-item:hover {
+  background: var(--main-bg);
+  color: #fff !important;
+}
+.dashboard-container .list-group-item:focus {
+  box-shadow: none !important;
+}
+.dashboard-container .list-group .list-group-item {
+  border-color: #9e9e9e;
+  color: var(--main-bg);
+}
+.dashboard-container .logout-btn {
+  border: 1px solid var(--main-color);
+  color: #4c4c4c;
+  padding: 10px 20px;
+  margin: 10px 0;
+}
+.dashboard-container .logout-btn:hover {
+  background: var(--main-color);
+  color: #fff;
+}
+.dashboard-container .order-container,
+.dashboard-container .wishlist-container,
+.dashboard-container .user-information {
+  border: 1px solid var(--body-text-color);
+  padding: 10px 20px;
+  margin-bottom: 20px;
+  border-radius: 3px;
+}
+.dashboard-container .user-information p {
+  color: var(--main-color);
+  margin: 10px 0;
+}
+.dashboard-container .user-information p span {
+  margin-left: 3px;
+}
+.dashboard-container .empty-wishlist {
+  padding-left: 10px;
+}
+.dashboard .wishlist-container .delete-wishlist-btn {
+  border: 1px solid var(--main-color);
+  padding: 5px 10px;
+  text-transform: uppercase;
+  align-items: center;
+  margin: 10px 0;
+  border-radius: 3px;
+  font-weight: 600;
+  color: var(--body-text-color);
+}
+.dashboard .wishlist-container .delete-wishlist-btn:hover {
+  background: var(--main-color);
+  color: #fff;
 }
