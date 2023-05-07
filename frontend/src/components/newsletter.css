@@ -2,6 +2,7 @@
   background: var(--light-body-color);
   padding: 80px 0;
   text-align: center;
+  width: 100%;
 }
 
 .newsletter h2 {

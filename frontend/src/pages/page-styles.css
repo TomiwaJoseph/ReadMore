@@ -2,6 +2,7 @@
 ============ SHARED STYLES ==============
 ================================ */
 
+.cart-container,
 .checkout-container,
 .cart-container,
 .search-container,
@@ -14,6 +15,7 @@
 .home-container {
   padding-top: 10vh;
 }
+/* .cart-container h1, */
 .dashboard-container h1,
 .search-container h1,
 .shop-container h1,
@@ -24,6 +26,8 @@
   color: var(--dark-text-color);
   margin: 40px 0;
 }
+/* .cart-container h1:after, */
+.dashboard-container h1:after,
 .shop-container h1:after,
 .contact-container h1:after {
   content: "";
@@ -32,7 +36,7 @@
   right: 0;
   bottom: -16px;
   left: 0;
-  width: 60px;
+  width: 90px;
 }
 
 /* ================================
@@ -576,4 +580,48 @@
 .dashboard .wishlist-container .delete-wishlist-btn:hover {
   background: var(--main-color);
   color: #fff;
+}
+
+/* ================================
+============ CART ==============
+================================ */
+
+.cart-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.cart-container h1 {
+  position: relative;
+  font-size: 3em;
+  font-family: var(--heading-font);
+  color: var(--dark-text-color);
+  margin: 40px 0;
+  border-bottom: 3px solid var(--main-color);
+}
+.cart-container .empty-cart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 30px;
+}
+.cart-container .empty-cart .empty-cart-image-wrapper {
+  height: 30vh;
+}
+.cart-container .empty-cart .empty-cart-image-wrapper img {
+  height: 30vh;
+}
+.cart-container .empty-cart h3 {
+  color: var(--body-text-color);
+  margin: 40px 0 20px 0;
+}
+.cart-container .empty-cart a {
+  padding: 5px 15px;
+  color: #fff;
+  background: var(--main-color);
+  border-radius: 4px;
+  font-size: 18px;
+  margin-bottom: 20px;
 }
