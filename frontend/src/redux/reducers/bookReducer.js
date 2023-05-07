@@ -3,7 +3,6 @@ import { ActionTypes } from "../actions/action-types";
 const globalState = {
   isAuthenticated: false,
   noSearchResults: false,
-  cartCount: 2,
   fetchingData: false,
   doneLoading: false,
   noInternet: false,
@@ -18,10 +17,23 @@ const globalState = {
   wishlistCount: 0,
   wishlistData: [],
   userOrderHistory: [],
+  cartDataToRender: [],
+  cartCount: 0,
+  cartTotal: 0,
 };
 
 export const bookReducer = (state = globalState, { type, payload }) => {
   switch (type) {
+    case ActionTypes.SET_CART_DATA:
+      return {
+        ...state,
+        cartDataToRender: payload,
+      };
+    case ActionTypes.SET_CART_COUNT:
+      return {
+        ...state,
+        cartCount: payload,
+      };
     case ActionTypes.SET_WISHLIST_COUNT:
       return {
         ...state,
@@ -31,11 +43,6 @@ export const bookReducer = (state = globalState, { type, payload }) => {
       return {
         ...state,
         userOrderHistory: payload,
-      };
-    case ActionTypes.SET_WISHLIST_DATA:
-      return {
-        ...state,
-        wishlistData: payload,
       };
     case ActionTypes.SET_WISHLIST_DATA:
       return {

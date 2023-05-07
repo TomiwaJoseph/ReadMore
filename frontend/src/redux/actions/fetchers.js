@@ -17,6 +17,8 @@ import {
   setWishlistData,
   setUserOrderHistory,
   setWishlistCount,
+  setCartCount,
+  setCartData,
   // setHomeResults,
 } from "./bookActions";
 
@@ -29,6 +31,9 @@ const fetchUserOrdersUrl = backendUrl + "get-user-orders/";
 const addToWishlistUrl = backendUrl + "add-to-wishlist/";
 const deleteWishlistDressUrl = backendUrl + "delete-wishlist-dress/";
 const fetchWishlistDressesUrl = backendUrl + "fetch-wishlist-dresses/";
+const addToCartUrl = backendUrl + "add-to-cart/";
+const cartContentUrl = backendUrl + "get-cart-content/";
+const cartCountUrl = backendUrl + "get-cart-count/";
 
 const notify = (message, errorType) =>
   toast(message, {
@@ -98,7 +103,7 @@ export const fetchAllBooks = async () => {
       .sort((a, b) => a.sort - b.sort)
       .map(({ value }) => value)
       .slice(0, 60);
-    console.log(shuffledBooks.slice(0, 2));
+    // console.log(shuffledBooks.slice(0, 2));
     store.dispatch(setCurrentBooks(shuffledBooks));
   }
   switchPreloader(false);
@@ -349,7 +354,7 @@ export const signUpUser = async (signUpData) => {
 
 // Add book to wishlist in server
 export const addToWishlist = async (nameISBN) => {
-  console.log(nameISBN);
+  // console.log(nameISBN);
   let token = localStorage.getItem("readMoreToken");
   let body = JSON.stringify({
     token: token,
@@ -503,3 +508,63 @@ export const fetchUserOrders = async () => {
 //       switchPreloader(false);
 //     });
 // };
+
+// Add book to cart in session storage in server
+export const addToCart = async (details) => {
+  // console.log(details);
+  // console.log("");
+  let body = JSON.stringify({
+    bookTitle: details[0],
+    bookISBN: details[1],
+    hasCover: details[2],
+  });
+  await axios
+    .post(addToCartUrl, body, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    .then((result) => {
+      store.dispatch(setCartCount(result.data.cart_count));
+      notify("Book added to cart successfully!", "info");
+    })
+    .catch((err) => {
+      if (err.message === "Network Error") {
+        store.dispatch(setInternetError(true));
+      }
+      notify("Something unexpected happened!", "error");
+    });
+};
+
+// Get all cart content from server
+export const fetchCartContent = async () => {
+  console.log("getting cart content...");
+  switchPreloader(true);
+  await axios
+    .get(cartContentUrl)
+    .then((response) => {
+      store.dispatch(setCartData(response.data));
+      switchPreloader(false);
+    })
+    .catch((err) => {
+      // console.log(err);
+      // console.log("");
+      store.dispatch(setInternetError(true));
+      switchPreloader(false);
+    });
+};
+
+// Get the cart count from server
+export const fetchCartCount = async () => {
+  switchPreloader(true);
+  await axios
+    .get(cartCountUrl)
+    .then((response) => {
+      store.dispatch(setCartCount(response.data));
+      switchPreloader(false);
+    })
+    .catch((err) => {
+      store.dispatch(setInternetError(true));
+      switchPreloader(false);
+    });
+};

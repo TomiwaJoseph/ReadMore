@@ -102,3 +102,15 @@ export const setWishlistCount = (value) => {
     payload: value,
   };
 };
+export const setCartCount = (value) => {
+  return {
+    type: ActionTypes.SET_CART_COUNT,
+    payload: value,
+  };
+};
+export const setCartData = (value) => {
+  return {
+    type: ActionTypes.SET_CART_DATA,
+    payload: value,
+  };
+};
