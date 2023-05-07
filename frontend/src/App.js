@@ -18,6 +18,7 @@ import { useEffect } from "react";
 import Search from "./pages/Search";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
+import { fetchCartCount } from "./redux/actions/fetchers";
 
 const App = () => {
   const getUserUrl = "http://localhost:8000/api/auth/user/";
@@ -26,6 +27,7 @@ const App = () => {
     fetchUser(getUserUrl, (status) => {
       store.dispatch(setUserIsAuthenticated(status));
     });
+    fetchCartCount();
   }, []);
 
   return (
