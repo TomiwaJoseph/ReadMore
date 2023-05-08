@@ -1,0 +1,19 @@
+.spinner-border {
+  width: 1.3rem;
+  height: 1.3rem;
+  border-width: 0.1em;
+}
+.stripe-form {
+  padding: 20px 0;
+}
+.stripe-form input:focus {
+  box-shadow: none;
+  border: 1px solid var(--main-color);
+}
+.stripe-form .btn {
+  background: var(--main-bg);
+  color: #fff;
+}
+.stripe-form .btn:hover {
+  background: var(--main-color);
+}
