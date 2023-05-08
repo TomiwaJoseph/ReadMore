@@ -19,7 +19,7 @@ import {
   setWishlistCount,
   setCartCount,
   setCartData,
-  // setHomeResults,
+  cleanCartData,
 } from "./bookActions";
 
 const backendUrl = "http://localhost:8000/api/";
@@ -34,6 +34,8 @@ const fetchWishlistDressesUrl = backendUrl + "fetch-wishlist-dresses/";
 const addToCartUrl = backendUrl + "add-to-cart/";
 const cartContentUrl = backendUrl + "get-cart-content/";
 const cartCountUrl = backendUrl + "get-cart-count/";
+const removeCartItemUrl = backendUrl + "remove-cart-item/";
+const cleanCartUrl = backendUrl + "remove-cart/";
 
 const notify = (message, errorType) =>
   toast(message, {
@@ -175,13 +177,6 @@ export const fetchRandomFeaturedBooks = async () => {
       break;
     }
   }
-
-  // console.log(categoryList === [Array(0), Array(0), Array(0), Array(0)]);
-  // console.log(categoryList);
-  // console.log(categoryList.length);
-  // console.log(categoryList[0]);
-  // console.log(categoryList[0].length === 0);
-  // console.log("");
 
   if (categoryList[0].length !== 0) {
     for (let i = 0; i < categoryList.length; i++) {
@@ -378,28 +373,41 @@ export const addToWishlist = async (nameISBN) => {
 };
 
 // Search book by name in api
-export const searchBookByName = (name) => {
+export const searchBookByName = async (name) => {
+  let searchResults = [];
+  let filteredResult = [];
   let apiSearchUrl =
     "https://openlibrary.org/search.json?q=" + name + "&limit=20";
 
   switchPreloader(true);
-  axios
-    .get(apiSearchUrl)
-    .then((response) => {
-      store.dispatch(setSearchResults(response.data["docs"]));
-      // console.log(response.data["docs"]);
-      // console.log("");
-      store.dispatch(setDoneLoading(true));
-      switchPreloader(false);
-    })
-    .catch((error) => {
-      if (error.message === "Network Error") {
-        store.dispatch(setInternetError(true));
-      } else {
-        store.dispatch(setBadRequest(true));
+  try {
+    let response = await axios.get(apiSearchUrl);
+    searchResults.push(...response.data["docs"]);
+  } catch (error) {
+    if (error.message === "Network Error") {
+      store.dispatch(setInternetError(true));
+    } else {
+      store.dispatch(setBadRequest(true));
+    }
+    switchPreloader(false);
+  }
+
+  if (searchResults.length) {
+    for (let i = 0; i < searchResults.length; i++) {
+      if (searchResults[i].isbn) {
+        filteredResult.push(searchResults[i]);
       }
-      switchPreloader(false);
-    });
+    }
+  }
+
+  if (filteredResult.length) {
+    store.dispatch(setSearchResults(filteredResult));
+    store.dispatch(setDoneLoading(true));
+  } else {
+    store.dispatch(setSearchResults([]));
+    store.dispatch(setDoneLoading(true));
+  }
+  switchPreloader(false);
 };
 
 // Fetch all user's wishlist dresses from server
@@ -515,8 +523,9 @@ export const addToCart = async (details) => {
   // console.log("");
   let body = JSON.stringify({
     bookTitle: details[0],
-    bookISBN: details[1],
-    hasCover: details[2],
+    bookAuthor: details[1],
+    bookISBN: details[2],
+    hasCover: details[3],
   });
   await axios
     .post(addToCartUrl, body, {
@@ -538,17 +547,17 @@ export const addToCart = async (details) => {
 
 // Get all cart content from server
 export const fetchCartContent = async () => {
-  console.log("getting cart content...");
   switchPreloader(true);
   await axios
     .get(cartContentUrl)
     .then((response) => {
+      // console.log(response.data);
+      // console.log("");
       store.dispatch(setCartData(response.data));
+      store.dispatch(setDoneLoading(true));
       switchPreloader(false);
     })
     .catch((err) => {
-      // console.log(err);
-      // console.log("");
       store.dispatch(setInternetError(true));
       switchPreloader(false);
     });
@@ -561,6 +570,45 @@ export const fetchCartCount = async () => {
     .get(cartCountUrl)
     .then((response) => {
       store.dispatch(setCartCount(response.data));
+      // store.dispatch(setDoneLoading(true));
+      switchPreloader(false);
+    })
+    .catch((err) => {
+      store.dispatch(setInternetError(true));
+      switchPreloader(false);
+    });
+};
+
+// Remove book from cart in sessionStorage in server
+export const removeCartItem = async (isbn) => {
+  let body = JSON.stringify({
+    bookISBN: isbn,
+  });
+  await axios
+    .post(removeCartItemUrl, body, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    .then((result) => {
+      store.dispatch(setCartCount(result.data.cart_count));
+      notify("Book removed from cart!", "info");
+    })
+    .catch((err) => {
+      if (err.message === "Network Error") {
+        store.dispatch(setInternetError(true));
+      }
+      notify("Something unexpected happened!", "error");
+    });
+};
+
+// Remove cart from session in server
+export const removeCart = async () => {
+  switchPreloader(true);
+  await axios
+    .get(cleanCartUrl)
+    .then((response) => {
+      store.dispatch(cleanCartData());
       switchPreloader(false);
     })
     .catch((err) => {

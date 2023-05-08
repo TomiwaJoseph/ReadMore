@@ -114,3 +114,9 @@ export const setCartData = (value) => {
     payload: value,
   };
 };
+export const cleanCartData = (value) => {
+  return {
+    type: ActionTypes.CLEAN_CART,
+    payload: value,
+  };
+};

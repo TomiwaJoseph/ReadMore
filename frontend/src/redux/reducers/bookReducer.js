@@ -24,6 +24,12 @@ const globalState = {
 
 export const bookReducer = (state = globalState, { type, payload }) => {
   switch (type) {
+    case ActionTypes.CLEAN_CART:
+      return {
+        ...state,
+        cartDataToRender: [],
+        cartCount: 0,
+      };
     case ActionTypes.SET_CART_DATA:
       return {
         ...state,
