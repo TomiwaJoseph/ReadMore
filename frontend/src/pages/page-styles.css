@@ -625,3 +625,120 @@
   font-size: 18px;
   margin-bottom: 20px;
 }
+.cart-container .cart-book-container {
+  margin-bottom: 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  align-items: center;
+}
+.cart-container .cart-book-container .cart-image-container {
+  display: flex;
+  align-items: center;
+}
+.cart-container .cart-book-container .cart-image-container img {
+  height: 150px;
+  margin-bottom: 10px;
+  margin-right: 20px;
+}
+.cart-container .fa-trash {
+  cursor: pointer;
+}
+.cart-container .cart-cta {
+  display: flex;
+  gap: 10px;
+  margin: 10px 0 30px 0;
+}
+.cart-container .clear-cart {
+  font-weight: 600;
+}
+.cart-container .clear-cart,
+.cart-container .checkout-btn,
+.cart-container .back-btn {
+  width: 100%;
+  padding: 8px 0;
+  border-radius: 0;
+}
+.cart-container .checkout-btn {
+  border: 1px solid var(--main-bg);
+  background: var(--main-bg);
+  color: #fff;
+}
+.cart-container .checkout-btn:hover {
+  border: 1px solid var(--main-color);
+  background: var(--main-color);
+  color: #fff;
+}
+.cart-container .clear-cart,
+.cart-container .back-btn {
+  border: 1px solid var(--main-bg);
+  background: transparent;
+  color: var(--main-bg);
+}
+.cart-container .clear-cart:hover,
+.cart-container .back-btn:hover {
+  border: 1px solid var(--main-bg);
+  background: var(--main-bg);
+  color: #fff;
+}
+.cart-container .total-container {
+  color: var(--dark-text-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+.cart-container .total-container .total-price {
+  color: var(--main-bg);
+}
+
+/* ================================
+============ CHECKOUT ==============
+================================ */
+
+.checkout-container .success-msg {
+  color: #20925d;
+  text-align: center;
+  height: 45vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.checkout-container .success-msg svg {
+  font-size: 60px;
+  border: 1px solid #20925d;
+  border-radius: 30px;
+  padding: 10px;
+}
+.checkout-container .success-msg .title {
+  font-size: 25px;
+  margin-top: 10px;
+}
+.checkout-container .success-msg a {
+  padding: 10px 25px;
+  margin-top: 10px;
+  color: var(--dark-grey);
+  border: 1px solid var(--main-color);
+}
+.checkout-container .success-msg a:hover {
+  background: var(--main-color);
+  color: #fff;
+}
+.checkout-container .payment-container h1 {
+  position: relative;
+  font-size: 3em;
+  font-family: var(--heading-font);
+  color: var(--dark-text-color);
+  margin: 20px 0;
+}
+.checkout-container .payment-container h1:after {
+  content: "";
+  border-bottom: 3px solid var(--main-color);
+  position: absolute;
+  right: 0;
+  bottom: -12px;
+  left: 0;
+  width: 200px;
+}
