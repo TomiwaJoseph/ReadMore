@@ -401,6 +401,8 @@ export const searchBookByName = async (name) => {
   }
 
   if (filteredResult.length) {
+    // console.log(filteredResult);
+    // console.log("");
     store.dispatch(setSearchResults(filteredResult));
     store.dispatch(setDoneLoading(true));
   } else {
@@ -519,30 +521,30 @@ export const fetchUserOrders = async () => {
 
 // Add book to cart in session storage in server
 export const addToCart = async (details) => {
-  // console.log(details);
-  // console.log("");
+  console.log(details);
+  console.log("");
   let body = JSON.stringify({
     bookTitle: details[0],
     bookAuthor: details[1],
     bookISBN: details[2],
     hasCover: details[3],
   });
-  await axios
-    .post(addToCartUrl, body, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-    .then((result) => {
-      store.dispatch(setCartCount(result.data.cart_count));
-      notify("Book added to cart successfully!", "info");
-    })
-    .catch((err) => {
-      if (err.message === "Network Error") {
-        store.dispatch(setInternetError(true));
-      }
-      notify("Something unexpected happened!", "error");
-    });
+  // await axios
+  //   .post(addToCartUrl, body, {
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   })
+  //   .then((result) => {
+  //     store.dispatch(setCartCount(result.data.cart_count));
+  //     notify("Book added to cart successfully!", "info");
+  //   })
+  //   .catch((err) => {
+  //     if (err.message === "Network Error") {
+  //       store.dispatch(setInternetError(true));
+  //     }
+  //     notify("Something unexpected happened!", "error");
+  //   });
 };
 
 // Get all cart content from server
