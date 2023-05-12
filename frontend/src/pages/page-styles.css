@@ -576,6 +576,7 @@
   border-radius: 3px;
   font-weight: 600;
   color: var(--body-text-color);
+  width: 100%;
 }
 .dashboard .wishlist-container .delete-wishlist-btn:hover {
   background: var(--main-color);
