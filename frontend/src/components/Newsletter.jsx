@@ -41,26 +41,23 @@ const Newsletter = () => {
 
   return (
     <div className="newsletter">
-      <div className="container">
-        <h2>Subscribe To Our READMORE Newsletter now!</h2>
-        <hr />
-        <p>
-          Receive email notification on latest books as well as discount prices.
-        </p>
-        <form onSubmit={handleNewsletterSubmit} className="newsletter-form">
-          <input
-            ref={inputRef}
-            className="form-control"
-            type="text"
-            name="email"
-            id="email"
-          />
-          <i
-            onClick={handleNewsletterSubmit}
-            className="fas fa-paper-plane"
-          ></i>
-        </form>
-      </div>
+      {/* <div className="container"> */}
+      <h2>Subscribe To Our READMORE Newsletter now!</h2>
+      <hr />
+      <p>
+        Receive email notification on latest books as well as discount prices.
+      </p>
+      <form onSubmit={handleNewsletterSubmit} className="newsletter-form">
+        <input
+          ref={inputRef}
+          className="form-control"
+          type="text"
+          name="email"
+          id="email"
+        />
+        <i onClick={handleNewsletterSubmit} className="fas fa-paper-plane"></i>
+      </form>
+      {/* </div> */}
     </div>
   );
 };

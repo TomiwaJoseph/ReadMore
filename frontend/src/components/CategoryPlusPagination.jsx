@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { addToWishlist } from "../redux/actions/fetchers";
+import { addToCart, addToWishlist } from "../redux/actions/fetchers";
 import "./categorypluspagination.css";
 import noThumbnail from "../static/no-thumbnail.jpg";
 
@@ -80,6 +80,18 @@ const CategoryPlusPagination = ({ data, isAuthenticated }) => {
     }
   };
 
+  const selectedCartAuthor = (authors) => {
+    let bookAuthor = "";
+    if (authors.length === 1) {
+      bookAuthor = authors[0]["name"];
+    } else if (authors.length === 2) {
+      bookAuthor = authors[0]["name"] + " & " + authors[1]["name"];
+    } else {
+      bookAuthor = authors[0]["name"] + " et. al.";
+    }
+    return bookAuthor;
+  };
+
   const getAuthor = (authors) => {
     let bookAuthor = "";
     if (authors.length === 1) {
@@ -113,7 +125,14 @@ const CategoryPlusPagination = ({ data, isAuthenticated }) => {
                   />
                   <div className="hidden-cta">
                     <i
-                      //   onClick={() => addToCart(dress.id, 1)}
+                      onClick={() =>
+                        addToCart([
+                          book.title.toLowerCase().replaceAll(" ", "-"),
+                          selectedCartAuthor(book.authors),
+                          book.availability["isbn"],
+                          book.cover_id ? true : false,
+                        ])
+                      }
                       className="fas fa-shopping-bag"
                     ></i>
                     <i

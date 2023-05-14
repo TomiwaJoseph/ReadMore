@@ -42,6 +42,9 @@ const CheckoutForm = (props) => {
       theme: "colored",
     });
 
+  // console.log(props.orderInfo);
+  // console.log("");
+
   const stripe = useStripe();
   const elements = useElements();
   const handlePaymentFormSubmit = async (event) => {
@@ -71,7 +74,6 @@ const CheckoutForm = (props) => {
       } else {
         stripePaymentMethodHandler({
           amount: props.amount,
-          orderInfo: props.orderInfo,
           result: paymentMethod,
         })
           .then((response) => {

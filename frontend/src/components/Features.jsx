@@ -1,10 +1,24 @@
 import "./features.css";
 import { NavLink, useNavigate } from "react-router-dom";
-import { addToWishlist } from "../redux/actions/fetchers";
+import { addToCart, addToWishlist } from "../redux/actions/fetchers";
 import noThumbnail from "../static/no-thumbnail.jpg";
+import Preloader from "./Preloader";
 
 const Features = ({ data, isAuthenticated }) => {
   const navigate = useNavigate();
+
+  const selectedCartAuthor = (authors) => {
+    let bookAuthor = "";
+    if (authors.length === 1) {
+      bookAuthor = authors[0]["name"];
+    } else if (authors.length === 2) {
+      bookAuthor = authors[0]["name"] + " & " + authors[1]["name"];
+    } else {
+      bookAuthor = authors[0]["name"] + " et. al.";
+    }
+    return bookAuthor;
+  };
+
   const getAuthor = (authors) => {
     let bookAuthor = "";
     if (authors.length === 1) {
@@ -16,10 +30,6 @@ const Features = ({ data, isAuthenticated }) => {
     }
     return <p>{bookAuthor}</p>;
   };
-
-  // console.log("");
-  // console.log("This is the  features data:");
-  // console.log(data);
 
   const handleWishlistClick = (nameISBN) => {
     if (isAuthenticated) {
@@ -38,7 +48,7 @@ const Features = ({ data, isAuthenticated }) => {
         <h2>Featured Books</h2>
       </div>
       <div className="container">
-        {data.length && (
+        {data.length ? (
           <div className="row">
             {data.map((book, index) => (
               <div key={index} className="col-md-3">
@@ -56,7 +66,14 @@ const Features = ({ data, isAuthenticated }) => {
                   />
                   <div className="hidden-cta">
                     <i
-                      //   onClick={() => addToCart(dress.id, 1)}
+                      onClick={() =>
+                        addToCart([
+                          book.title.toLowerCase().replaceAll(" ", "-"),
+                          selectedCartAuthor(book.authors),
+                          book.availability["isbn"],
+                          book.cover_id ? true : false,
+                        ])
+                      }
                       className="fas fa-shopping-bag"
                     ></i>
                     <i
@@ -90,6 +107,8 @@ const Features = ({ data, isAuthenticated }) => {
               </div>
             ))}
           </div>
+        ) : (
+          <Preloader />
         )}
       </div>
     </div>

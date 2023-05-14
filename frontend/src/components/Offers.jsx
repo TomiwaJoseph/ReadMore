@@ -4,10 +4,23 @@ import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import { NavLink, useNavigate } from "react-router-dom";
 import noThumbnail from "../static/no-thumbnail.jpg";
-import { addToWishlist } from "../redux/actions/fetchers";
+import { addToCart, addToWishlist } from "../redux/actions/fetchers";
+import Preloader from "./Preloader";
 
 const Offers = ({ data, isAuthenticated }) => {
   const navigate = useNavigate();
+
+  const selectedCartAuthor = (authors) => {
+    let bookAuthor = "";
+    if (authors.length === 1) {
+      bookAuthor = authors[0]["name"];
+    } else if (authors.length === 2) {
+      bookAuthor = authors[0]["name"] + " & " + authors[1]["name"];
+    } else {
+      bookAuthor = authors[0]["name"] + " et. al.";
+    }
+    return bookAuthor;
+  };
 
   const getAuthor = (authors) => {
     let bookAuthor = "";
@@ -41,10 +54,6 @@ const Offers = ({ data, isAuthenticated }) => {
       });
     }
   };
-
-  // console.log("This is the offer data:");
-  // console.log(data);
-  // console.log("");
 
   const carouselOptions = {
     margin: 50,
@@ -82,7 +91,7 @@ const Offers = ({ data, isAuthenticated }) => {
         <h2>Books With Offer</h2>
       </div>
       <div className="container">
-        {data && (
+        {data ? (
           <OwlCarousel {...carouselOptions}>
             {data.map((book, index) => (
               <div key={index}>
@@ -99,7 +108,17 @@ const Offers = ({ data, isAuthenticated }) => {
                     alt={book.title}
                   />
                   <div className="hidden-cta">
-                    <i className="fas fa-shopping-bag"></i>
+                    <i
+                      onClick={() =>
+                        addToCart([
+                          book.title.toLowerCase().replaceAll(" ", "-"),
+                          selectedCartAuthor(book.authors),
+                          book.availability["isbn"],
+                          book.cover_id ? true : false,
+                        ])
+                      }
+                      className="fas fa-shopping-bag"
+                    ></i>
                     <i
                       onClick={() =>
                         handleWishlistClick([
@@ -124,12 +143,12 @@ const Offers = ({ data, isAuthenticated }) => {
 
                   {getAuthor(book.authors)}
                   {getPriceAndDiscount()}
-
-                  {/* <div className="item-price">$ {getPriceAndDiscount()}</div> */}
                 </div>
               </div>
             ))}
           </OwlCarousel>
+        ) : (
+          <Preloader />
         )}
       </div>
     </div>
