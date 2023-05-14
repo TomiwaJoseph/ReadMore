@@ -15,7 +15,6 @@
 .home-container {
   padding-top: 10vh;
 }
-/* .cart-container h1, */
 .dashboard-container h1,
 .search-container h1,
 .shop-container h1,
@@ -26,7 +25,6 @@
   color: var(--dark-text-color);
   margin: 40px 0;
 }
-/* .cart-container h1:after, */
 .dashboard-container h1:after,
 .shop-container h1:after,
 .contact-container h1:after {
@@ -42,12 +40,6 @@
 /* ================================
 ============ SHOP ==============
 ================================ */
-
-/* .shop-container .shop-cta-filter {
-  display: flex;
-  gap: 10px;
-  justify-content: space-between;
-} */
 
 .shop-container .category-title {
   color: #4c4c4c;
@@ -68,7 +60,6 @@
   color: #fff;
 }
 
-.shop-container .filter-container,
 .shop-container .categories-container {
   position: fixed;
   margin-top: 10vh;
@@ -84,7 +75,6 @@
   z-index: 80;
 }
 
-.shop-container .filter-container .fa-arrow-left,
 .shop-container .categories-container .fa-arrow-left {
   position: absolute;
   top: 0;
@@ -125,43 +115,18 @@
   border-radius: 100%;
   margin-bottom: 20px;
 }
-
 .shop-container .categories-container .all-categories .category-img-box img {
   width: 40px;
 }
-
 .shop-container .categories-container .all-categories > button {
   flex: 40%;
 }
-
 .shop-container .categories-container button {
   border: 1px solid var(--main-color);
   padding: 5px 25px;
   width: 100%;
   cursor: pointer;
 }
-
-.shop-container .filter-container .filter-parameter {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-}
-
-.shop-container .filter-container .filter-parameter i {
-  margin-right: 10px;
-  color: var(--main-bg);
-  margin-bottom: 20px;
-}
-
-.shop-container .filter-container .filter-category-container {
-  margin-top: 30px;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-}
-
 #filter_checkboxes input {
   display: none;
 }
@@ -176,14 +141,6 @@
   color: #fff;
   background: var(--main-bg);
 }
-
-.shop-container .filter-container .filter-parameter #submit {
-  background: var(--main-color);
-  color: #fff;
-  padding: 10px 25px;
-  margin-top: 15px;
-}
-
 .no-book {
   height: 10vh;
   display: flex;
@@ -209,9 +166,6 @@
 
 .contact-container .contact-info {
   margin-bottom: 30px;
-  /* display: flex;
-  flex-wrap: wrap;
-  gap: 10px; */
 }
 .contact-container .contact-info .about-us h3 {
   color: var(--dark-text-color);
@@ -219,7 +173,6 @@
 .contact-container .contact-info .each-info-container {
   display: flex;
   flex-wrap: wrap;
-  /* gap: 20px; */
 }
 .contact-container .contact-info .each-info {
   display: flex;
@@ -227,7 +180,6 @@
   padding: 10px 20px;
   margin-right: 20px;
   margin-bottom: 20px;
-  /* width: 50%; */
   border: 1px solid var(--main-color);
   -webkit-box-shadow: 2px 3px 5px 0 rgba(0, 0, 0, 0.705);
   -moz-box-shadow: 2px 3px 5px 0 rgba(0, 0, 0, 0.705);
@@ -564,7 +516,52 @@
   background: var(--main-color);
   color: #fff;
 }
-.dashboard-container .order-container,
+.dashboard-container .order-info-container .all-orders .order-div button {
+  border: 1px solid var(--main-color);
+  margin: 0 10px 8px 0;
+  width: 100%;
+  color: #6c757d !important;
+}
+.dashboard-container .order-info-container .all-orders .order-div button:hover {
+  border-color: var(--main-bg);
+  background: var(--main-bg);
+  color: #fff !important;
+}
+.dashboard-container .order-info-container .order-details i {
+  background: var(--main-bg);
+  color: #fff;
+  font-size: 20px;
+  border-radius: 3px;
+  padding: 5px 10px;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
+.dashboard-container
+  .order-info-container
+  .order-details
+  .order-information
+  .book-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--body-bg);
+  margin-bottom: 10px;
+  padding: 10px;
+}
+.dashboard-container
+  .order-info-container
+  .order-details
+  .order-information
+  .order-total-div {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 25px;
+}
+.dashboard-container .order-info-container .all-orders.hide,
+.dashboard-container .order-info-container .order-details.hide {
+  display: none;
+}
+.dashboard-container .order-info-container,
 .dashboard-container .wishlist-container,
 .dashboard-container .user-information {
   border: 1px solid var(--body-text-color);
@@ -731,6 +728,11 @@
 .checkout-container .success-msg .title {
   font-size: 25px;
   margin-top: 10px;
+}
+.checkout-container .success-msg p {
+  margin-block-end: 0;
+  width: 50%;
+  color: var(--dark-grey);
 }
 .checkout-container .success-msg a {
   padding: 10px 25px;
