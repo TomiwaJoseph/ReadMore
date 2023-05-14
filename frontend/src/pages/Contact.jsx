@@ -120,25 +120,27 @@ const Contact = () => {
               vel consequuntur optio.
             </p>
           </div>
-          <div className="each-info">
-            <i className="fa fa-phone"></i>
-            <div>
-              <h6>Phone</h6>
-              <span>+234 567 8901</span>
+          <div className="each-info-container">
+            <div className="each-info">
+              <i className="fa fa-phone"></i>
+              <div>
+                <h6>Phone</h6>
+                <span>+234 567 8901</span>
+              </div>
             </div>
-          </div>
-          <div className="each-info">
-            <i className="fa fa-envelope"></i>
-            <div>
-              <h6>Email</h6>
-              <span>readmore@gmail.com</span>
+            <div className="each-info">
+              <i className="fa fa-envelope"></i>
+              <div>
+                <h6>Email</h6>
+                <span>readmore@gmail.com</span>
+              </div>
             </div>
-          </div>
-          <div className="each-info">
-            <i className="fa fa-envelope"></i>
-            <div>
-              <h6>Website</h6>
-              <span>tomiwajoseph.vercel.app</span>
+            <div className="each-info">
+              <i className="fa fa-envelope"></i>
+              <div>
+                <h6>Website</h6>
+                <span>tomiwajoseph.vercel.app</span>
+              </div>
             </div>
           </div>
         </div>

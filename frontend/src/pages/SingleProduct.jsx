@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import ErrorPage from "./ErrorPage";
 import Preloader from "../components/Preloader";
 import noThumbnail from "../static/no-thumbnail.jpg";
-import { fetchSingleBook } from "../redux/actions/fetchers";
+import { addToCart, fetchSingleBook } from "../redux/actions/fetchers";
 import { setBadRequest, setInternetError } from "../redux/actions/bookActions";
 import NoInternet from "./NoInternet";
 
@@ -15,13 +15,25 @@ const SingleProduct = () => {
   const { title, cover_i, author_name, subject } = singleBookData;
   const dispatch = useDispatch();
 
-  console.log("");
-  console.log(singleBookData);
-  console.log(title);
-  console.log(cover_i);
-  console.log(author_name);
-  console.log(subject);
-  console.log("");
+  // console.log("");
+  // console.log(singleBookData);
+  // console.log(title);
+  // console.log(cover_i);
+  // console.log(author_name);
+  // console.log(subject);
+  // console.log("");
+
+  const selectedCartAuthor = (authors) => {
+    let bookAuthor = "";
+    if (authors.length === 1) {
+      bookAuthor = authors[0];
+    } else if (authors.length === 2) {
+      bookAuthor = authors[0] + " & " + authors[1];
+    } else {
+      bookAuthor = authors[0] + " et. al.";
+    }
+    return bookAuthor;
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -69,8 +81,8 @@ const SingleProduct = () => {
       }
     }
 
-    console.log(bookGenre);
-    console.log("");
+    // console.log(bookGenre);
+    // console.log("");
 
     if (bookGenre === "") {
       bookGenre = "Unknown";
@@ -139,7 +151,19 @@ const SingleProduct = () => {
                 Eum, aut magnam. Dicta sapiente, laudantium veniam maxime
                 adipisci recusandae expedita temporibus iure tenetur nam eum.
               </p>
-              <button className="btn">Add to Cart</button>
+              <button
+                onClick={() =>
+                  addToCart([
+                    title.toLowerCase().replaceAll(" ", "-"),
+                    selectedCartAuthor(author_name),
+                    singleBookData["isbn"][0],
+                    cover_i ? true : false,
+                  ])
+                }
+                className="btn"
+              >
+                Add to Cart
+              </button>
             </div>
           </div>
         </div>

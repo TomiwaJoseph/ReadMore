@@ -3,16 +3,21 @@ import { useDispatch, useSelector } from "react-redux";
 import NoInternet from "./NoInternet";
 import MultiRangeSlider from "../components/MultiRangeSlider";
 import Preloader from "../components/Preloader";
-import { allCategoryList, allProducts, justBooks, justHistory } from "../data";
+import { allCategoryList, justBooks, justHistory } from "../data";
 import allCatImg from "../static/all-cat.png";
 import CategoryPlusPagination from "../components/CategoryPlusPagination";
-import { fetchAllBooks } from "../redux/actions/fetchers";
-import { setBadRequest, setInternetError } from "../redux/actions/bookActions";
+import { fetchAllBooks, getSingleCategory } from "../redux/actions/fetchers";
+import {
+  setBadRequest,
+  setDoneLoading,
+  setInternetError,
+} from "../redux/actions/bookActions";
 
 const Shop = () => {
   const dispatch = useDispatch();
-  const [data, setData] = useState([]);
-  const [doneLoading, setDoneLoading] = useState(false);
+  // const [data, setData] = useState([]);
+  // const [doneLoading, setDoneLoading] = useState(false);
+  const [currentCategoryTitle, setCurrentCategoryTitle] = useState("All Books");
   const [currentCategory, setCurrentCategory] = useState("All Books");
   const [categoryList, setCategoryList] = useState([]);
   const [openCategories, setOpenCategories] = useState(false);
@@ -26,12 +31,13 @@ const Shop = () => {
     isAuthenticated,
     fetchingData,
     noInternet,
+    doneLoading,
   } = storeContext;
 
-  let shuffledCategoryData = currentCategoryData
-    .map((value) => ({ value, sort: Math.random() }))
-    .sort((a, b) => a.sort - b.sort)
-    .map(({ value }) => value);
+  // let shuffledCategoryData = currentCategoryData
+  //   .map((value) => ({ value, sort: Math.random() }))
+  //   .sort((a, b) => a.sort - b.sort)
+  //   .map(({ value }) => value);
 
   useEffect(() => {
     setCategoryList(allCategoryList);
@@ -39,30 +45,18 @@ const Shop = () => {
     return () => {
       dispatch(setBadRequest(false));
       dispatch(setInternetError(false));
+      dispatch(setDoneLoading(false));
     };
   }, []);
 
-  useEffect(() => {
-    if (currentCategory === "All Books") {
-      setData(allProducts);
-    } else if (currentCategory === "Textbooks") {
-      setData(justBooks);
-    } else if (currentCategory === "History") {
-      setData(justHistory);
-    } else {
-      setData([]);
-    }
-    document.body.style["overflow"] = "auto";
-  }, [currentCategory]);
-
-  useEffect(() => {
-    if (data.length !== 0) {
-      setDoneLoading(true);
-    }
-  }, [data.length]);
+  // useEffect(() => {
+  //   document.body.style["overflow"] = "auto";
+  //   console.log("category just changed...");
+  //   console.log("");
+  // }, [currentCategory]);
 
   const renderBooks = () => {
-    if (data.length === 0 && doneLoading) {
+    if (currentCategoryData.length === 0 && doneLoading) {
       return (
         <div className="no-book">
           <p>No book match your filter parameters</p>
@@ -71,7 +65,7 @@ const Shop = () => {
     } else {
       return (
         <CategoryPlusPagination
-          data={shuffledCategoryData}
+          data={currentCategoryData}
           isAuthenticated={isAuthenticated}
         />
       );
@@ -90,9 +84,9 @@ const Shop = () => {
     console.log(" ");
   };
 
-  useEffect(() => {
-    setPriceMaxValue(highestPrice);
-  }, [highestPrice]);
+  // useEffect(() => {
+  //   setPriceMaxValue(highestPrice);
+  // }, [highestPrice]);
 
   const handlePriceChange = (min, max) => {
     setPriceMinValue(min);
@@ -141,10 +135,15 @@ const Shop = () => {
   };
 
   const handleCategoryClick = (category) => {
-    // console.log(category);
-    // console.log(" ");
     setOpenCategories(false);
-    setCurrentCategory(category);
+    dispatch(setDoneLoading(false));
+    if (category === "All Books") {
+      fetchAllBooks();
+    } else {
+      getSingleCategory(category);
+    }
+    setCurrentCategoryTitle(category);
+    document.body.style["overflow"] = "auto";
   };
 
   if (fetchingData) {
@@ -159,14 +158,18 @@ const Shop = () => {
     <div className="shop-container container">
       <>
         <h1>Shop</h1>
+        <hr />
         <div className="shop-cta-filter">
           <button onClick={() => handleCtaChange("category")} className="btn">
             Categories
           </button>
-          <button onClick={() => handleCtaChange("filter")} className="btn">
+          {/* <button onClick={() => handleCtaChange("filter")} className="btn">
             Filter + Sort
-          </button>
+          </button> */}
         </div>
+        <hr />
+        <h3 class="category-title">{currentCategoryTitle}</h3>
+        <hr />
         {openCategories && (
           <>
             <div className="categories-container">
@@ -204,7 +207,7 @@ const Shop = () => {
             </div>
           </>
         )}
-        {openFilter && (
+        {/* {openFilter && (
           <>
             <div className="filter-container">
               <i
@@ -262,7 +265,7 @@ const Shop = () => {
               </form>
             </div>
           </>
-        )}
+        )} */}
         {renderBooks()}
       </>
     </div>

@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
 import badUrl from "../static/error.png";
 
 const NoInternet = () => {
