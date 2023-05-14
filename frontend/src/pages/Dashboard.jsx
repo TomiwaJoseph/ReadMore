@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Preloader from "../components/Preloader";
 import {
@@ -10,10 +10,12 @@ import {
 } from "../redux/actions/fetchers";
 import NoInternet from "./NoInternet";
 import noThumbnail from "../static/no-thumbnail.jpg";
+import { setInternetError } from "../redux/actions/bookActions";
 
 const Dashboard = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const storeContext = useSelector((state) => state.store);
   const {
     fetchingData,
@@ -23,10 +25,10 @@ const Dashboard = () => {
     userInfo,
     wishlistCount,
     userOrderHistory,
-    backendUrl,
   } = storeContext;
   const { first_name, last_name, email } = userInfo;
   const [currentSection, setCurrentSection] = useState(0);
+  const [singleOrderDetail, setSingleOrderDetail] = useState([]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -35,12 +37,56 @@ const Dashboard = () => {
       return navigate("/login", { state: { previousPath: pathname } });
     }
     fetchUserOrders();
+    fetchWishlistDresses();
+    return () => {
+      dispatch(setInternetError(false));
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated]);
 
   useEffect(() => {
     fetchWishlistDresses();
   }, [wishlistCount]);
+
+  const handleOrderClick = (code) => {
+    let allOrderDiv = document.getElementsByClassName("all-orders")[0];
+    let detailsDiv = document.getElementsByClassName("order-details")[0];
+    allOrderDiv.classList.add("hide");
+    detailsDiv.classList.remove("hide");
+    for (let i = 0; i < userOrderHistory.length; i++) {
+      let element = userOrderHistory[i];
+      if (element["ref_code"] === code) {
+        setSingleOrderDetail(element.detail);
+        break;
+      }
+    }
+  };
+
+  const handleBackButton = () => {
+    let allOrderDiv = document.getElementsByClassName("all-orders")[0];
+    let detailsDiv = document.getElementsByClassName("order-details")[0];
+    detailsDiv.classList.add("hide");
+    allOrderDiv.classList.remove("hide");
+  };
+
+  function titleCase(st) {
+    return st
+      .toLowerCase()
+      .split(" ")
+      .reduce(
+        (s, c) => s + "" + (c.charAt(0).toUpperCase() + c.slice(1) + " "),
+        ""
+      );
+  }
+
+  const getTotal = () => {
+    if (singleOrderDetail.length) {
+      let totalPrice = singleOrderDetail
+        .map((book) => book.price)
+        .reduce((x, y) => x + y);
+      return totalPrice;
+    }
+  };
 
   if (fetchingData) {
     return <Preloader />;
@@ -110,32 +156,61 @@ const Dashboard = () => {
                 </div>
               )}
               {currentSection === 1 && (
-                <>
-                  <div className="order-container">
-                    {userOrderHistory.length ? (
-                      <>
+                <div className="order-info-container">
+                  {userOrderHistory.length ? (
+                    <>
+                      <div className="all-orders">
                         <h3>Order History</h3>
-                        {userOrderHistory.map((order) => (
-                          <div key={order.ref_code} className="order__div">
-                            <p>{order.start_date}</p>
-                            <NavLink
-                              to={`/user/track-order/${order.ref_code}`}
-                              className={`order__tracker_btn ${
-                                order.delivered ? "delivered" : "processing"
-                              }`}
+                        <div className="order-div">
+                          {userOrderHistory.map((order) => (
+                            <button
+                              key={order.ref_code}
+                              onClick={() => handleOrderClick(order.ref_code)}
+                              className="btn"
                             >
                               {order.ref_code}
-                            </NavLink>
-                          </div>
-                        ))}
-                      </>
-                    ) : (
-                      <div className="empty__order_history">
-                        <h3>You have no orders yet.</h3>
+                            </button>
+                          ))}
+                        </div>
                       </div>
-                    )}
-                  </div>
-                </>
+                      <div className="order-details hide">
+                        <i
+                          onClick={handleBackButton}
+                          className="fa fa-arrow-left"
+                        ></i>
+                        <div className="order-information">
+                          {singleOrderDetail.map((book, index) => (
+                            <>
+                              <div key={index} className="book-info">
+                                <div className="col-md-4 text-center">
+                                  <span>
+                                    {titleCase(book.title.replaceAll("-", " "))}
+                                  </span>
+                                </div>
+                                <div className="col-md-4 text-center">
+                                  <span>{book.author}</span>
+                                </div>
+                                <div className="col-md-4 text-right">
+                                  <span>$ {book.price}</span>
+                                </div>
+                              </div>
+                            </>
+                          ))}
+                          <hr />
+                          <div className="order-total-div">
+                            <div>Total</div>
+                            <div>$ {getTotal()}</div>
+                          </div>
+                          <hr />
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <div className="empty-order-history">
+                      <h3>You have no orders yet.</h3>
+                    </div>
+                  )}
+                </div>
               )}
               {currentSection === 2 && (
                 <>
@@ -173,7 +248,7 @@ const Dashboard = () => {
                         </>
                       ) : (
                         <div className="empty-wishlist">
-                          <h3>No dress in your wishlist.</h3>
+                          <h3>No book in your wishlist.</h3>
                         </div>
                       )}
                     </div>

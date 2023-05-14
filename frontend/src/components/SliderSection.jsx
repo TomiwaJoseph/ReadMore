@@ -1,7 +1,6 @@
 import img1 from "../static/slider-1.png";
 import img2 from "../static/slider-2.png";
 import img3 from "../static/slider-3.png";
-// import img4 from "../static/slider-4.png";
 import "./slidersection.css";
 
 const SliderSection = () => {

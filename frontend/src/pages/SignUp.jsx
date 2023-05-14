@@ -6,7 +6,10 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Preloader from "../components/Preloader";
 import { authenticateUser, signUpUser } from "../redux/actions/fetchers";
 import NoInternet from "./NoInternet";
-import { setUserIsAuthenticated } from "../redux/actions/bookActions";
+import {
+  setInternetError,
+  setUserIsAuthenticated,
+} from "../redux/actions/bookActions";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -62,6 +65,13 @@ const SignUp = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(setInternetError(false));
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (fetchingData) {
     return <Preloader />;

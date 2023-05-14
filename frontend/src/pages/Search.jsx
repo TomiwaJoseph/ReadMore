@@ -7,6 +7,7 @@ import SearchResultPlusPagination from "../components/SearchResultPlusPagination
 import {
   removeSearchResults,
   setDoneLoading,
+  setInternetError,
 } from "../redux/actions/bookActions";
 import { searchBookByName } from "../redux/actions/fetchers";
 import NoInternet from "./NoInternet";
@@ -53,9 +54,11 @@ const Search = () => {
         state.searchValue.replaceAll("-", " ");
     }
     return () => {
-      // dispatch(removeSearchResults(false));
+      dispatch(removeSearchResults(false));
       dispatch(setDoneLoading(false));
+      dispatch(setInternetError(false));
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (fetchingData) {

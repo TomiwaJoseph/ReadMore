@@ -1,26 +1,7 @@
 import "./categories.css";
-import { allCategoryList, badGuy } from "../data";
+import { allCategoryList } from "../data";
 
 const Categories = () => {
-  // let randomFour = [];
-  // let haveISBN = [];
-  // for (let i = 0; i < badGuy.length; i++) {
-  //   let content = badGuy[i];
-  //   for (let j = 0; j < content.length; j++) {
-  //     if (content[j]["availability"]) {
-  //       if (content[j]["availability"].isbn) {
-  //         haveISBN.push(content[j]);
-  //       }
-  //     }
-  //   }
-  //   randomFour.push(haveISBN[Math.floor(Math.random() * haveISBN.length)]);
-  //   haveISBN = [];
-  // }
-
-  // for (let i = 0; i < randomFour.length; i++) {
-  //   console.log(randomFour[i].title);
-  // }
-
   return (
     <div className="search-categories-container">
       <hr className="mb-4" />

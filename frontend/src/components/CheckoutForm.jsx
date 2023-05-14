@@ -42,9 +42,6 @@ const CheckoutForm = (props) => {
       theme: "colored",
     });
 
-  // console.log(props.orderInfo);
-  // console.log("");
-
   const stripe = useStripe();
   const elements = useElements();
   const handlePaymentFormSubmit = async (event) => {
@@ -151,9 +148,7 @@ const CheckoutForm = (props) => {
         <hr className="mb-4" />
         <button className="btn w-100" type="submit" disabled={loading}>
           {loading ? (
-            <div className="spinner-border text-light" role="status">
-              {/* <span className="sr-only">Loading...</span> */}
-            </div>
+            <div className="spinner-border text-light" role="status"></div>
           ) : (
             `Pay $${props.amount}`
           )}

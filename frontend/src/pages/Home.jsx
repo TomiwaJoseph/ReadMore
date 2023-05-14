@@ -8,7 +8,7 @@ import Preloader from "../components/Preloader";
 import NoInternet from "./NoInternet";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { setBadRequest, setInternetError } from "../redux/actions/bookActions";
+import { setInternetError } from "../redux/actions/bookActions";
 
 const Home = () => {
   const storeContext = useSelector((state) => state.store);
@@ -25,9 +25,9 @@ const Home = () => {
     window.scrollTo(0, 0);
     fetchRandomFeaturedBooks();
     return () => {
-      dispatch(setBadRequest(false));
       dispatch(setInternetError(false));
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (fetchingData) {

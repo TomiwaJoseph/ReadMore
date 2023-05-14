@@ -1,11 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import ErrorPage from "./ErrorPage";
 import Preloader from "../components/Preloader";
 import noThumbnail from "../static/no-thumbnail.jpg";
 import { addToCart, fetchSingleBook } from "../redux/actions/fetchers";
-import { setBadRequest, setInternetError } from "../redux/actions/bookActions";
+import {
+  removeSingleBookData,
+  setBadRequest,
+  setInternetError,
+} from "../redux/actions/bookActions";
 import NoInternet from "./NoInternet";
 
 const SingleProduct = () => {
@@ -14,14 +18,6 @@ const SingleProduct = () => {
   const { fetchingData, badRequest, noInternet, singleBookData } = storeContext;
   const { title, cover_i, author_name, subject } = singleBookData;
   const dispatch = useDispatch();
-
-  // console.log("");
-  // console.log(singleBookData);
-  // console.log(title);
-  // console.log(cover_i);
-  // console.log(author_name);
-  // console.log(subject);
-  // console.log("");
 
   const selectedCartAuthor = (authors) => {
     let bookAuthor = "";
@@ -41,7 +37,9 @@ const SingleProduct = () => {
     return () => {
       dispatch(setBadRequest(false));
       dispatch(setInternetError(false));
+      dispatch(removeSingleBookData());
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bookIsbn]);
 
   function titleCase(st) {
@@ -80,9 +78,6 @@ const SingleProduct = () => {
         }
       }
     }
-
-    // console.log(bookGenre);
-    // console.log("");
 
     if (bookGenre === "") {
       bookGenre = "Unknown";

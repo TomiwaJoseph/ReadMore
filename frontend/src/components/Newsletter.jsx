@@ -41,7 +41,6 @@ const Newsletter = () => {
 
   return (
     <div className="newsletter">
-      {/* <div className="container"> */}
       <h2>Subscribe To Our READMORE Newsletter now!</h2>
       <hr />
       <p>
@@ -57,7 +56,6 @@ const Newsletter = () => {
         />
         <i onClick={handleNewsletterSubmit} className="fas fa-paper-plane"></i>
       </form>
-      {/* </div> */}
     </div>
   );
 };

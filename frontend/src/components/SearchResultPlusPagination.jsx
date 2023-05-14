@@ -94,12 +94,14 @@ const SearchResultPlusPagination = ({ data, isAuthenticated }) => {
 
   const getAuthor = (authors) => {
     let bookAuthor = "";
-    if (authors.length === 1) {
-      bookAuthor = authors[0];
-    } else if (authors.length === 2) {
-      bookAuthor = authors[0] + " & " + authors[1];
-    } else {
-      bookAuthor = authors[0] + " et. al.";
+    if (authors) {
+      if (authors.length === 1) {
+        bookAuthor = authors[0];
+      } else if (authors.length === 2) {
+        bookAuthor = authors[0] + " & " + authors[1];
+      } else {
+        bookAuthor = authors[0] + " et. al.";
+      }
     }
     return <p>{bookAuthor}</p>;
   };

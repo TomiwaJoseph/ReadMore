@@ -9,7 +9,10 @@ import {
   loginDemoUser,
   signInUser,
 } from "../redux/actions/fetchers";
-import { setUserIsAuthenticated } from "../redux/actions/bookActions";
+import {
+  setInternetError,
+  setUserIsAuthenticated,
+} from "../redux/actions/bookActions";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -27,10 +30,12 @@ const Login = () => {
     if (state) {
       let checkAttachment = state.hasOwnProperty("action");
       if (checkAttachment) {
-        return signInUser([email, password, state.nameAuthor]);
+        return signInUser([email, password, state.nameISBN]);
+      } else {
+        return signInUser([email, password]);
       }
     } else {
-      signInUser([email, password]);
+      return signInUser([email, password]);
     }
   };
 
@@ -38,7 +43,9 @@ const Login = () => {
     if (state) {
       let checkAttachment = state.hasOwnProperty("action");
       if (checkAttachment) {
-        return loginDemoUser(state.nameAuthor);
+        return loginDemoUser(state.nameISBN);
+      } else {
+        loginDemoUser();
       }
     } else {
       loginDemoUser();
@@ -66,6 +73,10 @@ const Login = () => {
     let selectedRandomImage =
       allImages[Math.floor(Math.random() * allImages.length)];
     setRandomImage(selectedRandomImage);
+    return () => {
+      dispatch(setInternetError(false));
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -119,11 +130,7 @@ const Login = () => {
                 />
                 <button type="submit">Login</button>
               </form>
-              <button
-                onClick={handleDemoLogin}
-                className="demo-btn"
-                type="submit"
-              >
+              <button onClick={handleDemoLogin} className="demo-btn">
                 Demo User
               </button>
               <div className="sign-up-option">
