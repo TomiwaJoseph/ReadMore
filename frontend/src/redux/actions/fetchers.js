@@ -52,6 +52,7 @@ export const switchPreloader = (status) => {
   store.dispatch(setPreloaderStatus(status));
 };
 
+// Fetch 60 books info from external api
 export const fetchAllBooks = async () => {
   switchPreloader(true);
   let allBooksWithISBN = [];
@@ -105,13 +106,13 @@ export const fetchAllBooks = async () => {
       .map(({ value }) => value)
       .slice(0, 60);
 
-    console.log(shuffledBooks.length);
     store.dispatch(setCurrentBooks(shuffledBooks));
     store.dispatch(setDoneLoading(true));
   }
   switchPreloader(false);
 };
 
+// Fetch a single book from external api using its isbn value
 export const fetchSingleBook = async (isbn) => {
   const singleBookUrl = "https://openlibrary.org/search.json?isbn=" + isbn;
 
@@ -122,8 +123,6 @@ export const fetchSingleBook = async (isbn) => {
       if (response.data["numFound"] === 0) {
         throw Error("bad url");
       } else {
-        // console.log(response.data["docs"][0]);
-        // console.log("");
         store.dispatch(setSingleBook(response.data["docs"][0]));
         switchPreloader(false);
       }
@@ -138,6 +137,7 @@ export const fetchSingleBook = async (isbn) => {
     });
 };
 
+// Fetch a single category from external api
 export const getSingleCategory = async (category) => {
   switchPreloader(true);
   let allCategories = {
@@ -167,9 +167,6 @@ export const getSingleCategory = async (category) => {
     switchPreloader(false);
   }
 
-  // console.log(booksInCategory[0]);
-  // console.log("");
-
   for (let i = 0; i < booksInCategory.length; i++) {
     let content = booksInCategory[i];
     if (content["availability"]) {
@@ -181,10 +178,6 @@ export const getSingleCategory = async (category) => {
       }
     }
   }
-
-  // console.log(allBooksWithISBN);
-  // console.log(allBooksWithISBN.length);
-  // console.log("");
 
   if (allBooksWithISBN.length) {
     switchPreloader(false);
@@ -198,6 +191,7 @@ export const getSingleCategory = async (category) => {
   }
 };
 
+// Fetch 4 random books from external api
 export const fetchRandomFeaturedBooks = async () => {
   switchPreloader(true);
   let randomFour = [];
@@ -260,10 +254,6 @@ export const fetchRandomFeaturedBooks = async () => {
   }
 
   if (randomFour.length) {
-    // console.log("");
-    // console.log("random four is not empty");
-    // console.log(randomFour);
-    // console.log("");
     switchPreloader(false);
     store.dispatch(setFeaturedBooks(randomFour));
     let shuffledBooks = homeResults
@@ -410,7 +400,6 @@ export const signUpUser = async (signUpData) => {
 
 // Add book to wishlist in server
 export const addToWishlist = async (nameISBN) => {
-  // console.log(nameISBN);
   let token = localStorage.getItem("readMoreToken");
   let body = JSON.stringify({
     token: token,
@@ -462,8 +451,6 @@ export const searchBookByName = async (name) => {
   }
 
   if (filteredResult.length) {
-    // console.log(filteredResult);
-    // console.log("");
     store.dispatch(setSearchResults(filteredResult));
     store.dispatch(setDoneLoading(true));
   } else {
@@ -488,8 +475,6 @@ export const fetchWishlistDresses = async () => {
     })
     .then((result) => {
       switchPreloader(false);
-      // console.log(result.data);
-      // console.log("");
       store.dispatch(setWishlistData(result.data));
     })
     .catch((err) => {
@@ -514,12 +499,10 @@ export const deleteWishlistDress = async (isbn) => {
       },
     })
     .then((result) => {
-      // console.log(result);
+      notify("Book removed from wishlist", "info");
       store.dispatch(setWishlistCount(result.data.wishlist_count));
     })
     .catch((err) => {
-      // console.log(err);
-      // console.log("");
       if (err.message === "Network Error") {
         store.dispatch(setInternetError(true));
       }
@@ -533,7 +516,6 @@ export const fetchUserOrders = async () => {
   let body = JSON.stringify({
     token: token,
   });
-  switchPreloader(true);
   await axios
     .post(fetchUserOrdersUrl, body, {
       headers: {
@@ -541,56 +523,23 @@ export const fetchUserOrders = async () => {
       },
     })
     .then((result) => {
-      switchPreloader(false);
       store.dispatch(setUserOrderHistory(result.data.user_orders));
     })
     .catch((err) => {
       if (err.message === "Network Error") {
         store.dispatch(setInternetError(true));
       }
-      switchPreloader(false);
     });
 };
 
-// Fetch details of selected order from server
-// export const fetchOrderDetails = async (refCode) => {
-//   let token = localStorage.getItem("dressupToken");
-//   let body = JSON.stringify({
-//     token: token,
-//     ref_code: refCode,
-//   });
-//   switchPreloader(true);
-//   await axios
-//     .post(fetchOrderDetailsUrl, body, {
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//     })
-//     .then((result) => {
-//       switchPreloader(false);
-//       // store.dispatch(setUserOrderDressesData(result.data.order_item_data));
-//       // store.dispatch(setUserOrderDetails(result.data.order_details));
-//     })
-//     .catch((err) => {
-//       if (err.message === "Network Error") {
-//         store.dispatch(setInternetError(true));
-//       }
-//       notify("Something unexpected happened!", "error");
-//       switchPreloader(false);
-//     });
-// };
-
 // Add book to cart in session storage in server
 export const addToCart = async (details) => {
-  // console.log(details);
   let body = JSON.stringify({
     bookTitle: details[0],
     bookAuthor: details[1],
     bookISBN: details[2],
     hasCover: details[3],
   });
-  // console.log(body);
-  // console.log("");
   await axios
     .post(addToCartUrl, body, {
       headers: {
@@ -615,8 +564,6 @@ export const fetchCartContent = async () => {
   await axios
     .get(cartContentUrl)
     .then((response) => {
-      // console.log(response.data);
-      // console.log("");
       store.dispatch(setCartData(response.data));
       store.dispatch(setDoneLoading(true));
       switchPreloader(false);
@@ -634,7 +581,6 @@ export const fetchCartCount = async () => {
     .get(cartCountUrl)
     .then((response) => {
       store.dispatch(setCartCount(response.data));
-      // store.dispatch(setDoneLoading(true));
       switchPreloader(false);
     })
     .catch((err) => {

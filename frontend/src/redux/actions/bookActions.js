@@ -54,10 +54,9 @@ export const setUserInfo = (value) => {
     payload: value,
   };
 };
-export const setDashboardInfo = (value) => {
+export const removeSingleBookData = () => {
   return {
-    type: ActionTypes.SET_DASHBOARD_INFO,
-    payload: value,
+    type: ActionTypes.REMOVE_BOOK_DATA,
   };
 };
 export const removeUserInfo = () => {

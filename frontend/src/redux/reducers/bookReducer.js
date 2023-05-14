@@ -8,7 +8,6 @@ const globalState = {
   noInternet: false,
   highestPrice: 200,
   userInfo: {},
-  dashboard_info: {},
   currentCategoryData: [],
   singleBookData: [],
   featuredBooksData: [],
@@ -24,6 +23,11 @@ const globalState = {
 
 export const bookReducer = (state = globalState, { type, payload }) => {
   switch (type) {
+    case ActionTypes.REMOVE_BOOK_DATA:
+      return {
+        ...state,
+        singleBookData: [],
+      };
     case ActionTypes.CLEAN_CART:
       return {
         ...state,
@@ -79,11 +83,6 @@ export const bookReducer = (state = globalState, { type, payload }) => {
       return {
         ...state,
         userInfo: {},
-      };
-    case ActionTypes.SET_DASHBOARD_INFO:
-      return {
-        ...state,
-        dashboard_info: payload,
       };
     case ActionTypes.IS_FETCHING_DATA:
       return {
