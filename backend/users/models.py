@@ -77,23 +77,17 @@ class Wishlist(models.Model):
 
 class OrderItem(models.Model):
     order = models.ForeignKey("Order", on_delete=models.CASCADE)
-    name = models.CharField(max_length=100)
+    title = models.CharField(max_length=100)
+    author = models.CharField(max_length=100)
     isbn = models.CharField(max_length=13)
     price = models.IntegerField()
+    has_cover = models.BooleanField(default=True)
 
     def __str__(self):
-        return f"{self.name} for {self.price}"
-
-    # def get_total_item_price(self):
-    #     return self.quantity * self.product.price
-
-    # def get_stripe_price(self):
-    #     return self.product.price * 100
+        return f"{self.author}'s book for {self.price}"
 
 
 class Order(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)
     ref_code = models.CharField(max_length=25)
-    products = models.ManyToManyField(
-        OrderItem, blank=True, related_name='order_products')

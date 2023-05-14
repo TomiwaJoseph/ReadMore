@@ -35,8 +35,13 @@ class BookAdmin(admin.ModelAdmin):
 
 
 class OrderItemAdmin(admin.ModelAdmin):
-    list_display = ['name', 'isbn', 'price']
+    list_display = ['get_owner', 'title',  'author', 'isbn', 'price']
     list_filter = ['order']
+
+    def get_owner(self, obj):
+        return obj.order.user
+
+    get_owner.short_description = 'Order Owner'
 
 
 class OrderAdmin(admin.ModelAdmin):

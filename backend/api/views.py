@@ -1,8 +1,8 @@
 import random
+from random import SystemRandom
 import string
 from django.contrib.auth import authenticate, get_user_model
 from django.conf import settings
-import math
 import stripe
 from users.models import Book, Wishlist, Order, OrderItem
 from .serializers import BookSerializer, RegisterSerializer, OrderSerializer
@@ -12,6 +12,7 @@ from rest_framework import status
 from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.authtoken.models import Token
+from django.contrib.sessions.models import Session
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 User = get_user_model()
@@ -41,11 +42,6 @@ def get_wishlist_dresses(request):
 def delete_wishlist_dress(request):
     token = request.data.get('token')
     isbn = request.data.get('isbn')
-
-    # wishlist_count = 2
-    # print(token)
-    # print(id)
-    # print()
 
     try:
         user = Token.objects.get(key=token).user
@@ -97,6 +93,109 @@ def add_to_wishlist(request):
 
 
 @api_view(['POST'])
+def add_to_cart(request):
+    book_title = request.data.get('bookTitle')
+    book_isbn = request.data.get('bookISBN')
+    book_author = request.data.get('bookAuthor')
+    book_has_cover = request.data.get('hasCover')
+
+    session_data_query = [s.get_decoded() for s in Session.objects.all()
+                          if s.get_decoded().get('cart_data')]
+
+    sys_random = SystemRandom()
+
+    cart_content = {
+        'title': book_title,
+        'author': book_author,
+        'has_cover': book_has_cover,
+        'price': sys_random.randint(40, 200)
+    }
+
+    # If cart is in session storage
+    if session_data_query:
+        cart = session_data_query[0]['cart_data']
+        # If the book in in cart, update the quantity
+        if book_isbn not in cart:
+            new_object = {f'{book_isbn}': cart_content}
+            cart.update(new_object)
+
+        for s in Session.objects.all():
+            if s.get_decoded().get('cart_data'):
+                s.delete()
+
+        request.session['cart_data'] = cart
+    else:
+        # Create new cart and add book(s)
+        new_object = {f'{book_isbn}': cart_content}
+        request.session['cart_data'] = new_object
+
+    cart_count = len(request.session.get('cart_data', []))
+    return Response({"status": "Success", "cart_count": cart_count})
+
+
+@api_view(['GET'])
+def get_cart_content(request):
+    session_query = [s.get_decoded() for s in Session.objects.all()
+                     if s.get_decoded().get('cart_data')]
+
+    if session_query:
+        new_dict = []
+        session_data = session_query[0]['cart_data']
+        for index, isbn in enumerate(session_data):
+            new_object = {
+                'id': index + 1,
+                'title': session_data[isbn]['title'],
+                'author': session_data[isbn]['author'],
+                'isbn': isbn,
+                'price': session_data[isbn]['price'],
+                'has_cover': session_data[isbn]['has_cover'],
+            }
+            new_dict.append(new_object)
+
+        return Response(new_dict)
+
+    return Response([])
+
+
+@api_view(['POST'])
+def remove_cart_item(request):
+    book_isbn = request.data.get('bookISBN')
+    session_data_query = [s.get_decoded() for s in Session.objects.all()
+                          if s.get_decoded().get('cart_data')]
+    cart = session_data_query[0]['cart_data']
+
+    if book_isbn not in cart:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+    del cart[book_isbn]
+    for s in Session.objects.all():
+        if s.get_decoded().get('cart_data'):
+            s.delete()
+
+    request.session['cart_data'] = cart
+    cart_count = len(request.session.get("cart_data", []))
+    return Response({"status": "Success", 'cart_count': cart_count})
+
+
+@api_view(['GET'])
+def get_cart_count(request):
+    session_query = [s.get_decoded() for s in Session.objects.all()
+                     if s.get_decoded().get('cart_data')]
+    if session_query:
+        cart = session_query[0]['cart_data']
+        return Response(len(cart))
+    return Response(0)
+
+
+@api_view(['GET'])
+def remove_cart(request):
+    for s in Session.objects.all():
+        if s.get_decoded().get('cart_data'):
+            s.delete()
+    return Response({"status": "Success"})
+
+
+@api_view(['POST'])
 def get_user_orders(request):
     token = request.data.get('token')
     try:
@@ -139,19 +238,6 @@ class LoginView(APIView):
 
 
 @api_view(['GET'])
-def get_dashboard_info(request):
-    the_token = request.META.get('HTTP_AUTHORIZATION').split(' ')[1]
-    try:
-        token = Token.objects.get(key=the_token)
-        if token.user != request.user:
-            raise Token.DoesNotExist
-    except Token.DoesNotExist:
-        return Response(status=status.HTTP_401_UNAUTHORIZED)
-
-    return Response('Shine...')
-
-
-@api_view(['GET'])
 def logout(request):
     the_token = request.META.get('HTTP_AUTHORIZATION').split(' ')[1]
     try:
@@ -170,7 +256,6 @@ def logout(request):
 def login_demo_user(request):
     try:
         user = User.objects.get(email='demouser@gmail.com')
-
     except User.DoesNotExist:
         user = User(
             first_name="Demo",
@@ -180,7 +265,7 @@ def login_demo_user(request):
         user.set_password("password123")
         user.save()
 
-    token = Token.objects.get_or_create(user=user)
+    Token.objects.get_or_create(user=user)
     return Response({
         'user_info': {
             "first_name": user.first_name,
@@ -225,10 +310,7 @@ def save_stripe_info(request):
     data = request.data
     payment_method_id = data['payment_method_id']
     email = data['email']
-    amount = math.ceil(data['amount'])
-    user_info = data['userInfo']
-    stay_duration = int(data['stayDuration'])
-    room_apartment_slug = data['roomApartmentSlug']
+    amount = data['amount']
     token = data['token']
 
     # checking if customer with provided email already exists
@@ -259,7 +341,24 @@ def save_stripe_info(request):
         # Only confirm an order after you have status: succeeded
         # should be succeeded
         if payment_intent['status'] == 'succeeded':
-            print('successful payment...')
+            session_data = [s.get_decoded() for s in Session.objects.all()
+                            if s.get_decoded().get('cart_data')][0]['cart_data']
+            user = Token.objects.get(key=token).user
+
+            new_order = Order.objects.create(
+                user=user,
+                ref_code=create_ref_code(),
+            )
+
+            for book in session_data:
+                OrderItem.objects.create(
+                    order=new_order,
+                    title=session_data[book]['title'],
+                    author=session_data[book]['author'],
+                    isbn=book,
+                    price=session_data[book]['price'],
+                    has_cover=session_data[book]['has_cover']
+                )
 
             return Response(status=status.HTTP_200_OK, data={
                 'message': 'Success',

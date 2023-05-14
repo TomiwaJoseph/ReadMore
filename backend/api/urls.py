@@ -6,7 +6,11 @@ urlpatterns = [
     path('delete-wishlist-dress/', views.delete_wishlist_dress),
     path('get-user-orders/', views.get_user_orders),
     path('add-to-wishlist/', views.add_to_wishlist),
-    path('dashboard-info/', views.get_dashboard_info),
+    path('add-to-cart/', views.add_to_cart),
+    path('get-cart-content/', views.get_cart_content),
+    path('remove-cart-item/', views.remove_cart_item),
+    path('remove-cart/', views.remove_cart),
+    path('get-cart-count/', views.get_cart_count),
 
     # AUTHENTICATION URLS
     path('auth/login/', views.LoginView.as_view(), name='login'),
