@@ -43,10 +43,15 @@
 ============ SHOP ==============
 ================================ */
 
-.shop-container .shop-cta-filter {
+/* .shop-container .shop-cta-filter {
   display: flex;
   gap: 10px;
   justify-content: space-between;
+} */
+
+.shop-container .category-title {
+  color: #4c4c4c;
+  text-align: center;
 }
 
 .shop-container .shop-cta-filter button {
@@ -90,6 +95,7 @@
   font-size: 18px;
   padding: 10px;
   border-radius: 3px;
+  cursor: pointer;
 }
 
 .shop-container .categories-container .all-categories {
@@ -203,14 +209,25 @@
 
 .contact-container .contact-info {
   margin-bottom: 30px;
-  display: flex;
+  /* display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 10px; */
 }
 .contact-container .contact-info .about-us h3 {
   color: var(--dark-text-color);
 }
+.contact-container .contact-info .each-info-container {
+  display: flex;
+  flex-wrap: wrap;
+  /* gap: 20px; */
+}
 .contact-container .contact-info .each-info {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  /* width: 50%; */
   border: 1px solid var(--main-color);
   -webkit-box-shadow: 2px 3px 5px 0 rgba(0, 0, 0, 0.705);
   -moz-box-shadow: 2px 3px 5px 0 rgba(0, 0, 0, 0.705);
@@ -218,11 +235,9 @@
   -o-box-shadow: 2px 3px 5px 0 rgba(0, 0, 0, 0.705);
   box-shadow: 2px 3px 5px 0 rgba(0, 0, 0, 0.705);
   border-radius: 3px;
-  width: fit-content;
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  padding: 10px 20px;
+}
+.contact-container .contact-info .each-info:last-child {
+  width: 100%;
 }
 .contact-container .contact-info .each-info i {
   margin-right: 10px;
