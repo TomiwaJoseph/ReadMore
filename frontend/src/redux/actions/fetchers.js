@@ -99,14 +99,15 @@ export const fetchAllBooks = async () => {
 
   if (allBooksWithISBN.length) {
     switchPreloader(false);
-    // console.log(allBooksWithISBN.length);
     let shuffledBooks = allBooksWithISBN
       .map((value) => ({ value, sort: Math.random() }))
       .sort((a, b) => a.sort - b.sort)
       .map(({ value }) => value)
       .slice(0, 60);
-    // console.log(shuffledBooks.slice(0, 2));
+
+    console.log(shuffledBooks.length);
     store.dispatch(setCurrentBooks(shuffledBooks));
+    store.dispatch(setDoneLoading(true));
   }
   switchPreloader(false);
 };
@@ -135,6 +136,66 @@ export const fetchSingleBook = async (isbn) => {
       }
       switchPreloader(false);
     });
+};
+
+export const getSingleCategory = async (category) => {
+  switchPreloader(true);
+  let allCategories = {
+    Textbooks: "textbook",
+    Programming: "programming_languages",
+    Mystery: "mystery",
+    Horror: "horror",
+    Adventure: "adventure",
+    Thriller: "thriller",
+  };
+  let allBooksWithISBN = [];
+  let booksInCategory = [];
+  const categoryUrl =
+    "https://openlibrary.org/subjects/" +
+    allCategories[category] +
+    ".json?limit=40";
+
+  try {
+    let response = await axios.get(categoryUrl);
+    booksInCategory.push(...response.data.works);
+  } catch (error) {
+    if (error.message === "Network Error") {
+      store.dispatch(setInternetError(true));
+    } else {
+      store.dispatch(setBadRequest(true));
+    }
+    switchPreloader(false);
+  }
+
+  // console.log(booksInCategory[0]);
+  // console.log("");
+
+  for (let i = 0; i < booksInCategory.length; i++) {
+    let content = booksInCategory[i];
+    if (content["availability"]) {
+      if (
+        content["title"] !== "Le petit prince" &&
+        content["availability"].isbn
+      ) {
+        allBooksWithISBN.push(content);
+      }
+    }
+  }
+
+  // console.log(allBooksWithISBN);
+  // console.log(allBooksWithISBN.length);
+  // console.log("");
+
+  if (allBooksWithISBN.length) {
+    switchPreloader(false);
+    let shuffledBooks = allBooksWithISBN
+      .map((value) => ({ value, sort: Math.random() }))
+      .sort((a, b) => a.sort - b.sort)
+      .map(({ value }) => value)
+      .slice(0, 20);
+    store.dispatch(setCurrentBooks(shuffledBooks));
+    store.dispatch(setDoneLoading(true));
+  }
 };
 
 export const fetchRandomFeaturedBooks = async () => {
@@ -521,30 +582,31 @@ export const fetchUserOrders = async () => {
 
 // Add book to cart in session storage in server
 export const addToCart = async (details) => {
-  console.log(details);
-  console.log("");
+  // console.log(details);
   let body = JSON.stringify({
     bookTitle: details[0],
     bookAuthor: details[1],
     bookISBN: details[2],
     hasCover: details[3],
   });
-  // await axios
-  //   .post(addToCartUrl, body, {
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //   })
-  //   .then((result) => {
-  //     store.dispatch(setCartCount(result.data.cart_count));
-  //     notify("Book added to cart successfully!", "info");
-  //   })
-  //   .catch((err) => {
-  //     if (err.message === "Network Error") {
-  //       store.dispatch(setInternetError(true));
-  //     }
-  //     notify("Something unexpected happened!", "error");
-  //   });
+  // console.log(body);
+  // console.log("");
+  await axios
+    .post(addToCartUrl, body, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    .then((result) => {
+      store.dispatch(setCartCount(result.data.cart_count));
+      notify("Book added to cart successfully!", "info");
+    })
+    .catch((err) => {
+      if (err.message === "Network Error") {
+        store.dispatch(setInternetError(true));
+      }
+      notify("Something unexpected happened!", "error");
+    });
 };
 
 // Get all cart content from server
