@@ -85,55 +85,64 @@ const Shop = () => {
   }
 
   return (
-    <div className="shop-container container">
-      <>
-        <h1>Shop</h1>
-        <hr />
-        <div className="shop-cta-filter">
-          <button onClick={showCategories} className="btn">
-            Categories
-          </button>
-        </div>
-        <hr />
-        <h3 className="category-title">{currentCategoryTitle}</h3>
-        <hr />
-        {openCategories && (
+    <>
+      {!currentCategoryData.length ? (
+        <Preloader />
+      ) : (
+        <div className="shop-container container">
           <>
-            <div className="categories-container">
-              <div>
-                <i onClick={hideCategories} className="fa fa-arrow-left"></i>
-                <div className="container">
-                  <div className="all-categories">
-                    <div
-                      onClick={() => handleCategoryClick("All Books")}
-                      className="each-category"
-                    >
-                      <div className="category-img-box">
-                        <img src={allCatImg} alt="all-category" />
-                      </div>
-                      <button className="btn">All Books</button>
-                    </div>
-                    {categoryList.map((cat, index) => (
-                      <div
-                        key={index}
-                        onClick={() => handleCategoryClick(cat.name)}
-                        className="each-category"
-                      >
-                        <div className="category-img-box">
-                          <img src={cat.image} alt={cat.name} />
+            <h1>Shop</h1>
+            <hr />
+            <div className="shop-cta-filter">
+              <button onClick={showCategories} className="btn">
+                Categories
+              </button>
+            </div>
+            <hr />
+            <h3 className="category-title">{currentCategoryTitle}</h3>
+            <hr />
+            {openCategories && (
+              <>
+                <div className="categories-container">
+                  <div>
+                    <i
+                      onClick={hideCategories}
+                      className="fa fa-arrow-left"
+                    ></i>
+                    <div className="container">
+                      <div className="all-categories">
+                        <div
+                          onClick={() => handleCategoryClick("All Books")}
+                          className="each-category"
+                        >
+                          <div className="category-img-box">
+                            <img src={allCatImg} alt="all-category" />
+                          </div>
+                          <button className="btn">All Books</button>
                         </div>
-                        <button className="btn">{cat.name}</button>
+                        {categoryList.map((cat, index) => (
+                          <div
+                            key={index}
+                            onClick={() => handleCategoryClick(cat.name)}
+                            className="each-category"
+                          >
+                            <div className="category-img-box">
+                              <img src={cat.image} alt={cat.name} />
+                            </div>
+                            <button className="btn">{cat.name}</button>
+                          </div>
+                        ))}
                       </div>
-                    ))}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
+              </>
+            )}
+            {renderBooks()}
           </>
-        )}
-        {renderBooks()}
-      </>
-    </div>
+        </div>
+      )}
+    </>
   );
 };
 
