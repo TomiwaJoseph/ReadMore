@@ -131,7 +131,7 @@ nav.fix-navbar h2 {
   }
 }
 
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 900px) {
   .mobile-links {
     display: none;
   }
@@ -140,7 +140,7 @@ nav.fix-navbar h2 {
   }
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 900px) {
   nav.nav-clicked {
     background: #454545;
     position: fixed;
@@ -227,7 +227,7 @@ nav.fix-navbar h2 {
   }
 }
 
-@media only screen and (max-width: 768px) and (min-width: 480px) {
+@media only screen and (max-width: 900px) and (min-width: 480px) {
   nav .mobile-icons .fa {
     margin-left: 30px;
   }
@@ -236,6 +236,9 @@ nav.fix-navbar h2 {
 @media only screen and (max-width: 480px) {
   nav .mobile-icons {
     margin-right: 25px;
+  }
+  .search_form .form-control {
+    padding: 0 40px;
   }
 }
 @media only screen and (max-width: 350px) {

@@ -49,6 +49,18 @@
 
 @media only screen and (max-width: 480px) {
   .newsletter h2 {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
+    text-align: center;
+    line-height: 40px;
+  }
+  .newsletter p {
+    padding: 0 20px;
+  }
+  .newsletter-form {
+    margin-top: 10px;
+  }
+  .newsletter-form input {
+    width: 80%;
+    margin-right: 10px;
   }
 }

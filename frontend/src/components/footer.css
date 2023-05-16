@@ -47,3 +47,9 @@ footer .footer__social-media .fab:hover {
   margin: 20px 0;
   width: 100%;
 }
+
+@media only screen and (max-width: 480px) {
+  footer .footer__cta a {
+    padding: 15px 20px 0 20px;
+  }
+}
