@@ -178,7 +178,6 @@ nav.fix-navbar h2 {
     color: #fff;
     margin-left: 20px;
   }
-
   nav .mobile-icons .fa-times {
     animation: close-icon-spin 0.5s linear;
     font-size: 1.7rem;
@@ -225,6 +224,10 @@ nav.fix-navbar h2 {
     animation: close-icon-spin 0.5s linear;
     color: var(--dark-grey);
   }
+
+  .search_form .form-control {
+    padding: 0 40px;
+  }
 }
 
 @media only screen and (max-width: 900px) and (min-width: 480px) {
@@ -236,9 +239,6 @@ nav.fix-navbar h2 {
 @media only screen and (max-width: 480px) {
   nav .mobile-icons {
     margin-right: 25px;
-  }
-  .search_form .form-control {
-    padding: 0 40px;
   }
 }
 @media only screen and (max-width: 350px) {

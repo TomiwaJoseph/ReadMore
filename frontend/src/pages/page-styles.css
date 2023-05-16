@@ -37,6 +37,15 @@
   width: 90px;
 }
 
+@media only screen and (max-width: 480px) {
+  .dashboard-container h1,
+  .search-container h1,
+  .shop-container h1,
+  .contact-container h1 {
+    font-size: 2.3em;
+  }
+}
+
 /* ================================
 ============ SHOP ==============
 ================================ */
@@ -62,8 +71,8 @@
 
 .shop-container .categories-container {
   position: fixed;
-  margin-top: 10vh;
-  height: 90vh;
+  /* margin-top: 10vh; */
+  height: 100vh;
   width: 100%;
   display: flex;
   align-items: center;
@@ -154,10 +163,42 @@
   text-align: center;
 }
 
+@media only screen and (max-width: 1024px) {
+  .shop-container .categories-container .fa-arrow-left {
+    top: 10%;
+  }
+  .shop-container .categories-container .all-categories .each-category {
+    margin-bottom: 20px;
+  }
+}
+
 @media only screen and (max-width: 480px) {
-  /* .all-categories > button {
-    flex: 100%;
-  } */
+  .shop-container .categories-container .all-categories .category-img-box {
+    width: 50px;
+    height: 50px;
+  }
+  .shop-container .categories-container .all-categories .category-img-box img {
+    width: 30px;
+  }
+  .shop-container .categories-container .fa-arrow-left {
+    /* position: absolute; */
+    top: 10%;
+  }
+  .shop-container .categories-container .all-categories .each-category {
+    margin-bottom: 10px;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .shop-container .categories-container .all-categories {
+    margin-top: 50px;
+  }
+}
+
+@media only screen and (max-width: 360px) {
+  .shop-container .categories-container .all-categories {
+    margin-top: 70px;
+  }
 }
 
 /* ================================
@@ -289,9 +330,19 @@
   margin-bottom: 20px;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (min-width: 1280px) {
+  .contact-container .contact-info .each-info {
+    width: 50%;
+    margin: 0 10px 25px 10px;
+  }
+  .contact-container .contact-info .each-info:first-child {
+    width: 42%;
+  }
+}
+@media only screen and (max-width: 900px) {
   .contact-container .contact-info .each-info {
     width: 100%;
+    margin-right: 0;
   }
 }
 
@@ -372,7 +423,7 @@
   margin-bottom: 10px;
 }
 .login-container .login-block .demo-btn {
-  background: var(--main-bg);
+  background: var(--accent);
   color: #fff;
   border: none;
   width: 100%;
@@ -403,10 +454,14 @@
   .login-container .login-div .product-container {
     display: none;
   }
+  .signup-container h1,
+  .login-container h1 {
+    font-size: 2.3em;
+  }
 }
 
 /* ================================
-============ LOGIN & SIGNUP ==============
+============ SINGLE PRODUCT ==============
 ================================ */
 
 .single-product-container .single-product-row {
@@ -414,6 +469,7 @@
   margin-bottom: 40px;
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 40px;
 }
 .single-product-container .single-product-row .product-detail-container {
@@ -438,24 +494,78 @@
 .single-product-container
   .single-product-row
   .product-detail-container
+  .author {
+  margin-block-end: 0;
+}
+.single-product-container
+  .single-product-row
+  .product-detail-container
   .author
   span {
   color: var(--body-text-color);
+}
+
+.single-product-container
+  .single-product-row
+  .product-detail-container
+  .price-atc {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+  gap: 20px;
 }
 .single-product-container
   .single-product-row
   .product-detail-container
   .item-price {
   font-size: 1.3em;
-  margin-top: 10px;
   color: var(--main-color);
+  display: inline-block;
+  margin-block-end: 0;
 }
 .single-product-container .single-product-row .product-detail-container button {
   text-transform: uppercase;
   border: 1px solid none;
-  padding: 15px 20px;
-  background: var(--main-color);
+  padding: 5px 20px;
+  background: var(--accent);
   color: #fff;
+  display: inline-block;
+}
+
+.single-product-container
+  .single-product-row
+  .product-detail-container
+  .item-description {
+  text-align: justify;
+  margin-block-end: 0;
+}
+
+@media only screen and (max-width: 1024px) {
+  .single-product-container .single-product-row .single-product-img {
+    height: 30vh;
+  }
+  .single-product-container .single-product-row .single-product-img img {
+    height: 30vh;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .single-product-container .single-product-row {
+    flex-direction: column !important;
+    margin-top: 3rem;
+  }
+  .single-product-container .single-product-row .product-detail-container {
+    width: 100%;
+    padding: 0 20px;
+  }
+  .single-product-container .single-product-row .single-product-img {
+    height: 60vh;
+    justify-content: start;
+    padding: 0 20px;
+  }
+  .single-product-container .single-product-row .single-product-img img {
+    height: 60vh;
+  }
 }
 
 /* ================================
@@ -478,7 +588,7 @@
   font-size: 24px;
 }
 
-@media only screen and (max-width: 480px) {
+@media only screen and (max-width: 900px) {
   .search-container input {
     width: 100%;
   }
@@ -622,6 +732,7 @@
 }
 .cart-container .empty-cart .empty-cart-image-wrapper {
   height: 30vh;
+  margin-top: 30px;
 }
 .cart-container .empty-cart .empty-cart-image-wrapper img {
   height: 30vh;
@@ -658,7 +769,7 @@
 .cart-container .cart-cta {
   display: flex;
   gap: 10px;
-  margin: 10px 0 30px 0;
+  margin: 20px 0 30px 0;
 }
 .cart-container .clear-cart {
   font-weight: 600;
@@ -704,6 +815,21 @@
 }
 .cart-container .total-container .total-price {
   color: var(--main-bg);
+}
+
+@media only screen and (max-width: 480px) {
+  .cart-container h1 {
+    font-size: 2.5em;
+  }
+  .cart-container .cart-cta {
+    display: block;
+  }
+  .cart-container .cart-cta .checkout-btn {
+    margin-top: 20px;
+  }
+  .cart-container .cart-book-container .cart-image-container img {
+    display: none;
+  }
 }
 
 /* ================================
@@ -759,4 +885,13 @@
   bottom: -12px;
   left: 0;
   width: 200px;
+}
+
+@media only screen and (max-width: 480px) {
+  .checkout-container .payment-container h1 {
+    font-size: 2.3em;
+  }
+  .checkout-container .payment-container h1:after {
+    width: 150px;
+  }
 }
