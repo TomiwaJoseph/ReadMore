@@ -34,7 +34,7 @@ const CheckoutForm = (props) => {
   const [email, setEmail] = useState("");
   const notify = (message, errorType) =>
     toast(message, {
-      position: "top-center",
+      position: "top-right",
       autoClose: "3000",
       pauseOnHover: true,
       closeOnClick: true,

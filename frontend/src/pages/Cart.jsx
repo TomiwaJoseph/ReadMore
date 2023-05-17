@@ -54,7 +54,7 @@ const Cart = () => {
         <div className="col-md-8">
           {cartDataToRender.map((book) => (
             <div key={book.id} className="row cart-book-container">
-              <div className="col-md-8 col-8">
+              <div className="col-md-8 col-7">
                 <div className="cart-image-container">
                   <img
                     className="img-fluid"
@@ -140,12 +140,13 @@ const Cart = () => {
   }
 
   return (
-    <div className="cart-container container">
-      <h1>Cart</h1>
-      <hr className="underline" />
-      {renderCartData()}
+    <>
+      <div className="cart-container container">
+        <h1>Cart</h1>
+        {renderCartData()}
+      </div>
       <Newsletter />
-    </div>
+    </>
   );
 };
 

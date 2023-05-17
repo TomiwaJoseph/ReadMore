@@ -11,6 +11,7 @@ import {
   setInternetError,
 } from "../redux/actions/bookActions";
 import NoInternet from "./NoInternet";
+import Categories from "../components/Categories";
 
 const SingleProduct = () => {
   const { bookIsbn } = useParams();
@@ -115,53 +116,59 @@ const SingleProduct = () => {
       {Object.keys(singleBookData).length === 0 ? (
         <Preloader />
       ) : (
-        <div className="single-product-container container">
-          <div className="single-product-row">
-            <div className="single-product-img">
-              <img
-                src={
-                  cover_i
-                    ? "https://covers.openlibrary.org/b/id/" +
-                      cover_i +
-                      "-M.jpg"
-                    : noThumbnail
-                }
-                className="img-fluid"
-                alt={title}
-              />
-            </div>
-            <div className="product-detail-container">
-              <h2>{title}</h2>
-
-              {getAuthorAndGenre()}
-
-              <p className="item-price">
-                $ {Math.floor(Math.random() * (200 - 40) + 40)}
-              </p>
-              <p className="item-description">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga
-                non, modi eaque ratione mollitia quae doloribus facere,
-                reiciendis fugiat autem a quasi repudiandae vero porro repellat?
-                Quos consectetur adipisci, eaque repudiandae nulla nam voluptas.
-                Eum, aut magnam. Dicta sapiente, laudantium veniam maxime
-                adipisci recusandae expedita temporibus iure tenetur nam eum.
-              </p>
-              <button
-                onClick={() =>
-                  addToCart([
-                    title.toLowerCase().replaceAll(" ", "-"),
-                    selectedCartAuthor(author_name),
-                    singleBookData["isbn"][0],
-                    cover_i ? true : false,
-                  ])
-                }
-                className="btn"
-              >
-                Add to Cart
-              </button>
+        <>
+          <div className="single-product-container container">
+            <div className="single-product-row">
+              <div className="single-product-img">
+                <img
+                  src={
+                    cover_i
+                      ? "https://covers.openlibrary.org/b/id/" +
+                        cover_i +
+                        "-M.jpg"
+                      : noThumbnail
+                  }
+                  className="img-fluid"
+                  alt={title}
+                />
+              </div>
+              <div className="product-detail-container">
+                <h2>{title}</h2>
+                {getAuthorAndGenre()}
+                <div className="price-atc">
+                  <p className="item-price">
+                    $ {Math.floor(Math.random() * (200 - 40) + 40)}
+                  </p>
+                  <button
+                    onClick={() =>
+                      addToCart([
+                        title.toLowerCase().replaceAll(" ", "-"),
+                        selectedCartAuthor(author_name),
+                        singleBookData["isbn"][0],
+                        cover_i ? true : false,
+                      ])
+                    }
+                    className="btn"
+                  >
+                    Add to Cart
+                  </button>
+                </div>
+                <p className="item-description">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga
+                  non, modi eaque ratione mollitia quae doloribus facere,
+                  reiciendis fugiat autem a quasi repudiandae vero porro
+                  repellat? Quos consectetur adipisci, eaque repudiandae nulla
+                  nam voluptas. Eum, aut magnam. Dicta sapiente, laudantium
+                  veniam maxime adipisci recusandae expedita temporibus iure
+                  tenetur nam eum.
+                </p>
+              </div>
             </div>
           </div>
-        </div>
+          <div className="container">
+            <Categories />
+          </div>
+        </>
       )}
     </>
   );
