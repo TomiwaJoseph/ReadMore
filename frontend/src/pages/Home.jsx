@@ -39,13 +39,22 @@ const Home = () => {
   }
 
   return (
-    <div className="home-container">
-      <SliderSection />
-      <Features data={featuredBooksData} isAuthenticated={isAuthenticated} />
-      <Quotation />
-      <Offers data={bestOfferBooks} isAuthenticated={isAuthenticated} />
-      <Newsletter />
-    </div>
+    <>
+      {!featuredBooksData.length ? (
+        <Preloader />
+      ) : (
+        <div className="home-container">
+          <SliderSection />
+          <Features
+            data={featuredBooksData}
+            isAuthenticated={isAuthenticated}
+          />
+          <Quotation />
+          <Offers data={bestOfferBooks} isAuthenticated={isAuthenticated} />
+          <Newsletter />
+        </div>
+      )}
+    </>
   );
 };
 
