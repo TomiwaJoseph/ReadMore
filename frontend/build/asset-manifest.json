@@ -1,0 +1,33 @@
+{
+  "files": {
+    "main.css": "/static/css/main.1270333d.css",
+    "main.js": "/static/js/main.9671cba1.js",
+    "static/media/no-thumbnail.jpg": "/static/media/no-thumbnail.eca0de83f4f3f099f7af.jpg",
+    "static/media/slider-3.png": "/static/media/slider-3.d6976a6d9e5f19c5a72e.png",
+    "static/media/slider-1.png": "/static/media/slider-1.d17910bb1f933c5e9ccd.png",
+    "static/media/badUrl.png": "/static/media/badUrl.9a7112c72c791a4e3fd9.png",
+    "static/media/slider-2.png": "/static/media/slider-2.2da903062503e9a36350.png",
+    "static/media/error.png": "/static/media/error.91146cb8f02e76564a54.png",
+    "static/media/single-image.jpg": "/static/media/single-image.9e23b5fefb8958349f5b.jpg",
+    "static/media/product-item9.jpg": "/static/media/product-item9.4d01e0bfc60c41bbedc9.jpg",
+    "static/media/cat3.png": "/static/media/cat3.89dff049f81c2fd0df4b.png",
+    "static/media/cat4.png": "/static/media/cat4.ddaf95ea2ef1fa9bdc1b.png",
+    "static/media/cat6.png": "/static/media/cat6.0fb658d95ad8a90b75dd.png",
+    "static/media/cat2.png": "/static/media/cat2.148b65a47821893c56ed.png",
+    "static/media/all-cat.png": "/static/media/all-cat.21813b69e32532875a75.png",
+    "static/media/tab-item1.jpg": "/static/media/tab-item1.384885f0bfa4d4e46c6d.jpg",
+    "static/media/empty-cart.png": "/static/media/empty-cart.66b13e477e64001d145d.png",
+    "static/media/product-item1.jpg": "/static/media/product-item1.e22c1da740433eb1f1bf.jpg",
+    "static/media/product-item6.jpg": "/static/media/product-item6.3c7c3fcef031f059637d.jpg",
+    "static/media/product-item5.jpg": "/static/media/product-item5.d8f0a8e3ade032ae8d09.jpg",
+    "static/media/cat5.png": "/static/media/cat5.71b062e29eab2159e60d.png",
+    "static/media/cat1.png": "/static/media/cat1.cc3d42fa3c1ed848529d.png",
+    "index.html": "/index.html",
+    "main.1270333d.css.map": "/static/css/main.1270333d.css.map",
+    "main.9671cba1.js.map": "/static/js/main.9671cba1.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.1270333d.css",
+    "static/js/main.9671cba1.js"
+  ]
+}
