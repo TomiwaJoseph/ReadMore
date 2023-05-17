@@ -22,7 +22,7 @@ import {
   cleanCartData,
 } from "./bookActions";
 
-const backendUrl = "http://localhost:8000/api/";
+const backendUrl = "tomiwajoseph.pythonanywhere.com/api/";
 const demoUserUrl = backendUrl + "login-demo-user/";
 const userRegisterUrl = backendUrl + "auth/register/";
 const userLoginUrl = backendUrl + "auth/login/";

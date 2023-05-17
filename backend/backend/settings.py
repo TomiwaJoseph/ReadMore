@@ -12,24 +12,11 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 from decouple import config
-# import os
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# FRONTEND_PATH = Path(__file__).parent.parent.parent
-
-
-# def uppath(_path, n):
-#     return os.sep.join(_path.split(os.sep)[:-n])
-
-
-# print()
-# print(FRONTEND_PATH)
-# print(BASE_DIR.parent)
-
-# print()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -40,7 +27,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', cast=bool)
 
-ALLOWED_HOSTS = ['localhost', ]
+ALLOWED_HOSTS = ['tomiwajoseph.pythonanywhere.com', ]
 AUTH_USER_MODEL = 'users.CustomUser'
 
 
@@ -160,12 +147,12 @@ REST_FRAMEWORK = {
     'DATETIME_FORMAT': "%Y-%m-%d  -  %H:%M",
 }
 
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
-]
+# CORS_ALLOWED_ORIGINS = [
+#     'http://localhost:3000',
+# ]
 
-# if not DEBUG:
-#     CSRF_TRUSTED_ORIGINS = ['https://rest.up.railway.app']
+if not DEBUG:
+    CSRF_TRUSTED_ORIGINS = ['tomiwajoseph.pythonanywhere.com']
 
 EMAIL_HOST_USER = config("EMAIL_HOST_USER")
 STRIPE_PUBLISHABLE_KEY = config("STRIPE_PUBLISHABLE_KEY")

@@ -21,7 +21,7 @@ import Checkout from "./pages/Checkout";
 import { fetchCartCount } from "./redux/actions/fetchers";
 
 const App = () => {
-  const getUserUrl = "http://localhost:8000/api/auth/user/";
+  const getUserUrl = "tomiwajoseph.pythonanywhere.com/api/auth/user/";
 
   useEffect(() => {
     fetchUser(getUserUrl, (status) => {
