@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_ENDPOINT = "tomiwajoseph.pythonanywhere.com/api";
+const API_ENDPOINT = "http://tomiwajoseph.pythonanywhere.com/api";
 
 export const stripePaymentMethodHandler = async (data) => {
   const { amount, result } = data;

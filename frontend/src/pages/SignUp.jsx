@@ -44,7 +44,7 @@ const SignUp = () => {
 
   useEffect(() => {
     const authenticateUrl =
-      "tomiwajoseph.pythonanywhere.com/api/auth/check-authentication";
+      "http://tomiwajoseph.pythonanywhere.com/api/auth/check-authentication";
     let previousUrl = state?.previousPath || "/user/dashboard";
 
     authenticateUser(authenticateUrl, (status) => {
