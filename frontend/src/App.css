@@ -26,8 +26,9 @@ body {
 }
 
 .Toastify__toast-container {
-  margin-top: 10vh;
+  margin-top: 10vh !important;
 }
+
 .Toastify__toast-body {
   font-family: var(--body-font);
 }
@@ -49,6 +50,7 @@ a:hover {
 .single-book-link {
   color: var(--body-text-color);
 }
+
 .single-book-link:hover {
   color: var(--main-bg);
 }
