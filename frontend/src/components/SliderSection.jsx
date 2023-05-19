@@ -19,10 +19,18 @@ const SliderSection = () => {
                   <q>Books are a uniquely portable magic.</q>
                 </h1>
                 <p>Stephen king</p>
+                <div className="controllers">
+                  <a href="#customCarousel1" data-slide="prev" role="button">
+                    <i className="fa fa-angle-left"></i>
+                  </a>
+                  <a href="#customCarousel1" data-slide="next" role="button">
+                    <i className="fa fa-angle-right"></i>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
-          <div className="carousel-item">
+          <div className="carousel-item active">
             <div className="single-slide">
               <div className="img-box">
                 <img className="img-fluid" src={img2} alt="" />
@@ -33,10 +41,18 @@ const SliderSection = () => {
                   <q>There is no friend as loyal as a book.</q>
                 </h1>
                 <p>Ernest Hemingway</p>
+                <div className="controllers">
+                  <a href="#customCarousel1" data-slide="prev" role="button">
+                    <i className="fa fa-angle-left"></i>
+                  </a>
+                  <a href="#customCarousel1" data-slide="next" role="button">
+                    <i className="fa fa-angle-right"></i>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
-          <div className="carousel-item active">
+          <div className="carousel-item">
             <div className="single-slide">
               <div className="img-box">
                 <img className="img-fluid" src={img3} alt="" />
@@ -47,27 +63,17 @@ const SliderSection = () => {
                   <q>Today a reader, tomorrow a leader.</q>
                 </h1>
                 <p>Margaret Fuller</p>
+                <div className="controllers">
+                  <a href="#customCarousel1" data-slide="prev" role="button">
+                    <i className="fa fa-angle-left"></i>
+                  </a>
+                  <a href="#customCarousel1" data-slide="next" role="button">
+                    <i className="fa fa-angle-right"></i>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div className="carousel_btn_box">
-          <a
-            className="carousel-control-prev"
-            href="#customCarousel1"
-            role="button"
-            data-slide="prev"
-          >
-            <i className="fa fa-angle-left" aria-hidden="true"></i>
-          </a>
-          <a
-            className="carousel-control-next"
-            href="#customCarousel1"
-            role="button"
-            data-slide="next"
-          >
-            <i className="fa fa-angle-right" aria-hidden="true"></i>
-          </a>
         </div>
       </div>
     </section>
