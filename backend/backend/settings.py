@@ -147,12 +147,12 @@ REST_FRAMEWORK = {
     'DATETIME_FORMAT': "%Y-%m-%d  -  %H:%M",
 }
 
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
-]
+# CORS_ALLOWED_ORIGINS = [
+#     'http://localhost:3000',
+# ]
 
 if not DEBUG:
-    CSRF_TRUSTED_ORIGINS = ['http://tomiwajoseph.pythonanywhere.com']
+    CSRF_TRUSTED_ORIGINS = ['https://tomiwajoseph.pythonanywhere.com']
 
 EMAIL_HOST_USER = config("EMAIL_HOST_USER")
 STRIPE_PUBLISHABLE_KEY = config("STRIPE_PUBLISHABLE_KEY")
