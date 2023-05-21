@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Contact = () => {
   const formRef = useRef();
@@ -7,6 +9,15 @@ const Contact = () => {
   const containerRef = useRef();
   const [openModal, setOpenModal] = useState(false);
   const [sendButtonClicked, setSendButtonClicked] = useState(false);
+  const notify = (message, errorType) =>
+    toast(message, {
+      position: "top-right",
+      autoClose: "3000",
+      pauseOnHover: true,
+      closeOnClick: true,
+      type: errorType,
+      theme: "colored",
+    });
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -26,12 +37,9 @@ const Contact = () => {
     }
   };
 
-  const validateInput = (name, email, message) => {
-    if (name.length === 0) {
-      return false;
-    }
-    if (message.length < 10) return false;
+  const validateInput = (name, email) => {
     if (
+      name.length === 0 ||
       !/^[a-zA-Z0-9._%+-]+@(?:[a-zA-Z0-9/-]+\.)+[A-Za-z]{2,4}$/i.test(email)
     ) {
       return false;
@@ -44,8 +52,7 @@ const Contact = () => {
     const data = new FormData(e.target);
     let name = data.get("name");
     let email = data.get("email");
-    let message = data.get("message");
-    let validate = validateInput(name, email, message);
+    let validate = validateInput(name, email);
     if (validate) {
       setSendButtonClicked(true);
       emailjs
@@ -84,6 +91,8 @@ const Contact = () => {
             setOpenModal(true);
           }
         );
+    } else {
+      notify("Email format is incorrect", "info");
     }
   };
 
