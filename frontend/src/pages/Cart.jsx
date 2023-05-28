@@ -10,7 +10,7 @@ import {
   removeCartItem,
 } from "../redux/actions/fetchers";
 import emptyCart from "../static/empty-cart.png";
-import noThumbnail from "../static/no-thumbnail.jpg";
+import noThumbnail from "../static/cover_not_found.jpg";
 import NoInternet from "./NoInternet";
 
 const Cart = () => {
