@@ -9,7 +9,7 @@ import {
   logOutUser,
 } from "../redux/actions/fetchers";
 import NoInternet from "./NoInternet";
-import noThumbnail from "../static/no-thumbnail.jpg";
+import noThumbnail from "../static/cover_not_found.jpg";
 import { setInternetError } from "../redux/actions/bookActions";
 
 const Dashboard = () => {

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { addToCart, addToWishlist } from "../redux/actions/fetchers";
 import "./categorypluspagination.css";
-import noThumbnail from "../static/no-thumbnail.jpg";
+import noThumbnail from "../static/cover_not_found.jpg";
 
 const SearchResultPlusPagination = ({ data, isAuthenticated }) => {
   const navigate = useNavigate();

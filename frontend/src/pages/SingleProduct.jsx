@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import ErrorPage from "./ErrorPage";
 import Preloader from "../components/Preloader";
-import noThumbnail from "../static/no-thumbnail.jpg";
+import noThumbnail from "../static/cover_not_found.jpg";
 import { addToCart, fetchSingleBook } from "../redux/actions/fetchers";
 import {
   removeSingleBookData,

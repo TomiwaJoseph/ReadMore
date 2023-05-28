@@ -3,7 +3,7 @@ import "./features.css";
 import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import { NavLink, useNavigate } from "react-router-dom";
-import noThumbnail from "../static/no-thumbnail.jpg";
+import noThumbnail from "../static/cover_not_found.jpg";
 import { addToCart, addToWishlist } from "../redux/actions/fetchers";
 import Preloader from "./Preloader";
 

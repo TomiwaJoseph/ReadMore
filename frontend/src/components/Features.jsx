@@ -1,7 +1,7 @@
 import "./features.css";
 import { NavLink, useNavigate } from "react-router-dom";
 import { addToCart, addToWishlist } from "../redux/actions/fetchers";
-import noThumbnail from "../static/no-thumbnail.jpg";
+import noThumbnail from "../static/cover_not_found.jpg";
 import Preloader from "./Preloader";
 
 const Features = ({ data, isAuthenticated }) => {
