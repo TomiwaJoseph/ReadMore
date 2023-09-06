@@ -8,7 +8,7 @@ Use the [Demo Website](https://tomiwajoseph.pythonanywhere.com)
 
 ## Demo Video
 
-<!-- coming soon -->
+https://github.com/TomiwaJoseph/ReadMore/assets/67712127/d17276bf-81eb-4269-a299-cd7f41ae8b22
 
 ## Technologies used
 
