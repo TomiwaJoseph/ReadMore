@@ -37,9 +37,12 @@ const Contact = () => {
     }
   };
 
-  const validateInput = (name, email) => {
+  const validateInput = (name, email, message) => {
+    if (name.length === 0) {
+      return false;
+    }
+    if (message.length < 10) return false;
     if (
-      name.length === 0 ||
       !/^[a-zA-Z0-9._%+-]+@(?:[a-zA-Z0-9/-]+\.)+[A-Za-z]{2,4}$/i.test(email)
     ) {
       return false;
@@ -52,15 +55,21 @@ const Contact = () => {
     const data = new FormData(e.target);
     let name = data.get("name");
     let email = data.get("email");
-    let validate = validateInput(name, email);
+    let message = data.get("message");
+    let validate = validateInput(name, email, message);
     if (validate) {
       setSendButtonClicked(true);
+      var templateParams = {
+        from_name: name,
+        from_email: email,
+        message: message,
+      }
       emailjs
-        .sendForm(
-          "service_zmd8dcn",
-          "template_gv6q2f6",
-          formRef.current,
-          "hun951qpYgepyST8-"
+        .send(
+          "service_6qbmxnl",
+          "template_mm00uf4",
+          templateParams,
+          "uzvsVEG93_ApRBi1X",
         )
         .then(
           (result) => {
